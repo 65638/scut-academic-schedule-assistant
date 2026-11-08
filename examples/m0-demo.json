@@ -1,0 +1,31 @@
+{
+  "mode": "example",
+  "today": "2026-11-16",
+  "timezone": "Asia/Shanghai",
+  "campus": "大学城校区",
+  "sources": [
+    {
+      "id": "demo-message-001",
+      "type": "message",
+      "title": "示例班会消息",
+      "sent_on": "2026-11-16",
+      "mode": "example",
+      "text": "明天19:00在A201开班会"
+    }
+  ],
+  "events": [
+    {
+      "id": "demo-event-001",
+      "type": "activity",
+      "title": "班会",
+      "date": "2026-11-17",
+      "start_time": "19:00",
+      "end_time": null,
+      "location": "A201",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "demo-message-001",
+      "source_excerpt": "明天19:00在A201开班会"
+    }
+  ]
+}
