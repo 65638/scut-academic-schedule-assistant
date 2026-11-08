@@ -19,6 +19,7 @@ DATE_AND_TIME = re.compile(
 )
 ACTIVITY = re.compile(r"在(?P<location>[A-Za-z][0-9]+)开(?P<title>.+)")
 SUBMISSION = re.compile(r"前(?:提交|交)(?P<title>.+)")
+ATTENDANCE_REMINDER = re.compile(r"(?:请(?:大家|各位)?\s*)?准时(?:参加|到场|出席)[！!]*")
 
 
 def _stable_id(prefix, *parts):
@@ -101,10 +102,22 @@ def parse_message(message):
     if not excerpts:
         raise ValueError("请输入原消息")
 
-    events = [
-        _parse_event(excerpt, source, sent_on, position)
-        for position, excerpt in enumerate(excerpts)
-    ]
+    events, questions = [], []
+    first_error = None
+    for position, excerpt in enumerate(excerpts):
+        try:
+            events.append(_parse_event(excerpt, source, sent_on, position))
+        except ValueError as error:
+            if first_error is None:
+                first_error = error
+            if not ATTENDANCE_REMINDER.fullmatch(excerpt):
+                questions.append({
+                    "field": "source_excerpt",
+                    "question": f"请核对「{excerpt}」是否包含需要记录的事项。如需记录，请明确事项和日期。",
+                })
+    if not events and first_error is not None:
+        raise first_error
+
     bundle = {
         "mode": mode,
         "today": message.get("today", source["sent_on"]),
@@ -114,7 +127,9 @@ def parse_message(message):
         "events": events,
     }
     if any(event["date"] is None for event in events):
-        bundle["questions"] = [{"field": "sent_on", "question": "请提供原消息的发送日期。"}]
+        questions.insert(0, {"field": "sent_on", "question": "请提供原消息的发送日期。"})
+    if questions:
+        bundle["questions"] = questions
     return bundle
 
 

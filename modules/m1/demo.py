@@ -34,6 +34,21 @@ def demo_parse(fixtures):
     assert missing["events"][0]["pending_fields"] == ["date"]
     assert missing["questions"] == [{"field": "sent_on", "question": "请提供原消息的发送日期。"}]
 
+    activity_excerpt = actual["events"][0]["source_excerpt"]
+    reminder_text = f"{activity_excerpt}，请大家准时参加"
+    reminder = parse_message(dict(message, text=reminder_text))
+    assert reminder["sources"][0]["text"] == reminder_text
+    assert len(reminder["events"]) == 1 and "questions" not in reminder
+    activity = reminder["events"][0]
+    assert activity["source_excerpt"] == activity_excerpt
+    assert (activity["date"], activity["start_time"], activity["location"]) == ("2026-11-17", "19:00", "A201")
+
+    unparsed_excerpt = "下周一交实验报告"
+    mixed = parse_message(dict(message, text=f"{reminder_text}，{unparsed_excerpt}"))
+    assert [event["source_excerpt"] for event in mixed["events"]] == [activity_excerpt]
+    question, = mixed["questions"]
+    assert question["field"] == "source_excerpt" and unparsed_excerpt in question["question"]
+
     return {
         "sample": {"input": message, "output": actual},
         "another_sent_on": {"input": other_message, "output": other},

@@ -25,6 +25,8 @@ bundle = parse_message(message)
 
 输出的 `sources` 和 `events` 可交给 M0 的 `prepare_import`。有相对日期但缺发送日时，事项的 `pending_fields` 含 `date`，并通过可选的顶层 `questions` 请求发送日。对其他片段明确的输入，按各事项各自计算日期。
 
+混合消息保留已识别的事项和完整原文。「请大家准时参加」这类单独的到场提醒留在原文里。其他暂无法解析的片段在 `questions` 中提示核对，`field` 为 `source_excerpt`，问题中包含待核对的原文片段。
+
 单条自定义输入也可通过 CLI 调用。输出为 JSON。
 
 ```sh
