@@ -1,10 +1,12 @@
 """核对共享样例并输出实际的 M1 输入和结果。"""
 
+import argparse
 from copy import deepcopy
 import json
 from pathlib import Path
 
 from .message import parse_message
+from .updates import plan_import, propose_location_update
 
 
 def demo_parse(fixtures):
@@ -39,10 +41,87 @@ def demo_parse(fixtures):
     }
 
 
+def demo_update(fixtures):
+    current = fixtures["expected_bundle"]
+    update_source = fixtures["update_source"]
+    update_message = dict(fixtures["update_input"], title=update_source["title"])
+    expected = dict(fixtures["expected_update"], source=update_source)
+    exact = propose_location_update(update_message, current)
+    assert exact == expected
+
+    message = fixtures["input"]
+    parsed = parse_message(message)
+    initial = plan_import(parsed, dict(parsed, events=[]))
+    assert initial == {"bundle": parsed, "skipped_event_ids": []}
+    original = initial["bundle"]
+
+    # 按标题关联实际解析出的事项，保留原来源和更正来源。
+    implicit_message = dict(update_message)
+    del implicit_message["target_event_id"]
+    update = propose_location_update(implicit_message, original)
+    activity, submission = original["events"]
+    assert update == dict(expected, target_event_id=activity["id"])
+    updated_activity = dict(activity, **update["changes"])
+    updated = dict(
+        original,
+        events=[updated_activity, submission],
+        sources=original["sources"] + [update["source"]],
+    )
+
+    replay = plan_import(parse_message(message), updated)
+    after_replay = updated["events"] + replay["bundle"]["events"]
+    assert replay["skipped_event_ids"] == [activity["id"], submission["id"]]
+    summary = {
+        "event_count": len(after_replay),
+        "activity_location": after_replay[0]["location"],
+        "submission_date": after_replay[1]["date"],
+        "submission_time": after_replay[1]["start_time"],
+    }
+    assert summary == fixtures["expected_after_replay"]
+    assert after_replay == [dict(activity, location="A202"), submission]
+
+    # 旧记录的事项编号可以不同，仍可凭相同来源编号和片段识别重放。
+    legacy_message = dict(message, source_id=current["sources"][0]["id"])
+    assert plan_import(parse_message(legacy_message), current)["bundle"]["events"] == []
+
+    another = parse_message(dict(message, sent_on="2026-11-30"))
+    another_activity = another["events"][0]
+    ambiguous_bundle = dict(
+        original,
+        events=original["events"] + [another_activity],
+        sources=original["sources"] + another["sources"],
+    )
+    ambiguous = propose_location_update(implicit_message, ambiguous_bundle)
+    assert ambiguous["target_event_id"] is None and ambiguous["changes"] == {}
+    assert ambiguous["pending_fields"] == ["target_event_id"]
+    assert [event["id"] for event in ambiguous["candidates"]] == [activity["id"], another_activity["id"]]
+    chosen = dict(implicit_message, target_event_id=another_activity["id"])
+    selected = propose_location_update(chosen, ambiguous_bundle)
+    assert selected == dict(expected, target_event_id=another_activity["id"])
+
+    return {
+        "fixture_update": {"input": update_message, "output": exact},
+        "replay": {
+            "input": message,
+            "applied_update": update,
+            "skipped_event_ids": replay["skipped_event_ids"],
+            "summary": summary,
+            "events": after_replay,
+            "sources": updated["sources"],
+        },
+        "ambiguous_target": {"input": implicit_message, "output": ambiguous},
+        "selected_target": {"input": chosen, "output": selected},
+    }
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("case", nargs="?", choices=["parse", "update"], default="parse")
+    args = parser.parse_args()
     fixture_path = Path(__file__).resolve().parents[2] / "docs" / "协作" / "联调样例.json"
     fixtures = json.loads(fixture_path.read_text(encoding="utf-8"))["B"]
-    print(json.dumps(demo_parse(fixtures), ensure_ascii=False, indent=2))
+    result = demo_parse(fixtures) if args.case == "parse" else demo_update(fixtures)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

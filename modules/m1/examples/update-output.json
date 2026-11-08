@@ -1,0 +1,176 @@
+{
+  "fixture_update": {
+    "input": {
+      "text": "班会地点改到A202",
+      "sent_on": "2026-11-16",
+      "source_id": "handoff-b-message-002",
+      "target_event_id": "handoff-b-event-001",
+      "title": "示例班会地点更正消息"
+    },
+    "output": {
+      "target_event_id": "handoff-b-event-001",
+      "changes": {
+        "location": "A202"
+      },
+      "source_id": "handoff-b-message-002",
+      "source_excerpt": "班会地点改到A202",
+      "source": {
+        "id": "handoff-b-message-002",
+        "type": "message",
+        "title": "示例班会地点更正消息",
+        "mode": "example",
+        "text": "班会地点改到A202",
+        "sent_on": "2026-11-16"
+      }
+    }
+  },
+  "replay": {
+    "input": {
+      "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+      "sent_on": "2026-11-16",
+      "mode": "example",
+      "timezone": "Asia/Shanghai"
+    },
+    "applied_update": {
+      "target_event_id": "m1-event-86e6a0493645813d0dd61ba4",
+      "changes": {
+        "location": "A202"
+      },
+      "source_id": "handoff-b-message-002",
+      "source_excerpt": "班会地点改到A202",
+      "source": {
+        "id": "handoff-b-message-002",
+        "type": "message",
+        "title": "示例班会地点更正消息",
+        "mode": "example",
+        "text": "班会地点改到A202",
+        "sent_on": "2026-11-16"
+      }
+    },
+    "skipped_event_ids": [
+      "m1-event-86e6a0493645813d0dd61ba4",
+      "m1-event-c08524ba6fbe790eefe1b6c6"
+    ],
+    "summary": {
+      "event_count": 2,
+      "activity_location": "A202",
+      "submission_date": "2026-11-20",
+      "submission_time": "18:00"
+    },
+    "events": [
+      {
+        "id": "m1-event-86e6a0493645813d0dd61ba4",
+        "type": "activity",
+        "title": "班会",
+        "date": "2026-11-17",
+        "start_time": "19:00",
+        "end_time": null,
+        "location": "A202",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "m1-message-7f37a5ff4cd99a2a881a1575",
+        "source_excerpt": "明天19:00在A201开班会"
+      },
+      {
+        "id": "m1-event-c08524ba6fbe790eefe1b6c6",
+        "type": "submission",
+        "title": "提交信息表",
+        "date": "2026-11-20",
+        "start_time": "18:00",
+        "end_time": null,
+        "location": null,
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "m1-message-7f37a5ff4cd99a2a881a1575",
+        "source_excerpt": "本周五18:00前交信息表"
+      }
+    ],
+    "sources": [
+      {
+        "id": "m1-message-7f37a5ff4cd99a2a881a1575",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "handoff-b-message-002",
+        "type": "message",
+        "title": "示例班会地点更正消息",
+        "mode": "example",
+        "text": "班会地点改到A202",
+        "sent_on": "2026-11-16"
+      }
+    ]
+  },
+  "ambiguous_target": {
+    "input": {
+      "text": "班会地点改到A202",
+      "sent_on": "2026-11-16",
+      "source_id": "handoff-b-message-002",
+      "title": "示例班会地点更正消息"
+    },
+    "output": {
+      "target_event_id": null,
+      "changes": {},
+      "source_id": "handoff-b-message-002",
+      "source_excerpt": "班会地点改到A202",
+      "source": {
+        "id": "handoff-b-message-002",
+        "type": "message",
+        "title": "示例班会地点更正消息",
+        "mode": "example",
+        "text": "班会地点改到A202",
+        "sent_on": "2026-11-16"
+      },
+      "candidates": [
+        {
+          "id": "m1-event-86e6a0493645813d0dd61ba4",
+          "title": "班会",
+          "date": "2026-11-17",
+          "start_time": "19:00",
+          "location": "A201",
+          "status": "not_started"
+        },
+        {
+          "id": "m1-event-55cefdeb97c0315bc9934f5a",
+          "title": "班会",
+          "date": "2026-12-01",
+          "start_time": "19:00",
+          "location": "A201",
+          "status": "not_started"
+        }
+      ],
+      "pending_fields": [
+        "target_event_id"
+      ],
+      "question": "请选择要更正的活动。"
+    }
+  },
+  "selected_target": {
+    "input": {
+      "text": "班会地点改到A202",
+      "sent_on": "2026-11-16",
+      "source_id": "handoff-b-message-002",
+      "title": "示例班会地点更正消息",
+      "target_event_id": "m1-event-55cefdeb97c0315bc9934f5a"
+    },
+    "output": {
+      "target_event_id": "m1-event-55cefdeb97c0315bc9934f5a",
+      "changes": {
+        "location": "A202"
+      },
+      "source_id": "handoff-b-message-002",
+      "source_excerpt": "班会地点改到A202",
+      "source": {
+        "id": "handoff-b-message-002",
+        "type": "message",
+        "title": "示例班会地点更正消息",
+        "mode": "example",
+        "text": "班会地点改到A202",
+        "sent_on": "2026-11-16"
+      }
+    }
+  }
+}
