@@ -1,7 +1,7 @@
 {
   "name": "scut-schedule",
-  "version": "0.1.0",
-  "description": "Save and retrieve personal academic schedules for SCUT University Town campus through the user's WorkBuddy library.",
+  "version": "0.2.0",
+  "description": "Parse campus messages, save personal schedules, apply location corrections and restore them from WorkBuddy's personal library.",
   "agents": ["./agents/scut-schedule.md"],
   "skills": ["./skills/scut-schedule"],
   "expertType": "agent",
@@ -9,12 +9,12 @@
   "displayName": {"en": "SCUT Schedule", "zh": "华工日程"},
   "profession": {"en": "Academic Schedule Assistant", "zh": "校园学业日程助手"},
   "displayDescription": {
-    "en": "Save academic events with their sources, view weekly plans and restore them from your personal WorkBuddy library.",
-    "zh": "面向华工大学城校区各专业，保存学业事项与原始来源，查询本周安排，并从个人资料库恢复已存日程。"
+    "en": "Parse messages and deadlines, save sourced events, correct locations, skip replays and restore personal schedules.",
+    "zh": "面向华工大学城校区各专业，解析校园消息与截止日期，保存事项、更正地点，并从个人资料库恢复日程。"
   },
   "avatar": "avatars/expert.png",
   "categoryId": "12-IndustryConsultant",
-  "defaultInitPrompt": {"en": "Load the example and show this week's schedule.", "zh": "载入示例并查看本周安排"},
+  "defaultInitPrompt": {"en": "In example mode, save this message sent on 2026-11-16: 明天19:00在A201开班会，本周五18:00前交信息表", "zh": "示例模式，保存发送于2026-11-16的消息：明天19:00在A201开班会，本周五18:00前交信息表"},
   "plugin": "scut-schedule",
   "tags": [
     {"en": "Academic events", "zh": "学业事项"},
@@ -22,8 +22,8 @@
     {"en": "Source tracking", "zh": "来源追溯"}
   ],
   "quickPrompts": [
-    {"en": "Load the example and show this week's schedule.", "zh": "载入示例并查看本周安排"},
+    {"en": "In example mode, save this message sent on 2026-11-16: 明天19:00在A201开班会，本周五18:00前交信息表", "zh": "示例模式，保存发送于2026-11-16的消息：明天19:00在A201开班会，本周五18:00前交信息表"},
     {"en": "Show this week's saved real events.", "zh": "查看我本周已保存的真实事项"},
-    {"en": "Help me save this message as an event.", "zh": "帮我把这条消息保存成事项"}
+    {"en": "In example mode, change the class meeting location to A202.", "zh": "示例模式：班会地点改到A202"}
   ]
 }

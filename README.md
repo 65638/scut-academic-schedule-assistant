@@ -6,9 +6,9 @@
 
 团队成员先看 [协作与交接入口](docs/协作/00-从这里开始.md)。其中有你、A、B、C、D 的工作流程、首批任务、共同样例和交接格式。
 
-A 的首批平台代码已推送到 `a/platform-v0`，提交 `5c55bb1`，待主管审查；主分支中的任务包可供 B、C、D 先行开发各自模块。
+A 的平台接入位于 `a/platform-v0`。0.2.0 随包接入 B 已审核的消息解析与地点更正模块（`0d509c9`）；实际验收见 [M1 接入记录](docs/M1接入.md)。
 
-项目处于 M0 平台接入和 M1 消息解析阶段。A 负责载入示例、保存事项、查询本周安排、重新进入后恢复；B 的消息解析模块负责将混合消息拆成带来源的事项，独立账号隔离仍需实际验收。
+当前支持载入示例、消息拆项、保存、地点更正、重传去重、本周查询和跨任务恢复。混合消息中的未识别片段保留为待核对问题，缺发送日可原位补充；独立账号隔离仍需实际验收。
 
 - [启动方案](docs/启动方案.md)：已确认的范围、阶段和审查标准。
 - [A 首批任务](docs/A首批任务.md)：当前实施任务与预期结果。
@@ -18,13 +18,15 @@ A 的首批平台代码已推送到 `a/platform-v0`，提交 `5c55bb1`，待主�
 
 ## 在 WorkBuddy 使用
 
-[打开作品：校园学业日程助手](https://www.workbuddy.cn/work/launch/?sharecode=pXgN0nr6Xq7kTkH3y5wNUPK83zPcAxtQCbFURxdRncq8Vx6CX2SvJMvjkJRV9AVS&expertname=%E6%A0%A1%E5%9B%AD%E5%AD%A6%E4%B8%9A%E6%97%A5%E7%A8%8B%E5%8A%A9%E6%89%8B&buddy_type=workbuddy)
+[打开 0.2.0 测试版：校园学业日程助手](https://www.workbuddy.cn/work/launch/?sharecode=tmL4M5MTT42C01wSjtBwuF-G4pO-ZMywTHyao68tR_kKtZPOn4U7PV6EwWDHz9SJ&buddy_type=workbuddy)
+
+本次分享卡片显示新版本功能，但平台提示“安全检测未完成或失败”。链接落地页 HTTP 200；接收方安装运行、新任务恢复与重传、第二账号隔离仍待 D 实测。以下为测试步骤，不表示这些项目已全部通过；实际证据见 M1 接入记录。
 
 本机安装后，从“专家·技能·连接器 → 我的专家”召唤“华工日程”（职业名“校园学业日程助手”）。
 
-1. 输入“载入示例并查看本周安排”。示例今天固定为 2026-11-16，预期出现 11 月 17 日 19:00、A201 的班会。
-2. 再次载入不新增记录；修改过的状态、地点保留。
-3. 新建 WorkBuddy 任务并召唤同一专家，输入“查看示例本周安排，今天为 2026-11-16”，应从个人表恢复。
+1. 输入“示例模式，保存发送于2026-11-16的消息：明天19:00在A201开M1联调班会，本周五18:00前交M1信息表”。得到 11 月 17 日 19:00 的班会和 11 月 20 日 18:00 截止的交表事项。
+2. 输入“示例模式，M1联调班会地点改到A202”。再重传相同原文，保留 A202，不重复建项。新任务重传省略发送日时，可复用唯一的同原文来源；多个来源则先选定。
+3. 新建 WorkBuddy 任务并召唤同一专家，输入“查看示例本周安排和待核对问题，今天为2026-11-16”，从个人表恢复；可追溯原消息及更正历史。
 4. 输入“查看我本周已保存的真实事项”，只列真实模式的数据，按北京时间当天计算周一至周日。
 
 个人表名为“华工个人日程 v0”。表格在每个账号自己的“我的文档”中发现和创建，专家包不固定作者的空间或表格 ID。
@@ -40,11 +42,12 @@ A 的首批平台代码已推送到 `a/platform-v0`，提交 `5c55bb1`，待主�
 
 ```sh
 python -m unittest discover -s tests -v
+python -X utf8 -m modules.m1.demo
 python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py prepare --bundle examples/m0-demo.json --out-dir work/demo
 python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py week --csv work/demo/schedule.csv --mode example --today 2026-11-16
 ```
 
-这些命令验证本地计算；`prepare` 不会保存到云端。真实存储调用由 WorkBuddy 原生 library 执行。输入结构参见 `examples/m0-demo.json`，来源和事项在一行中关联，完整来源存于 `source` JSON 列。
+这些命令验证本地计算；`prepare` 不会保存到云端。消息入口为随包 `runtime.py message/location/snapshot`，具体参数见 [专家说明](platform/scut-schedule/README.md)。真实存储调用由 WorkBuddy 原生 library 执行。来源和事项在一行中关联，完整来源、问题及更正历史存于既有 `source` JSON 列，无需迁移表结构。
 
 ## 第二账号验收
 
