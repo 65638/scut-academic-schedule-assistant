@@ -1,0 +1,153 @@
+{
+  "sample": {
+    "input": {
+      "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+      "sent_on": "2026-11-16",
+      "mode": "example",
+      "timezone": "Asia/Shanghai"
+    },
+    "output": {
+      "mode": "example",
+      "today": "2026-11-16",
+      "timezone": "Asia/Shanghai",
+      "campus": "大学城校区",
+      "sources": [
+        {
+          "id": "m1-message-7f37a5ff4cd99a2a881a1575",
+          "type": "message",
+          "title": "示例校园消息",
+          "mode": "example",
+          "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+          "sent_on": "2026-11-16"
+        }
+      ],
+      "events": [
+        {
+          "id": "m1-event-86e6a0493645813d0dd61ba4",
+          "type": "activity",
+          "title": "班会",
+          "date": "2026-11-17",
+          "start_time": "19:00",
+          "end_time": null,
+          "location": "A201",
+          "status": "not_started",
+          "pending_fields": [],
+          "source_id": "m1-message-7f37a5ff4cd99a2a881a1575",
+          "source_excerpt": "明天19:00在A201开班会"
+        },
+        {
+          "id": "m1-event-c08524ba6fbe790eefe1b6c6",
+          "type": "submission",
+          "title": "提交信息表",
+          "date": "2026-11-20",
+          "start_time": "18:00",
+          "end_time": null,
+          "location": null,
+          "status": "not_started",
+          "pending_fields": [],
+          "source_id": "m1-message-7f37a5ff4cd99a2a881a1575",
+          "source_excerpt": "本周五18:00前交信息表"
+        }
+      ]
+    }
+  },
+  "another_sent_on": {
+    "input": {
+      "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+      "sent_on": "2026-11-30",
+      "mode": "example",
+      "timezone": "Asia/Shanghai"
+    },
+    "output": {
+      "mode": "example",
+      "today": "2026-11-30",
+      "timezone": "Asia/Shanghai",
+      "campus": "大学城校区",
+      "sources": [
+        {
+          "id": "m1-message-8f5120f0eb2c40bf8f3211ce",
+          "type": "message",
+          "title": "示例校园消息",
+          "mode": "example",
+          "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+          "sent_on": "2026-11-30"
+        }
+      ],
+      "events": [
+        {
+          "id": "m1-event-55cefdeb97c0315bc9934f5a",
+          "type": "activity",
+          "title": "班会",
+          "date": "2026-12-01",
+          "start_time": "19:00",
+          "end_time": null,
+          "location": "A201",
+          "status": "not_started",
+          "pending_fields": [],
+          "source_id": "m1-message-8f5120f0eb2c40bf8f3211ce",
+          "source_excerpt": "明天19:00在A201开班会"
+        },
+        {
+          "id": "m1-event-aaf99e9e80256012ff3bec3d",
+          "type": "submission",
+          "title": "提交信息表",
+          "date": "2026-12-04",
+          "start_time": "18:00",
+          "end_time": null,
+          "location": null,
+          "status": "not_started",
+          "pending_fields": [],
+          "source_id": "m1-message-8f5120f0eb2c40bf8f3211ce",
+          "source_excerpt": "本周五18:00前交信息表"
+        }
+      ]
+    }
+  },
+  "missing_sent_on": {
+    "input": {
+      "text": "明天19:00在A201开班会",
+      "sent_on": null,
+      "mode": "example",
+      "today": "2026-11-16"
+    },
+    "output": {
+      "mode": "example",
+      "today": "2026-11-16",
+      "timezone": "Asia/Shanghai",
+      "campus": "大学城校区",
+      "sources": [
+        {
+          "id": "m1-message-960f0f23f2a73474f0c1c91b",
+          "type": "message",
+          "title": "示例校园消息",
+          "mode": "example",
+          "text": "明天19:00在A201开班会",
+          "sent_on": null
+        }
+      ],
+      "events": [
+        {
+          "id": "m1-event-0b655bd0d9c8b047ac78c0f2",
+          "type": "activity",
+          "title": "班会",
+          "date": null,
+          "start_time": "19:00",
+          "end_time": null,
+          "location": "A201",
+          "status": "not_started",
+          "pending_fields": [
+            "date"
+          ],
+          "source_id": "m1-message-960f0f23f2a73474f0c1c91b",
+          "source_excerpt": "明天19:00在A201开班会"
+        }
+      ],
+      "questions": [
+        {
+          "field": "sent_on",
+          "question": "请提供原消息的发送日期。"
+        }
+      ]
+    }
+  }
+}
