@@ -1,7 +1,7 @@
 {
   "name": "scut-schedule",
-  "version": "0.3.1",
-  "description": "Extract sourced campus notices and messages, check applicability, save personal schedules and preserve correction history in WorkBuddy's personal library.",
+  "version": "0.4.0",
+  "description": "Import timetables, record assignments and messages, check campus notice applicability, and preserve personal schedule updates in WorkBuddy's library.",
   "agents": ["./agents/scut-schedule.md"],
   "skills": ["./skills/scut-schedule"],
   "expertType": "agent",
@@ -9,8 +9,8 @@
   "displayName": {"en": "SCUT Schedule", "zh": "华工日程"},
   "profession": {"en": "Academic Schedule Assistant", "zh": "校园学业日程助手"},
   "displayDescription": {
-    "en": "Extract notices and messages, check applicability, save sourced events, apply corrections and restore personal schedules.",
-    "zh": "面向华工大学城校区各专业，核对通知适用条件，解析消息与截止日期，保存事项和更正依据，恢复个人日程。"
+    "en": "Import timetables, record assignments, update events and notices, and restore sourced personal schedules.",
+    "zh": "面向华工大学城校区各专业，导入课表、登记作业与消息，处理延期完成取消和通知更正，追溯来源并恢复日程。"
   },
   "avatar": "avatars/expert.png",
   "categoryId": "12-IndustryConsultant",

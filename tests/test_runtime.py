@@ -126,6 +126,19 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(restored['questions'], plan['questions'])
         self.assertEqual(restored['sources'][0]['text'], message['text'])
 
+    def test_mixed_message_sender_date_question_tracks_only_undated_events(self):
+        message = {'mode': 'example', 'text': '2026年11月20日20:00前交作业PDF，本周五18:00前交报告，记得带学生证'}
+        content, _ = self.save(message)
+        snapshot = self.runtime.current_bundle(content, 'example', '2026-11-16')
+        self.assertCountEqual([q['field'] for q in snapshot['questions']], ['sent_on', 'source_excerpt'])
+        update = self.runtime.prepare_event_update(content, {
+            'mode': 'example', 'kind': 'postpone', 'text': '报告延期至11月22日',
+            'target_event_id': snapshot['events'][1]['id'], 'changes': {'date': '2026-11-22'}}, NOW)
+        content = apply_plan(content, update)
+        restored = self.runtime.current_bundle(content, 'example', '2026-11-16')
+        self.assertEqual([q['field'] for q in restored['questions']], ['source_excerpt'])
+        self.assertEqual([e['date'] for e in restored['events']], ['2026-11-20', '2026-11-22'])
+
     def test_modes_and_ambiguous_targets_do_not_change_wrong_event(self):
         content, _ = self.save()
         content, _ = self.save(dict(MESSAGE, sent_on='2026-11-30'), content)

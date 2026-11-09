@@ -6,7 +6,8 @@ import json
 from pathlib import Path
 
 from .message import parse_message
-from .updates import plan_import, propose_location_update
+from .timetable import parse_timetable
+from .updates import plan_import, propose_event_update, propose_location_update
 
 
 def demo_parse(fixtures):
@@ -129,13 +130,56 @@ def demo_update(fixtures):
     }
 
 
+def demo_workflow():
+    examples = Path(__file__).parent / "examples"
+    messages = json.loads((examples / "d2-d3-workflow.json").read_text(encoding="utf-8"))
+    config = json.loads((examples / "term-config.json").read_text(encoding="utf-8"))
+    csv_path = examples / "timetable.csv"
+    timetable = parse_timetable(csv_path.read_text(encoding="utf-8"), config, file_name=csv_path.name)
+    assignment = parse_message(messages["assignment"])
+    current = dict(timetable, events=timetable["events"] + assignment["events"],
+                   sources=timetable["sources"] + assignment["sources"])
+    ambiguous = dict(messages["reschedule"])
+    del ambiguous["target_date"]
+    candidates = propose_event_update(ambiguous, current)
+    assert candidates["target_event_id"] is None and len(candidates["candidates"]) == 2
+
+    proposals = {}
+    for kind in ("postpone", "complete", "reschedule", "cancel"):
+        proposal = propose_event_update(messages[kind], current)
+        proposals[kind] = proposal
+        assert proposal["target_event_id"] and proposal["changes"]
+        current["events"] = [
+            dict(event, **proposal["changes"]) if event["id"] == proposal["target_event_id"] else event
+            for event in current["events"]
+        ]
+        current["sources"].append(proposal["source"])
+
+    timetable_replay = plan_import(timetable, current)
+    assignment_replay = plan_import(assignment, current)
+    assert timetable_replay["bundle"]["events"] + assignment_replay["bundle"]["events"] == []
+    assert current["events"][1] == timetable["events"][1]
+    return {
+        "assignment": assignment,
+        "ambiguous_reschedule": candidates,
+        "proposals": proposals,
+        "replay": {
+            "skipped_event_ids": timetable_replay["skipped_event_ids"] + assignment_replay["skipped_event_ids"],
+            "events": current["events"],
+        },
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("case", nargs="?", choices=["parse", "update"], default="parse")
+    parser.add_argument("case", nargs="?", choices=["parse", "update", "workflow"], default="parse")
     args = parser.parse_args()
-    fixture_path = Path(__file__).resolve().parents[2] / "docs" / "协作" / "联调样例.json"
-    fixtures = json.loads(fixture_path.read_text(encoding="utf-8"))["B"]
-    result = demo_parse(fixtures) if args.case == "parse" else demo_update(fixtures)
+    if args.case == "workflow":
+        result = demo_workflow()
+    else:
+        fixture_path = Path(__file__).resolve().parents[2] / "docs" / "协作" / "联调样例.json"
+        fixtures = json.loads(fixture_path.read_text(encoding="utf-8"))["B"]
+        result = demo_parse(fixtures) if args.case == "parse" else demo_update(fixtures)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

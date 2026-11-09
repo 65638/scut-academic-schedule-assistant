@@ -50,8 +50,47 @@ proposal = propose_location_update(update_message, current_bundle)
 
 ## 当前范围
 
-解析器支持以 ISO 日期、今天、明天、后天、本周星期开头的「在 A201 开班会」和「时刻前交材料」类句式，分句使用逗号、句号、分号或换行。其他句式需扩展后再解析。课表教学周、调课、取消、完成和日历导出属于后续批次。
+消息解析器支持以 ISO 日期、完整中文日期、今天、明天、后天、本周星期开头的「在 A201 开班会」和「时刻前交材料」类句式，分句使用逗号、句号、分号或换行。
 
 本批更正句式为「事项名称地点改到新地点」或「事项名称地点改为新地点」，支持一次更正一个地点。重放判定覆盖相同来源的原消息，同义改写待后续处理。WorkBuddy 持久保存、更正历史和账号隔离由 A 接入。
 
 WorkBuddy 集成时可采用[消息处理提示词](prompt.md)。
+
+## 课表 CSV
+
+```sh
+python -X utf8 -m modules.m1.timetable --csv modules/m1/examples/timetable.csv --config modules/m1/examples/term-config.json
+```
+
+输入为 UTF-8 八列 CSV 和 [学期配置](examples/term-config.json)，[实际输出](examples/timetable-output.json)为普通 bundle。CSV 的星期用「周一」至「周日」或 1 至 7，起止周如「12–13周」，单双周填「每周」「单周」或「双周」。学期起点是第一教学周周一，节次表填写各节开始和结束时间。示例课程和备注为合成数据，节次、校历和适用范围来自 C 核对的资料。真实课表由 A 传入经核对的对应学期配置及 `mode="real"`，单次停调课另走更新。
+
+A 调用 `modules.m1.timetable.parse_timetable(csv_text, config, file_name=...)`，将结果经 `plan_import(bundle, current_bundle)` 筛选后交给 M0 `prepare_import`。事项编号由模式、学期起点、课程名、原定周次、星期和节次生成。课次共用 CSV 来源和原始行，按课次编号去重。每周示例生成 11 月 17 日和 24 日两次 14:00–15:35 的课，双周只生成 17 日，单周只生成 24 日。
+
+可运行 `python -X utf8 -m unittest discover -s tests -p test_m1_timetable.py -v` 复核单双周、M0 回读、完整重放和仅保存一次后的补齐。
+
+## 作业与状态更新
+
+```sh
+python -X utf8 -m modules.m1.demo workflow
+```
+
+[输入](examples/d2-d3-workflow.json)和[实际输出](examples/d2-d3-workflow-output.json)包含作业、延期、完成、单次调课、同名候选、取消和旧输入重放。作业用 `parse_message` 生成 `submission`，截止时间放 `start_time`，`end_time` 为 `null`。自动识别句末的 PDF 和 Word文档。A 已从原文确认的其他要求可放在消息的 `submission_requirements` 中，键是提交事项的完整原文片段，值是文本列表。例如 `{"2026年11月21日20:00前交附运行截图的课程报告":["附运行截图"]}`。
+
+A 及 D 从快照的 `sources` 按 `event.source_id` 查找来源，再读取 `source.submission_requirements[event_id]`。自动识别和调用方提供的要求合并后都通过 M0 的 `source` JSON 列保存和回读。
+
+A 使用 `modules.m1.updates.propose_event_update(message, current_bundle)`。消息保留 `text`、原发送日及模式，A 把确认过的操作放入 `kind`，用 `target_event_id` 或精确的 `target_title` 定位目标，可加 `target_date` 指定当前课次日期。日期、时刻使用 `YYYY-MM-DD` 和 `HH:MM`。结果与地点更正共用补丁和候选结构。
+
+| `kind` | 传入的 `changes` |
+| --- | --- |
+| `postpone` | 提交事项的新 `date`、`start_time`，可只传变化字段 |
+| `reschedule` | 单次课程的新 `date`、`start_time`、`end_time`、`location`，可只传变化字段 |
+| `cancel` / `complete` | 由模块生成 `status=cancelled` / `status=completed` |
+
+A 从当前个人表读取快照，再对原编号应用补丁。可复用 `runtime.py` 的 `_patch` 生成写入计划，保留原始来源并将补丁前后值和完整新来源追加到 `event_history`。更正重传应沿用原来源编号，或原文及原发送日。已在对应事项的 `history` 中出现的来源返回空 `changes`，A 只应用非空补丁。生产编排、个人表回读和独立账号由 A/D 验收。用 `python -X utf8 -m unittest discover -s tests -p test_m1_workflow.py -v` 验证本地往返。
+
+## D2 + D3 联调复核
+
+- **C 通知更正。** 已有事项走 `notice_runtime.py correction`，使用已保存目标与当前前值。原版不适用且没有该事项的用户走显式 `newly_applicable: true`，确认适用并要求保存后新增。合成例原先仅覆盖 A 学院 2023 级，更正纳入 2022 级，并将 11 月 25 日 17:00、A101、申请表，改为 11 月 27 日 18:00、B202、申请表和证明材料。本地验证 2023 级原位更新 1 条，2022 级确认后新增 1 条，原文和更正重放均零写入。两条路径回读完整更正来源。见 [M2 接入](../../docs/M2接入.md)及 `test_combined_correction_updates_old_audience_or_adds_new_audience`。
+- **D 冲突和空档。** 共同 [D.input_bundle](../../docs/协作/联调样例.json) 的合成课为 11 月 17 日 14:00–15:40，会议为 15:00–16:00，重叠 15:00–15:40。在同日 14:00–18:00 的可安排窗口内，首个空档为 16:00–18:00。该合成课与 CSV 的正式节次换算分别验收。
+- **D 截止与状态。** 11 月 20 日 20:00 是截止点。若同日 16:00–19:00 可用，可建议该 3 小时准备时段。今天设为 11 月 30 日时，三天窗口为 11 月 30 日至 12 月 2 日。完成作业和取消课次仍可从快照读到，但应从临期提醒和占用中排除。D 的实际展示及独立账号待联调。
+- **U6 导出评估。** 后续可从当前账号的 bundle 生成 `work/calendar.ics`，经 WorkBuddy 的会话文件交付供下载。余量优先用于平台回读与独立账号验收，确认文件交付可用后再估算导出及客户端导入验证。

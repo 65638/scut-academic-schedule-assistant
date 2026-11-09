@@ -1,0 +1,190 @@
+{
+  "assignment": {
+    "mode": "example",
+    "today": "2026-11-16",
+    "timezone": "Asia/Shanghai",
+    "campus": "大学城校区",
+    "sources": [
+      {
+        "id": "m1-message-4f6c528a7d9fbc7f23ade289",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "2026年11月20日20:00前交数据分析作业PDF",
+        "sent_on": "2026-11-16",
+        "submission_requirements": {
+          "m1-event-63d86109c9e113bd9f324ea0": [
+            "PDF"
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": "m1-event-63d86109c9e113bd9f324ea0",
+        "type": "submission",
+        "title": "提交数据分析作业PDF",
+        "date": "2026-11-20",
+        "start_time": "20:00",
+        "end_time": null,
+        "location": null,
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "m1-message-4f6c528a7d9fbc7f23ade289",
+        "source_excerpt": "2026年11月20日20:00前交数据分析作业PDF"
+      }
+    ]
+  },
+  "ambiguous_reschedule": {
+    "target_event_id": null,
+    "changes": {},
+    "source_id": "m1-message-ecaee4c15efc0f5a33cfb1eb",
+    "source_excerpt": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+    "source": {
+      "id": "m1-message-ecaee4c15efc0f5a33cfb1eb",
+      "type": "message",
+      "title": "示例校园消息",
+      "mode": "example",
+      "text": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+      "sent_on": "2026-11-16"
+    },
+    "candidates": [
+      {
+        "id": "m1-course-eac36755927d45228a2b6e3e",
+        "title": "示例数据分析课",
+        "date": "2026-11-17",
+        "start_time": "14:00",
+        "location": "大学城校区 A101",
+        "status": "not_started"
+      },
+      {
+        "id": "m1-course-d15fedd240a034c834f5b844",
+        "title": "示例数据分析课",
+        "date": "2026-11-24",
+        "start_time": "14:00",
+        "location": "大学城校区 A101",
+        "status": "not_started"
+      }
+    ],
+    "pending_fields": [
+      "target_event_id"
+    ],
+    "question": "请选择要更正的事项。"
+  },
+  "proposals": {
+    "postpone": {
+      "target_event_id": "m1-event-63d86109c9e113bd9f324ea0",
+      "changes": {
+        "date": "2026-11-22",
+        "start_time": "21:00"
+      },
+      "source_id": "m1-message-51e20643d5110f364640f690",
+      "source_excerpt": "数据分析作业延期到2026年11月22日21:00",
+      "source": {
+        "id": "m1-message-51e20643d5110f364640f690",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "数据分析作业延期到2026年11月22日21:00",
+        "sent_on": "2026-11-16"
+      }
+    },
+    "complete": {
+      "target_event_id": "m1-event-63d86109c9e113bd9f324ea0",
+      "changes": {
+        "status": "completed"
+      },
+      "source_id": "m1-message-78afa07ce0270a7246bec5a3",
+      "source_excerpt": "数据分析作业PDF已完成",
+      "source": {
+        "id": "m1-message-78afa07ce0270a7246bec5a3",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "数据分析作业PDF已完成",
+        "sent_on": "2026-11-16"
+      }
+    },
+    "reschedule": {
+      "target_event_id": "m1-course-eac36755927d45228a2b6e3e",
+      "changes": {
+        "date": "2026-11-18",
+        "location": "大学城校区 B202"
+      },
+      "source_id": "m1-message-ecaee4c15efc0f5a33cfb1eb",
+      "source_excerpt": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+      "source": {
+        "id": "m1-message-ecaee4c15efc0f5a33cfb1eb",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+        "sent_on": "2026-11-16"
+      }
+    },
+    "cancel": {
+      "target_event_id": "m1-course-eac36755927d45228a2b6e3e",
+      "changes": {
+        "status": "cancelled"
+      },
+      "source_id": "m1-message-e3fe871792294de3830688f3",
+      "source_excerpt": "调到11月18日的那次示例数据分析课取消",
+      "source": {
+        "id": "m1-message-e3fe871792294de3830688f3",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "调到11月18日的那次示例数据分析课取消",
+        "sent_on": "2026-11-16"
+      }
+    }
+  },
+  "replay": {
+    "skipped_event_ids": [
+      "m1-course-eac36755927d45228a2b6e3e",
+      "m1-course-d15fedd240a034c834f5b844",
+      "m1-event-63d86109c9e113bd9f324ea0"
+    ],
+    "events": [
+      {
+        "id": "m1-course-eac36755927d45228a2b6e3e",
+        "type": "course",
+        "title": "示例数据分析课",
+        "date": "2026-11-18",
+        "start_time": "14:00",
+        "end_time": "15:35",
+        "location": "大学城校区 B202",
+        "status": "cancelled",
+        "pending_fields": [],
+        "source_id": "m1-timetable-42c7bceb35d604a2cf23e731",
+        "source_excerpt": "示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表"
+      },
+      {
+        "id": "m1-course-d15fedd240a034c834f5b844",
+        "type": "course",
+        "title": "示例数据分析课",
+        "date": "2026-11-24",
+        "start_time": "14:00",
+        "end_time": "15:35",
+        "location": "大学城校区 A101",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "m1-timetable-42c7bceb35d604a2cf23e731",
+        "source_excerpt": "示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表"
+      },
+      {
+        "id": "m1-event-63d86109c9e113bd9f324ea0",
+        "type": "submission",
+        "title": "提交数据分析作业PDF",
+        "date": "2026-11-22",
+        "start_time": "21:00",
+        "end_time": null,
+        "location": null,
+        "status": "completed",
+        "pending_fields": [],
+        "source_id": "m1-message-4f6c528a7d9fbc7f23ade289",
+        "source_excerpt": "2026年11月20日20:00前交数据分析作业PDF"
+      }
+    ]
+  }
+}

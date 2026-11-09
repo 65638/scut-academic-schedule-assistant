@@ -14,11 +14,12 @@ CAMPUS = "大学城校区"
 RELATIVE_DAYS = {"今天": 0, "明天": 1, "后天": 2}
 WEEKDAYS = "一二三四五六日"
 DATE_AND_TIME = re.compile(
-    r"(?P<day>[0-9]{4}-[0-9]{2}-[0-9]{2}|今天|明天|后天|本周[一二三四五六日天])"
+    r"(?P<day>[0-9]{4}-[0-9]{2}-[0-9]{2}|[0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日|今天|明天|后天|本周[一二三四五六日天])"
     r"\s*(?:(?P<hour>[0-9]{1,2}):(?P<minute>[0-9]{2})\s*)?(?P<action>.+)"
 )
 ACTIVITY = re.compile(r"在(?P<location>[A-Za-z][0-9]+)开(?P<title>.+)")
 SUBMISSION = re.compile(r"前(?:提交|交)(?P<title>.+)")
+SUBMISSION_FORMAT_SUFFIX = re.compile(r"(PDF|Word\s*文档)$", re.IGNORECASE)
 ATTENDANCE_REMINDER = re.compile(r"(?:请(?:大家|各位)?\s*)?准时(?:参加|到场|出席)[！!]*")
 
 
@@ -43,6 +44,8 @@ def _source(message, mode):
 
 def _resolve_date(expression, sent_on):
     if expression[0].isdigit():
+        if "年" in expression:
+            return date(*map(int, re.findall(r"[0-9]+", expression))).isoformat()
         return date.fromisoformat(expression).isoformat()
     if sent_on is None:
         return None
@@ -90,6 +93,26 @@ def _parse_event(excerpt, source, sent_on, position):
     }
 
 
+def _submission_requirements(events, confirmed):
+    submissions = [event for event in events if event["type"] == "submission"]
+    if not isinstance(confirmed, dict) or confirmed.keys() - {event["source_excerpt"] for event in submissions}:
+        raise ValueError("submission_requirements 应按已解析提交事项的原文片段填写")
+
+    by_event = {}
+    for event in submissions:
+        extra = confirmed.get(event["source_excerpt"], [])
+        if not isinstance(extra, list) or any(not isinstance(item, str) or not item.strip() for item in extra):
+            raise ValueError("提交要求应为非空文本组成的列表")
+        requirements = []
+        suffix = SUBMISSION_FORMAT_SUFFIX.search(event["title"])
+        if suffix:
+            requirements.append("PDF" if suffix[1].upper() == "PDF" else "Word文档")
+        requirements.extend(item.strip() for item in extra)
+        if requirements:
+            by_event[event["id"]] = list(dict.fromkeys(requirements))
+    return by_event
+
+
 def parse_message(message):
     """接收共享样例中的 B.input 格式，返回可直接交换的 bundle。"""
     mode = message.get("mode", "real")
@@ -117,6 +140,10 @@ def parse_message(message):
                 })
     if not events and first_error is not None:
         raise first_error
+
+    requirements = _submission_requirements(events, message.get("submission_requirements", {}))
+    if requirements:
+        source["submission_requirements"] = requirements
 
     bundle = {
         "mode": mode,

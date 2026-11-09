@@ -6,13 +6,13 @@
 
 **当前开发任务：[D2 + D3 合并任务](docs/协作/D2-D3-合并任务.md)**。核心功能与 U1–U4 同批分发，四人现在并行推进，有可运行结果即交 A 接入。
 
-A 本批已补随包公开资料检索，并验证共同样例、通知材料与更正历史可经个人表格式恢复给 D；开发记录见 [A 接入进展](docs/A-D2-D3接入进展.md)。C 已完成本机公开资料检索与解读核验，0.3.1 源包补齐 U1 与完整通知更正链；本批交付和平台分项状态见 [C D2/D3 交付](docs/C-D2-D3交付.md)。未发布新版分享。
+当前集成源包为 **0.4.0**：B PR #8 的课表、作业与状态更新，C PR #10 的 U1/U4 已接入 WorkBuddy 脚本入口；保留 A 的公开资料检索。审查修复与验证见 [B/C 集成记录](docs/BC-D2-D3接入.md)。D 模块待修复版，尚未发布新版分享。
 
 团队成员先看 [协作与交接入口](docs/协作/00-从这里开始.md)。其中有你、A、B、C、D 的工作流程、首批任务、共同样例和交接格式。
 
 A 的平台接入位于 `a/platform-v0`。0.2.0 随包接入 B 已审核的消息解析与地点更正模块（`0d509c9`）；实际验收见 [M1 接入记录](docs/M1接入.md)。
 
-本分支提供 **0.3.1 通知接入**：在 A 的存储和消息入口上接入 C 的通知适用性确认、保存计划、通知更正和来源恢复，修复“部分学院”缺画像追问和完整对象更正链的前值一致性。旧通知源包 `aa93fce` 的同账号云端保存、更正和新任务恢复已实测通过，历史证据见 [M2 接入记录](docs/M2接入.md)；本批 0.3.1 的安装与验收另见 C 交付记录。下方分享链接仍为 0.2.0，独立账号验收待 D 完成。
+0.4.0 包含 0.3.1 通知适用性、更正链和来源恢复能力。旧通知源包 `aa93fce` 的同账号云端记录见 [M2 接入记录](docs/M2接入.md)，C 的 0.3.1 平台结果见 [C 交付记录](docs/C-D2-D3交付.md)。这些记录不代替本次合并版本的云端验收；下方分享链接仍为 0.2.0。
 
 源包代码支持载入示例、消息拆项、保存、地点更正、重传去重、本周查询和跨任务恢复，云端分项状态见 M1、M2 接入记录。混合消息中的未识别片段保留为待核对问题，缺发送日可原位补充；独立账号隔离仍需实际验收。
 
@@ -70,7 +70,7 @@ python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py prepare -
 python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py week --csv work/demo/schedule.csv --mode example --today 2026-11-16
 ```
 
-这些命令验证本地计算；`prepare` 不会保存到云端。消息入口为随包 `runtime.py message/location/snapshot`，通知入口为 `notice_runtime.py notice/correction/snapshot`，具体参数见 [专家说明](platform/scut-schedule/README.md)。真实存储调用由 WorkBuddy 原生 library 执行。来源和事项在一行中关联，完整来源、问题及更正历史存于既有 `source` JSON 列，无需迁移表结构。
+这些命令验证本地计算；`prepare` 不会保存到云端。消息、课表与更新入口为随包 `runtime.py message/timetable/update/location/snapshot`，通知入口为 `notice_runtime.py notice/correction/snapshot`，具体参数见 [专家说明](platform/scut-schedule/README.md)。真实存储调用由 WorkBuddy 原生 library 执行。来源和事项在一行中关联，完整来源、问题及更正历史存于既有 `source` JSON 列，无需迁移表结构。
 
 ## 第二账号验收
 
@@ -83,6 +83,8 @@ python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py week --cs
 用户当前没有第二账号，已决定先交付并保留以上步骤。第二账号访问、随包资源交付和账号隔离保持“未验收”。
 
 B 的消息解析可在仓库根目录运行 `python -X utf8 -m modules.m1.demo` 验证。输入、输出和 A 的调用方式见 [M1 模块说明](modules/m1/README.md)。
+
+B 的课表 CSV 本地运行命令为 `python -X utf8 -m modules.m1.timetable --csv modules/m1/examples/timetable.csv --config modules/m1/examples/term-config.json`。
 
 ## 使用边界
 

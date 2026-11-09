@@ -1,4 +1,4 @@
-# 华工日程 · 0.3.1 源包（M0 + M1 + M2）
+# 华工日程 · 0.4.0 集成源包（M0 + M1 + M2）
 
 面向华南理工大学大学城校区各专业。安装后可问：
 
@@ -15,7 +15,7 @@
 
 需要 WorkBuddy 原生 library 能力及 Python 3.9+。脚本仅使用标准库，不需要 API Key，不包含作者的个人表格 ID。
 消息入口为 `skills/scut-schedule/scripts/runtime.py`，M0 入口为同目录 `schedule.py`，示例为 `skills/scut-schedule/examples/m0-demo.json`。
-同目录 `m1/message.py`、`m1/updates.py` 是 B 已审核提交 `0d509c9` 的原样副本，无需开发仓库即可运行。
+同目录 `m1/message.py`、`m1/updates.py`、`m1/timetable.py` 是 B 已审核提交 `16413c5` 的原样副本，无需开发仓库即可运行。`runtime.py timetable` 接课表 CSV，`runtime.py update` 接延期、完成、取消和单次调课。
 通知入口为同目录 `notice_runtime.py notice/correction/snapshot`，随包 `m2/` 与仓库 C 模块保持一致。提示词及公开资料位于 Skill 的 `references/`，两个通知演示输入位于 `examples/m2-notice-save.json` 和 `examples/m2-notice-correction.json`。
 
 D2 + D3 新增 `knowledge_runtime.py`，可按关键词检索随包公开通知、校历和作息，并按来源编号读取。结果保留原链接、发布日期和收录时间，分别返回整理资料与可用的原文节选；这是本地资料检索，不是在线刷新。0.3.1 修复“部分学院”未知名单的判断，并补齐四字段通知更正案例；版本更新用于区分客户端旧 0.3.0 缓存。本批平台结果见仓库的 `docs/C-D2-D3交付.md`，没有生成新版分享链接。
@@ -39,5 +39,13 @@ python -m unittest discover -s modules/m2/tests -v
 通过 WorkBuddy 内置 expert-manager 安装、校验和注册该目录，再从“我的专家”召唤。仓库总 README 记录本次实测结果和未通过项。
 
 支持双事项消息保存、地点原位更正、重复输入不回退、缺发送日补充和混合消息待核对提示。更正历史和完整来源保存于个人表；新任务可恢复。
-当前为单人顺序使用。本分支为可审核源包，WorkBuddy 实际云端通知保存、恢复和更正尚待 A 实测，第二账号隔离由 D 实测。课表解析、冲突分析和定时提醒尚未接入。原 0.2.0 分享链接保持原版本，不冒充本次源包的发布结果。
+0.4.0 已将 B 的课表、作业与状态流转和 C 的 U1/U4 接到源包，修复完整更正版重复新增与已明确日期仍追问发送日的问题。当前为单人顺序使用；本次合并版本的云端流程待 A 实测，第二账号隔离待 D 实测。C 的 0.3.1 平台记录属于此前版本。冲突、空档、简报与定时推送未接入，分享仍为 0.2.0。
+
+课表示例：
+
+```sh
+python platform/scut-schedule/skills/scut-schedule/scripts/runtime.py timetable --csv platform/scut-schedule/skills/scut-schedule/examples/timetable.csv --config platform/scut-schedule/skills/scut-schedule/examples/term-config.json --out work/timetable-plan.json
+```
+
+`examples/d2-d3-workflow.json` 中的 assignment 对象可作为 message 输入，其余对象作为 update 输入；更新时加 `--existing` 指向本轮个人表 CSV。输出仍只是待写入计划。
 头像由 WorkBuddy 图片生成工具生成，可替换为 512×512 的 PNG/JPG（不超过 500 KB）。

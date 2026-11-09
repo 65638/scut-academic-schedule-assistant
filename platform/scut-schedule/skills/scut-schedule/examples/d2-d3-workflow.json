@@ -1,0 +1,45 @@
+{
+  "assignment": {
+    "text": "2026年11月20日20:00前交数据分析作业PDF",
+    "sent_on": "2026-11-16",
+    "mode": "example"
+  },
+  "postpone": {
+    "kind": "postpone",
+    "text": "数据分析作业延期到2026年11月22日21:00",
+    "sent_on": "2026-11-16",
+    "target_title": "提交数据分析作业PDF",
+    "changes": {
+      "date": "2026-11-22",
+      "start_time": "21:00"
+    },
+    "mode": "example"
+  },
+  "complete": {
+    "kind": "complete",
+    "text": "数据分析作业PDF已完成",
+    "sent_on": "2026-11-16",
+    "target_title": "提交数据分析作业PDF",
+    "mode": "example"
+  },
+  "reschedule": {
+    "kind": "reschedule",
+    "text": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+    "sent_on": "2026-11-16",
+    "target_title": "示例数据分析课",
+    "target_date": "2026-11-17",
+    "changes": {
+      "date": "2026-11-18",
+      "location": "大学城校区 B202"
+    },
+    "mode": "example"
+  },
+  "cancel": {
+    "kind": "cancel",
+    "text": "调到11月18日的那次示例数据分析课取消",
+    "sent_on": "2026-11-16",
+    "target_title": "示例数据分析课",
+    "target_date": "2026-11-18",
+    "mode": "example"
+  }
+}
