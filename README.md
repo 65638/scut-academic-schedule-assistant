@@ -16,6 +16,17 @@ A 的平台接入位于 `a/platform-v0`。0.2.0 随包接入 B 已审核的消�
 - [平台核查](docs/平台能力核查.md)：原生能力、实测结果和待验收项。
 - [专家源包](platform/scut-schedule/)：入口、Skill、示例和计算脚本。
 
+C 组 M2 资料与判断模块位于 `modules/m2/`，包含通知抽取、相关性判断、更正对比、公开栏目刷新、模型提示词、公开资料和回归测试。
+
+```sh
+python -m modules.m2.cli extract --input modules/m2/fixtures/handoff_c.json
+python -m modules.m2.cli compare --input modules/m2/fixtures/handoff_c_correction.json
+python -m modules.m2.cli refresh --input modules/m2/fixtures/refresh_sources.json
+python -m unittest discover -s modules/m2/tests -v
+```
+
+公开资料和来源台账见 `knowledge/`，C 组交接说明见 `modules/m2/HANDOFF.md`。
+
 ## 在 WorkBuddy 使用
 
 [打开 0.2.0 测试版：校园学业日程助手](https://www.workbuddy.cn/work/launch/?sharecode=tmL4M5MTT42C01wSjtBwuF-G4pO-ZMywTHyao68tR_kKtZPOn4U7PV6EwWDHz9SJ&buddy_type=workbuddy)

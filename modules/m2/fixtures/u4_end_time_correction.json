@@ -1,0 +1,20 @@
+{
+  "original_source": {
+    "id": "u4-time-notice-001",
+    "type": "notice",
+    "title": "示例活动通知",
+    "mode": "example",
+    "text": "活动结束时间为17:00。",
+    "file_name": "u4_end_time_correction.json#original_source"
+  },
+  "correction": {
+    "id": "u4-time-notice-002",
+    "type": "notice",
+    "title": "示例活动通知更正",
+    "mode": "example",
+    "text": "活动结束时间由17:00调整为18:30。",
+    "file_name": "u4_end_time_correction.json#correction",
+    "corrects": "u4-time-notice-001"
+  },
+  "target_event_id": "u4-time-event-001"
+}

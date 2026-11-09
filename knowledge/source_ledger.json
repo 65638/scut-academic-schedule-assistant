@@ -1,0 +1,56 @@
+{
+  "timezone": "Asia/Shanghai",
+  "generated_at": "2026-11-09T00:32:22+08:00",
+  "sources": [
+    {
+      "id": "scut-student-2026-1027-job-subsidy",
+      "type": "notice",
+      "title": "关于开展华南理工大学2027届毕业生一次性求职补贴申领工作的通知",
+      "publisher": "党委学生工作部（学生工作处）、学生就业指导中心",
+      "published_on": "2026-10-27",
+      "ingested_at": "2026-11-09T00:32:22+08:00",
+      "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm",
+      "campus_scope": "全校，包含大学城校区",
+      "audience_scope": "2027年毕业学年且符合通知所列三类条件之一的学生",
+      "mode": "real",
+      "content_file": "knowledge/official/scut_2027_graduate_job_subsidy.md"
+    },
+    {
+      "id": "scut-jw-calendar-2026-2027-1",
+      "type": "academic_calendar",
+      "title": "2026-2027学年第一学期校历",
+      "publisher": "华南理工大学本科生院",
+      "published_on": "2026-05-22",
+      "ingested_at": "2026-11-09T00:32:22+08:00",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/article/download.do?id=eec18a7b9dfc61df019e4d781cce0095",
+      "campus_scope": "全校",
+      "mode": "real",
+      "content_file": "knowledge/official/scut_academic_calendar_2026_2027_1.md",
+      "original_file": "knowledge/official/scut_academic_calendar_2026_2027_1.xlsx"
+    },
+    {
+      "id": "scut-jw-schedule-university-town",
+      "type": "class_schedule",
+      "title": "作息安排",
+      "publisher": "华南理工大学本科生院",
+      "published_on": null,
+      "ingested_at": "2026-11-09T00:32:22+08:00",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/category/index.do?id=f25701314e913361014e91450b510010",
+      "campus_scope": "大学城校区和国际校区",
+      "mode": "real",
+      "content_file": "knowledge/official/scut_university_town_schedule.md"
+    },
+    {
+      "id": "handoff-c-notice-001",
+      "type": "notice",
+      "title": "示例报名通知",
+      "publisher": "示例发布单位（非真实学校机构）",
+      "published_on": "2026-11-16",
+      "ingested_at": null,
+      "file_name": "联调样例.json#C.input",
+      "campus_scope": "大学城校区",
+      "audience_scope": "全体本科生，不限专业",
+      "mode": "example"
+    }
+  ]
+}

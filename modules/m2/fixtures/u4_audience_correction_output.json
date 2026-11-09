@@ -1,0 +1,26 @@
+{
+  "update": {
+    "target_event_id": "u4-event-001",
+    "changes": {
+      "date": {
+        "before": "2026-11-25",
+        "after": "2026-11-27"
+      },
+      "audience": {
+        "before": "A学院2023级本科生",
+        "after": "A学院2023级本科生；A学院2022级本科生"
+      }
+    },
+    "source_id": "u4-notice-002",
+    "source_excerpt": "截止日期由2026年11月25日17:00调整为2026年11月27日17:00，新增A学院2022级本科生为适用对象。"
+  },
+  "source": {
+    "id": "u4-notice-002",
+    "type": "notice",
+    "title": "示例申报通知更正",
+    "mode": "example",
+    "text": "截止日期由2026年11月25日17:00调整为2026年11月27日17:00，新增A学院2022级本科生为适用对象。",
+    "file_name": "u4_audience_correction.json#correction",
+    "corrects": "u4-notice-001"
+  }
+}

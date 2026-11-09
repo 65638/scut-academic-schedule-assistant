@@ -6,3 +6,6 @@ __pycache__/
 .venv/
 work/
 .workbuddy/
+.m2-runtime/
+.m2-output/
+*.py[cod]

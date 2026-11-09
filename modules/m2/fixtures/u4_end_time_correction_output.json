@@ -1,0 +1,22 @@
+{
+  "update": {
+    "target_event_id": "u4-time-event-001",
+    "changes": {
+      "end_time": {
+        "before": "17:00",
+        "after": "18:30"
+      }
+    },
+    "source_id": "u4-time-notice-002",
+    "source_excerpt": "活动结束时间由17:00调整为18:30。"
+  },
+  "source": {
+    "id": "u4-time-notice-002",
+    "type": "notice",
+    "title": "示例活动通知更正",
+    "mode": "example",
+    "text": "活动结束时间由17:00调整为18:30。",
+    "file_name": "u4_end_time_correction.json#correction",
+    "corrects": "u4-time-notice-001"
+  }
+}
