@@ -76,6 +76,8 @@ python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py week --cs
 
 B 的消息解析可在仓库根目录运行 `python -X utf8 -m modules.m1.demo` 验证。输入、输出和 A 的调用方式见 [M1 模块说明](modules/m1/README.md)。
 
+B 的课表 CSV 本地运行命令为 `python -X utf8 -m modules.m1.timetable --csv modules/m1/examples/timetable.csv --config modules/m1/examples/term-config.json`。
+
 ## 使用边界
 
 通知保留来源和原日期；演示课表、消息和画像明确标注为示例。真实校历与作息采用经核对的大学城校区资料。仅在影响当前行为时询问缺失信息。

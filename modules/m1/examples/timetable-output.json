@@ -1,0 +1,51 @@
+{
+  "mode": "example",
+  "today": "2026-11-16",
+  "timezone": "Asia/Shanghai",
+  "campus": "大学城校区",
+  "sources": [
+    {
+      "id": "m1-timetable-42c7bceb35d604a2cf23e731",
+      "type": "timetable",
+      "title": "示例课表 CSV",
+      "mode": "example",
+      "text": "课程名,星期,开始节,结束节,起止周,单双周,校区教室,备注\n示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表\n",
+      "timetable": {
+        "term_start": "2026-08-31",
+        "references": [
+          "knowledge/official/scut_academic_calendar_2026_2027_1.md",
+          "knowledge/official/scut_university_town_schedule.md"
+        ]
+      },
+      "file_name": "timetable.csv"
+    }
+  ],
+  "events": [
+    {
+      "id": "m1-course-eac36755927d45228a2b6e3e",
+      "type": "course",
+      "title": "示例数据分析课",
+      "date": "2026-11-17",
+      "start_time": "14:00",
+      "end_time": "15:35",
+      "location": "大学城校区 A101",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m1-timetable-42c7bceb35d604a2cf23e731",
+      "source_excerpt": "示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表"
+    },
+    {
+      "id": "m1-course-d15fedd240a034c834f5b844",
+      "type": "course",
+      "title": "示例数据分析课",
+      "date": "2026-11-24",
+      "start_time": "14:00",
+      "end_time": "15:35",
+      "location": "大学城校区 A101",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m1-timetable-42c7bceb35d604a2cf23e731",
+      "source_excerpt": "示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表"
+    }
+  ]
+}

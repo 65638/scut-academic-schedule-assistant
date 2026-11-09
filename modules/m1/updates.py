@@ -61,11 +61,13 @@ def plan_import(incoming_bundle, current_bundle):
     seen_ids = {event["id"] for event in current_bundle["events"]}
     seen_excerpts = {
         (event["source_id"], event["source_excerpt"]) for event in current_bundle["events"]
+        if event["type"] != "course"
     }
     additions, skipped = [], []
     for event in incoming_bundle["events"]:
         origin = (event["source_id"], event["source_excerpt"])
-        if event["id"] in seen_ids or origin in seen_excerpts:
+        # 同一 CSV 行会展开成多个独立课次，原文不能单独用于课次去重。
+        if event["id"] in seen_ids or (event["type"] != "course" and origin in seen_excerpts):
             skipped.append(event["id"])
             continue
         additions.append(event)

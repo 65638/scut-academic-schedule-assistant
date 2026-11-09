@@ -50,8 +50,20 @@ proposal = propose_location_update(update_message, current_bundle)
 
 ## 当前范围
 
-解析器支持以 ISO 日期、今天、明天、后天、本周星期开头的「在 A201 开班会」和「时刻前交材料」类句式，分句使用逗号、句号、分号或换行。其他句式需扩展后再解析。课表教学周、调课、取消、完成和日历导出属于后续批次。
+消息解析器支持以 ISO 日期、今天、明天、后天、本周星期开头的「在 A201 开班会」和「时刻前交材料」类句式，分句使用逗号、句号、分号或换行。调课、取消、完成和日历导出属于后续批次。
 
 本批更正句式为「事项名称地点改到新地点」或「事项名称地点改为新地点」，支持一次更正一个地点。重放判定覆盖相同来源的原消息，同义改写待后续处理。WorkBuddy 持久保存、更正历史和账号隔离由 A 接入。
 
 WorkBuddy 集成时可采用[消息处理提示词](prompt.md)。
+
+## 课表 CSV
+
+```sh
+python -X utf8 -m modules.m1.timetable --csv modules/m1/examples/timetable.csv --config modules/m1/examples/term-config.json
+```
+
+输入为 UTF-8 八列 CSV 和 [学期配置](examples/term-config.json)，[实际输出](examples/timetable-output.json)为普通 bundle。CSV 的星期用「周一」至「周日」或 1 至 7，起止周如「12–13周」，单双周填「每周」「单周」或「双周」。学期起点是第一教学周周一，节次表填写各节开始和结束时间。示例课程和备注为合成数据，节次、校历和适用范围来自 C 核对的资料。真实课表由 A 传入经核对的对应学期配置及 `mode="real"`，单次停调课另走更新。
+
+A 调用 `modules.m1.timetable.parse_timetable(csv_text, config, file_name=...)`，将结果经 `plan_import(bundle, current_bundle)` 筛选后交给 M0 `prepare_import`。事项编号由模式、学期起点、课程名、原定周次、星期和节次生成。课次共用 CSV 来源和原始行，按课次编号去重。每周示例生成 11 月 17 日和 24 日两次 14:00–15:35 的课，双周只生成 17 日，单周只生成 24 日。
+
+可运行 `python -X utf8 -m unittest discover -s tests -p test_m1_timetable.py -v` 复核单双周、M0 回读、完整重放和仅保存一次后的补齐。
