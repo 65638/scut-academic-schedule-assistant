@@ -1,6 +1,6 @@
 {
   "name": "scut-schedule",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Extract sourced campus notices and messages, check applicability, save personal schedules and preserve correction history in WorkBuddy's personal library.",
   "agents": ["./agents/scut-schedule.md"],
   "skills": ["./skills/scut-schedule"],

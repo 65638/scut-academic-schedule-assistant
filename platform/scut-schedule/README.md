@@ -1,4 +1,4 @@
-# 华工日程 · 0.3.0 源包（M0 + M1 + M2）
+# 华工日程 · 0.3.1 源包（M0 + M1 + M2）
 
 面向华南理工大学大学城校区各专业。安装后可问：
 
@@ -18,7 +18,7 @@
 同目录 `m1/message.py`、`m1/updates.py` 是 B 已审核提交 `0d509c9` 的原样副本，无需开发仓库即可运行。
 通知入口为同目录 `notice_runtime.py notice/correction/snapshot`，随包 `m2/` 与仓库 C 模块保持一致。提示词及公开资料位于 Skill 的 `references/`，两个通知演示输入位于 `examples/m2-notice-save.json` 和 `examples/m2-notice-correction.json`。
 
-D2 + D3 开发中新增 `knowledge_runtime.py`，可按关键词检索随包公开通知、校历和作息，并按来源编号读取。结果保留原链接、发布日期和收录时间，分别返回整理资料与可用的原文节选；这是本地资料检索，不是在线刷新。此改动尚未同步安装或生成新版分享链接。
+D2 + D3 新增 `knowledge_runtime.py`，可按关键词检索随包公开通知、校历和作息，并按来源编号读取。结果保留原链接、发布日期和收录时间，分别返回整理资料与可用的原文节选；这是本地资料检索，不是在线刷新。0.3.1 修复“部分学院”未知名单的判断，并补齐四字段通知更正案例；版本更新用于区分客户端旧 0.3.0 缓存。本批平台结果见仓库的 `docs/C-D2-D3交付.md`，没有生成新版分享链接。
 
 ```sh
 python platform/scut-schedule/skills/scut-schedule/scripts/knowledge_runtime.py search --query "求职 补贴"

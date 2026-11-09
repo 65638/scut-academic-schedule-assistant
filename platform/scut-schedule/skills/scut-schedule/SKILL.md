@@ -3,7 +3,7 @@ name: scut-schedule
 description: 华工大学城校区通知抽取与适用性核对、消息日期与截止解析、个人事项保存、通知更正、重传去重、本周查询和跨会话恢复。日程存于当前账号的 WorkBuddy 个人资料库。
 ---
 
-# 华工日程 0.3.0 · M0 + M1 + M2
+# 华工日程 0.3.1 · M0 + M1 + M2
 
 使用 WorkBuddy 内置 library 技能及其正式脚本访问在线表格。本技能的 Python 脚本只计算，不存账号状态，不联网。
 源代码位于本技能的 `scripts/schedule.py`，示例位于 `examples/m0-demo.json`。Python 3.9+，仅标准库。
@@ -62,6 +62,8 @@ description: 华工大学城校区通知抽取与适用性核对、消息日期�
 更正输入沿用 `examples/m2-notice-correction.json`：`original_source`、`correction`、`target_event_id`、`mode/profile/today` 及两个确认标志。`correction.corrects` 指向原通知或已应用的最新更正版本。运行上面命令，把 `notice` 换为 `correction`。先展示变化，再在用户明确保存/更新请求下执行返回的 `updates`。目标不唯一、模式不匹配、来源链错误或前值已变时停止写入，核对最新个人表；不选择其他事项来凑成功。
 
 日期、时刻和地点更正原位应用，材料和适用对象保存在既有来源 JSON 的 M2 元数据内；历史保留完整更正来源与前后值。没有原事项的新适用用户先走通知适用性确认与新增流程，不凭更正文本更新无关事项。重复同一更正不得追加重复历史。
+
+对象扩展前后均明确适用的既有用户，已有明确更新请求时直接原位更新。新纳入用户使用包含完整新对象、材料和办理要求的更新版通知，作为 `notice` 输入保留 `source.corrects`；按原文生成并校验 `candidate_extraction`，确认适用且明确请求保存后才新增。不能只凭“新增某年级”的片段猜出全部办理要求。
 
 通知恢复与交给展示模块时运行 `notice_runtime.py snapshot --existing "<本轮在线快照.csv>" --mode example --today 2026-11-16 --out "<current_bundle.json>"`，保留已保存通知的材料、适用性、确认状态及更正历史。未确认且未保存的通知不在个人表中，不能跨任务恢复。公开资料台账供核对来源，不能代替本轮个人表读取。
 

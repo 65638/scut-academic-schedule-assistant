@@ -72,12 +72,13 @@ def _same_source(left, right):
     )
 
 
-def _gate(extraction, payload):
+def _gate(source, extraction, payload):
     relevance = extraction["relevance"]
     if relevance == "不适用":
         return [_question("relevance", "该通知与当前画像不适用，未写入个人日程。")]
     needs_confirmation = (
-        relevance == "可能相关"
+        bool(source.get("corrects"))
+        or relevance == "可能相关"
         or extraction.get("missing_profile_question") is not None
     )
     if needs_confirmation and not _flag(payload, "applicability_confirmed"):
@@ -154,7 +155,7 @@ def prepare_notice(content, payload, now):
     )
     bundle["sources"] = [_notice_source(source, extraction, payload)]
     result = _result(extraction=extraction, bundle=bundle, skipped_event_ids=[])
-    questions = _gate(extraction, payload)
+    questions = _gate(source, extraction, payload)
     if questions:
         result["questions"] = questions
         return result
@@ -211,11 +212,25 @@ def _current_value(row, source, field):
 def _correction_gate(source, changes, payload):
     if "audience" not in changes:
         return [], None
+    profile = payload.get("profile")
+    previous_extraction = source.get("m2", {}).get("extraction", {})
+    before = changes["audience"]["before"]
     after = changes["audience"]["after"]
-    relevance = assess_relevance(after, payload["correction"]["text"], payload.get("profile"))
+    before_relevance = assess_relevance(
+        before,
+        previous_extraction.get("basis"),
+        profile,
+    )
+    relevance = assess_relevance(after, payload["correction"]["text"], profile)
     if relevance["relevance"] == "不适用":
         return [_question("relevance", "更正后的适用对象与当前画像不符，未更新事项。")], relevance
-    if not _flag(payload, "applicability_confirmed"):
+    remains_explicitly_applicable = (
+        before_relevance["relevance"] == "明确相关"
+        and relevance["relevance"] == "明确相关"
+    )
+    if not remains_explicitly_applicable and not _flag(
+        payload, "applicability_confirmed"
+    ):
         return [_question(
             "applicability_confirmed",
             relevance.get("missing_profile_question") or "适用对象已变化，请确认更正后的范围包含你。",
@@ -261,8 +276,9 @@ def _correction_update(row, source, correction, changes, payload, now, audience_
     m2["extraction"] = extraction
     m2["profile"] = dict(payload.get("profile") or m2.get("profile") or {})
     if audience_relevance is not None:
-        m2["applicability_confirmed"] = _flag(
-            payload, "applicability_confirmed"
+        m2["applicability_confirmed"] = (
+            m2.get("applicability_confirmed", False)
+            or _flag(payload, "applicability_confirmed")
         )
     else:
         m2.setdefault("applicability_confirmed", False)

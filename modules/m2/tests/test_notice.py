@@ -96,6 +96,30 @@ class NoticeExtractionTests(unittest.TestCase):
                     ),
                 )
 
+    def test_d2_d3_u1_relevance_matrix(self) -> None:
+        payload = json.loads(
+            (FIXTURES / "u1_d2_d3_cases.json").read_text(encoding="utf-8")
+        )
+        for case in payload["cases"]:
+            with self.subTest(name=case["name"]):
+                self.assertEqual(
+                    case["expected"],
+                    assess_relevance(
+                        case["audience"], case["basis"], payload["profile"]
+                    ),
+                )
+
+        missing_other_constraints = assess_relevance(
+            "大学城校区部分学院2023级本科生",
+            "面向大学城校区部分学院2023级本科生。",
+            {"college": "A学院"},
+        )
+        self.assertEqual("可能相关", missing_other_constraints["relevance"])
+        self.assertEqual(
+            "请确认你的校区、年级、培养层次，并确认A学院是否在通知所称部分学院名单中。",
+            missing_other_constraints["missing_profile_question"],
+        )
+
     def test_real_source_metadata_is_validated(self) -> None:
         source = {
             "id": "real-notice-001",
@@ -426,6 +450,20 @@ class NoticeExtractionTests(unittest.TestCase):
 
 
 class NoticeChangeTests(unittest.TestCase):
+    def test_d2_d3_complete_correction_changes_all_required_fields(self) -> None:
+        payload = json.loads(
+            (FIXTURES / "u4_d2_d3_full_correction.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        result = compare_notice_versions(
+            payload["original_source"],
+            payload["correction"],
+            payload["target_event_id"],
+        )
+        self.assertEqual(payload["expected_changes"], result["changes"])
+        self.assertEqual(payload["correction"]["text"], result["source_excerpt"])
+
     def test_handoff_correction(self) -> None:
         payload = json.loads(
             (FIXTURES / "handoff_c_correction.json").read_text(encoding="utf-8")

@@ -303,7 +303,7 @@ class NoticeRuntimeTests(unittest.TestCase):
         self.assertEqual(result["records"] + result["updates"], [])
         self.assertEqual(result["questions"][0]["field"], "source_excerpt")
 
-    def test_audience_extension_requires_confirmation_and_updates_metadata_only(self):
+    def test_audience_extension_keeps_existing_applicable_user_without_confirmation(self):
         fixture = read_fixture("u4_audience_correction.json")
         source = fixture["original_source"]
         payload = {
@@ -324,11 +324,10 @@ class NoticeRuntimeTests(unittest.TestCase):
             save_requested=True,
             applicability_confirmed=False,
         )
-        pending = self.runtime.prepare_correction(content, correction, NOW)
-        self.assertEqual(pending["updates"], [])
-        self.assertEqual(pending["questions"][0]["field"], "applicability_confirmed")
-        correction["applicability_confirmed"] = True
-        changed = apply_plan(content, self.runtime.prepare_correction(content, correction, NOW))
+        plan = self.runtime.prepare_correction(content, correction, NOW)
+        self.assertEqual(plan["questions"], [])
+        self.assertEqual(len(plan["updates"]), 1)
+        changed = apply_plan(content, plan)
         row = next(csv.DictReader(io.StringIO(changed)))
         source_data = json.loads(row["source"])
         self.assertIn("2022级", source_data["m2"]["extraction"]["audience"])
@@ -336,6 +335,249 @@ class NoticeRuntimeTests(unittest.TestCase):
         self.assertIsNone(source_data["m2"]["extraction"]["missing_profile_question"])
         self.assertEqual(source_data["m2"]["extraction"]["basis"], fixture["correction"]["text"])
         self.assertNotIn("audience", row)
+
+    def test_d2_d3_full_correction_existing_and_new_user_flow(self):
+        fixture = read_fixture("u4_d2_d3_full_correction.json")
+        existing_payload = {
+            "source": fixture["original_source"],
+            "profile": fixture["existing_profile"],
+            "today": fixture["today"],
+            "save_requested": True,
+            "applicability_confirmed": False,
+        }
+        content, initial_plan = self.save_notice(existing_payload)
+        self.assertEqual(len(initial_plan["records"]), 1)
+
+        content, _ = self.save_notice(self.notice_payload(), content)
+        rows = list(csv.DictReader(io.StringIO(content)))
+        unrelated_before = next(
+            row for row in rows if row["id"] == "handoff-c-event-001"
+        )
+
+        correction_payload = {
+            "original_source": fixture["original_source"],
+            "correction": fixture["correction"],
+            "target_event_id": fixture["target_event_id"],
+            "mode": "example",
+            "profile": fixture["existing_profile"],
+            "save_requested": True,
+            "applicability_confirmed": False,
+        }
+        correction_plan = self.runtime.prepare_correction(
+            content, correction_payload, NOW
+        )
+        self.assertEqual(correction_plan["questions"], [])
+        self.assertEqual(len(correction_plan["updates"]), 1)
+        self.assertEqual(
+            fixture["expected_changes"], correction_plan["proposal"]["changes"]
+        )
+
+        changed = apply_plan(content, correction_plan)
+        rows = list(csv.DictReader(io.StringIO(changed)))
+        target = next(row for row in rows if row["id"] == fixture["target_event_id"])
+        unrelated_after = next(
+            row for row in rows if row["id"] == "handoff-c-event-001"
+        )
+        self.assertEqual(unrelated_before, unrelated_after)
+        self.assertEqual(target["start_time"], "18:30")
+        self.assertEqual(target["location"], "B202")
+        stored = json.loads(target["source"])
+        self.assertEqual(
+            stored["m2"]["extraction"]["audience"],
+            fixture["expected_changes"]["audience"]["after"],
+        )
+        self.assertEqual(
+            stored["m2"]["extraction"]["materials"], ["申请表", "承诺书"]
+        )
+        self.assertEqual(stored["m2"]["latest_source_id"], fixture["correction"]["id"])
+        self.assertEqual(len(stored["event_history"]), 1)
+        self.assertEqual(stored["event_history"][0]["changes"], fixture["expected_changes"])
+
+        old_replay = self.runtime.prepare_notice(changed, existing_payload, NOW)
+        self.assertEqual(old_replay["records"] + old_replay["updates"], [])
+        self.assertEqual(old_replay["skipped_event_ids"], [fixture["target_event_id"]])
+        self.assertEqual(apply_plan(changed, old_replay), changed)
+
+        correction_replay = self.runtime.prepare_correction(
+            changed, correction_payload, NOW
+        )
+        self.assertEqual(correction_replay["records"] + correction_replay["updates"], [])
+        self.assertEqual(
+            correction_replay["skipped_event_ids"], [fixture["target_event_id"]]
+        )
+        existing_snapshot = self.runtime.notice_snapshot(
+            changed, "example", fixture["today"]
+        )
+        restored_existing = next(
+            event
+            for event in existing_snapshot["events"]
+            if event["id"] == fixture["target_event_id"]
+        )
+        self.assertEqual(restored_existing["start_time"], "18:30")
+        self.assertEqual(restored_existing["location"], "B202")
+        self.assertEqual(
+            restored_existing["m2"]["extraction"]["materials"],
+            ["申请表", "承诺书"],
+        )
+        self.assertEqual(len(restored_existing["history"]), 1)
+
+        second_correction_payload = {
+            "original_source": fixture["correction"],
+            "correction": fixture["second_correction"],
+            "target_event_id": fixture["target_event_id"],
+            "mode": "example",
+            "profile": fixture["existing_profile"],
+            "save_requested": True,
+            "applicability_confirmed": False,
+        }
+        second_plan = self.runtime.prepare_correction(
+            changed, second_correction_payload, NOW
+        )
+        self.assertEqual(second_plan["questions"], [])
+        self.assertEqual(len(second_plan["updates"]), 1)
+        self.assertEqual(
+            second_plan["proposal"]["changes"],
+            fixture["expected_second_changes"],
+        )
+        twice_changed = apply_plan(changed, second_plan)
+        twice_changed_rows = list(csv.DictReader(io.StringIO(twice_changed)))
+        twice_changed_target = next(
+            row
+            for row in twice_changed_rows
+            if row["id"] == fixture["target_event_id"]
+        )
+        twice_changed_source = json.loads(twice_changed_target["source"])
+        self.assertEqual(
+            twice_changed_source["m2"]["extraction"]["audience"],
+            fixture["expected_second_changes"]["audience"]["after"],
+        )
+        self.assertEqual(
+            twice_changed_source["m2"]["latest_source_id"],
+            fixture["second_correction"]["id"],
+        )
+        self.assertEqual(len(twice_changed_source["event_history"]), 2)
+        self.assertEqual(
+            twice_changed_source["event_history"][1]["changes"],
+            fixture["expected_second_changes"],
+        )
+        self.assertEqual(
+            next(
+                row
+                for row in twice_changed_rows
+                if row["id"] == "handoff-c-event-001"
+            ),
+            unrelated_before,
+        )
+
+        second_replay = self.runtime.prepare_correction(
+            twice_changed, second_correction_payload, NOW
+        )
+        self.assertEqual(second_replay["records"] + second_replay["updates"], [])
+        self.assertEqual(
+            second_replay["skipped_event_ids"], [fixture["target_event_id"]]
+        )
+        first_replay_after_second = self.runtime.prepare_correction(
+            twice_changed, correction_payload, NOW
+        )
+        self.assertEqual(
+            first_replay_after_second["records"]
+            + first_replay_after_second["updates"],
+            [],
+        )
+        self.assertEqual(
+            first_replay_after_second["skipped_event_ids"],
+            [fixture["target_event_id"]],
+        )
+        original_replay_after_second = self.runtime.prepare_notice(
+            twice_changed, existing_payload, NOW
+        )
+        self.assertEqual(
+            original_replay_after_second["records"]
+            + original_replay_after_second["updates"],
+            [],
+        )
+        self.assertEqual(
+            original_replay_after_second["skipped_event_ids"],
+            [fixture["target_event_id"]],
+        )
+        self.assertEqual(
+            len(
+                next(
+                    event
+                    for event in self.runtime.notice_snapshot(
+                        twice_changed, "example", fixture["today"]
+                    )["events"]
+                    if event["id"] == fixture["target_event_id"]
+                )["history"]
+            ),
+            2,
+        )
+
+        new_user_payload = {
+            "source": fixture["correction"],
+            "profile": fixture["newly_included_profile"],
+            "today": fixture["today"],
+            "candidate_extraction": fixture["corrected_candidate_extraction"],
+            "save_requested": True,
+            "applicability_confirmed": False,
+        }
+        pending_confirmation = self.runtime.prepare_notice("", new_user_payload, NOW)
+        self.assertEqual(
+            pending_confirmation["records"] + pending_confirmation["updates"], []
+        )
+        self.assertEqual(
+            pending_confirmation["questions"][0]["field"],
+            "applicability_confirmed",
+        )
+
+        confirmed_without_save = dict(
+            new_user_payload,
+            applicability_confirmed=True,
+            save_requested=False,
+        )
+        pending_save = self.runtime.prepare_notice("", confirmed_without_save, NOW)
+        self.assertEqual(pending_save["records"] + pending_save["updates"], [])
+        self.assertEqual(pending_save["questions"][0]["field"], "save_requested")
+
+        confirmed_and_saved = dict(
+            new_user_payload,
+            applicability_confirmed=True,
+            save_requested=True,
+        )
+        new_content, new_plan = self.save_notice(confirmed_and_saved)
+        self.assertEqual(len(new_plan["records"]), 1)
+        self.assertEqual(new_plan["updates"], [])
+        new_row = next(csv.DictReader(io.StringIO(new_content)))
+        self.assertEqual(new_row["id"], "u4-complete-event-002")
+        self.assertEqual(new_row["start_time"], "18:30")
+        self.assertEqual(new_row["location"], "B202")
+
+        new_replay = self.runtime.prepare_notice(
+            new_content, confirmed_and_saved, NOW
+        )
+        self.assertEqual(new_replay["records"] + new_replay["updates"], [])
+        self.assertEqual(new_replay["skipped_event_ids"], ["u4-complete-event-002"])
+        new_snapshot = self.runtime.notice_snapshot(
+            new_content, "example", fixture["today"]
+        )
+        restored_new = new_snapshot["events"][0]
+        self.assertEqual(
+            restored_new["m2"]["extraction"]["audience"],
+            fixture["corrected_candidate_extraction"]["audience"],
+        )
+        self.assertEqual(
+            restored_new["m2"]["extraction"]["materials"], ["申请表", "承诺书"]
+        )
+
+        old_for_new_user = dict(
+            existing_payload,
+            profile=fixture["newly_included_profile"],
+        )
+        old_version = self.runtime.prepare_notice(
+            new_content, old_for_new_user, NOW
+        )
+        self.assertEqual(old_version["records"] + old_version["updates"], [])
+        self.assertEqual(old_version["questions"][0]["field"], "relevance")
 
     def test_real_notice_keeps_null_time_and_original_ingested_at(self):
         payload = read_fixture("real_job_subsidy.json")

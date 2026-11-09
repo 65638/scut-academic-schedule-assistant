@@ -1,0 +1,88 @@
+{
+  "original_source": {
+    "id": "u4-complete-notice-001",
+    "type": "notice",
+    "title": "示例材料申报通知",
+    "mode": "example",
+    "text": "面向大学城校区A学院2023级本科生。请于2026年11月25日17:00前提交申请表，办理地点为A101。",
+    "file_name": "u4_d2_d3_full_correction.json#original_source"
+  },
+  "correction": {
+    "id": "u4-complete-notice-002",
+    "type": "notice",
+    "title": "示例材料申报通知更正",
+    "mode": "example",
+    "text": "更正内容：截止时间由2026年11月25日17:00调整为2026年11月25日18:30；适用对象新增大学城校区A学院2022级本科生为适用对象；所需材料由申请表调整为申请表、承诺书；办理地点由A101改为B202。现面向大学城校区A学院2023级、2022级本科生。请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202。",
+    "file_name": "u4_d2_d3_full_correction.json#correction",
+    "corrects": "u4-complete-notice-001"
+  },
+  "second_correction": {
+    "id": "u4-complete-notice-003",
+    "type": "notice",
+    "title": "示例材料申报通知第二次更正",
+    "mode": "example",
+    "text": "更正内容：适用对象新增大学城校区A学院2021级本科生为适用对象。现面向大学城校区A学院2023级、2022级、2021级本科生。其他事项不变。",
+    "file_name": "u4_d2_d3_full_correction.json#second_correction",
+    "corrects": "u4-complete-notice-002"
+  },
+  "target_event_id": "u4-complete-event-001",
+  "today": "2026-11-16",
+  "existing_profile": {
+    "campus": "大学城校区",
+    "college": "A学院",
+    "grade": "2023级",
+    "education_level": "undergraduate"
+  },
+  "newly_included_profile": {
+    "campus": "大学城校区",
+    "college": "A学院",
+    "grade": "2022级",
+    "education_level": "undergraduate"
+  },
+  "corrected_candidate_extraction": {
+    "audience": "大学城校区A学院2023级、2022级本科生",
+    "action": "提交申请表、承诺书",
+    "date": "2026-11-25",
+    "time": "18:30",
+    "materials": [
+      "申请表",
+      "承诺书"
+    ],
+    "entry": null,
+    "entry_url": null,
+    "location": "B202",
+    "relevance": "明确相关",
+    "basis": "面向大学城校区A学院2023级、2022级本科生。",
+    "missing_profile_question": null,
+    "source_excerpt": "请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202"
+  },
+  "expected_changes": {
+    "start_time": {
+      "before": "17:00",
+      "after": "18:30"
+    },
+    "audience": {
+      "before": "大学城校区A学院2023级本科生",
+      "after": "大学城校区A学院2023级、2022级本科生"
+    },
+    "materials": {
+      "before": [
+        "申请表"
+      ],
+      "after": [
+        "申请表",
+        "承诺书"
+      ]
+    },
+    "location": {
+      "before": "A101",
+      "after": "B202"
+    }
+  },
+  "expected_second_changes": {
+    "audience": {
+      "before": "大学城校区A学院2023级、2022级本科生",
+      "after": "大学城校区A学院2023级、2022级、2021级本科生"
+    }
+  }
+}

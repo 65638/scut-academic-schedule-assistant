@@ -458,7 +458,13 @@ def _constraints(audience: Optional[str]) -> Dict[str, List[str]]:
 
     colleges: List[str] = []
     if "不限学院" not in audience and "各学院" not in audience and "全校" not in audience:
-        colleges = sorted(set(match.group("value") for match in COLLEGE_PATTERN.finditer(audience)))
+        colleges = sorted(
+            set(
+                match.group("value")
+                for match in COLLEGE_PATTERN.finditer(audience)
+                if match.group("value") != "部分学院"
+            )
+        )
 
     majors: List[str] = []
     if "不限专业" not in audience and "各专业" not in audience:
@@ -542,6 +548,23 @@ def assess_relevance(
                 "basis": basis,
                 "missing_profile_question": None,
             }
+
+    if "部分学院" in audience and not values["college"]:
+        college = profile.get("college")
+        membership_subject = college or "你的学院"
+        membership_question = (
+            f"确认{membership_subject}是否在通知所称部分学院名单中。"
+        )
+        if missing_labels:
+            labels = "、".join(dict.fromkeys(missing_labels))
+            question = f"请确认你的{labels}，并{membership_question}"
+        else:
+            question = f"请{membership_question}"
+        return {
+            "relevance": "可能相关",
+            "basis": basis,
+            "missing_profile_question": question,
+        }
 
     if missing_labels:
         labels = "、".join(dict.fromkeys(missing_labels))
@@ -744,7 +767,7 @@ def compare_notice_versions(
         r"(?:适用对象|参加对象|参加资格|申报对象)",
         correction_text,
     )
-    if added_audience:
+    if added_audience and not corrected_audience:
         added_value = added_audience.group("audience").strip()
         changes["audience"] = {
             "before": original_audience,

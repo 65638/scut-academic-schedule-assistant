@@ -1,0 +1,50 @@
+{
+  "profile": {
+    "campus": "大学城校区",
+    "college": "A学院",
+    "grade": "2023级",
+    "education_level": "undergraduate"
+  },
+  "cases": [
+    {
+      "name": "2024级限定",
+      "audience": "大学城校区A学院2024级本科生",
+      "basis": "面向大学城校区A学院2024级本科生。",
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院2024级本科生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "全体本科生",
+      "audience": "大学城校区全体本科生",
+      "basis": "面向大学城校区全体本科生。",
+      "expected": {
+        "relevance": "明确相关",
+        "basis": "面向大学城校区全体本科生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "A学院研究生",
+      "audience": "大学城校区A学院研究生",
+      "basis": "面向大学城校区A学院研究生。",
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院研究生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "部分学院名单未提供",
+      "audience": "大学城校区部分学院2023级本科生",
+      "basis": "面向大学城校区部分学院2023级本科生。",
+      "expected": {
+        "relevance": "可能相关",
+        "basis": "面向大学城校区部分学院2023级本科生。",
+        "missing_profile_question": "请确认A学院是否在通知所称部分学院名单中。"
+      }
+    }
+  ]
+}

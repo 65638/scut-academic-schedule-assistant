@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "purpose": "C 组给 B 组的日期、周次、节次和状态流转独立预期",
+  "prepared_from": {
+    "b_branch": "origin/b/d2-d3",
+    "b_commit": "c5a61f9be3583a65725f89d3685fe4832cc5120d",
+    "b_execution_status": "未重跑 B 测试；原样案例只与该提交中已登记的输入和输出比较",
+    "independent_case_status": "标为 independent_expectation 的案例是 C 给出的验收输入与约束，不声称为 B 已运行结果"
+  },
+  "sources": {
+    "calendar": {
+      "file": "knowledge/official/scut_academic_calendar_2026_2027_1.md",
+      "publisher": "华南理工大学本科生院",
+      "published_on": "2026-05-22",
+      "ingested_at": "2026-11-09T00:32:22+08:00",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/article/download.do?id=eec18a7b9dfc61df019e4d781cce0095",
+      "scope": "全校"
+    },
+    "schedule": {
+      "file": "knowledge/official/scut_university_town_schedule.md",
+      "publisher": "华南理工大学本科生院",
+      "published_on": null,
+      "ingested_at": "2026-11-09T00:32:22+08:00",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/category/index.do?id=f25701314e913361014e91450b510010",
+      "scope": "大学城校区和国际校区"
+    }
+  },
+  "official_term_expectations": {
+    "term_start": "2026-08-31",
+    "term_end": "2027-01-17",
+    "teaching_week_count": 18,
+    "week_checks": [
+      {
+        "date": "2026-11-17",
+        "weekday": "周二",
+        "teaching_week": 12,
+        "parity": "双周"
+      },
+      {
+        "date": "2026-11-24",
+        "weekday": "周二",
+        "teaching_week": 13,
+        "parity": "单周"
+      }
+    ],
+    "period_5_to_6": {
+      "start_time": "14:00",
+      "end_time": "15:35",
+      "scope": "大学城校区和国际校区"
+    }
+  },
+  "time_range_boundary": {
+    "official_csv_course": {
+      "start_time": "14:00",
+      "end_time": "15:35",
+      "basis": "大学城校区第 5 至 6 节官方作息"
+    },
+    "d_shared_synthetic_course": {
+      "start_time": "14:00",
+      "end_time": "15:40",
+      "basis": "docs/协作/联调样例.json 中的合成冲突样例"
+    },
+    "rule": "两个区间分别验收，禁止互相改写"
+  },
+  "cases": [
+    {
+      "id": "timetable_weekly_weeks_12_13",
+      "status": "checked_in_b_input_and_output",
+      "input_source": "modules/m1/examples/timetable.csv and term-config.json",
+      "input": {
+        "course": "示例数据分析课",
+        "weekday": "周二",
+        "first_period": 5,
+        "last_period": 6,
+        "week_range": "12-13",
+        "parity": "每周"
+      },
+      "expected_occurrences": [
+        {
+          "date": "2026-11-17",
+          "start_time": "14:00",
+          "end_time": "15:35"
+        },
+        {
+          "date": "2026-11-24",
+          "start_time": "14:00",
+          "end_time": "15:35"
+        }
+      ]
+    },
+    {
+      "id": "timetable_even_weeks_12_13",
+      "status": "independent_expectation",
+      "input_basis": "沿用 B 原样课表行，只把单双周改为双周",
+      "expected_dates": [
+        "2026-11-17"
+      ],
+      "expected_time": {
+        "start_time": "14:00",
+        "end_time": "15:35"
+      }
+    },
+    {
+      "id": "timetable_odd_weeks_12_13",
+      "status": "independent_expectation",
+      "input_basis": "沿用 B 原样课表行，只把单双周改为单周",
+      "expected_dates": [
+        "2026-11-24"
+      ],
+      "expected_time": {
+        "start_time": "14:00",
+        "end_time": "15:35"
+      }
+    },
+    {
+      "id": "relative_date_cross_month",
+      "status": "checked_in_b_input_and_output",
+      "input_source": "modules/m1/examples/parse-output.json another_sent_on.input",
+      "input": {
+        "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+        "sent_on": "2026-11-30"
+      },
+      "expected": [
+        {
+          "source_excerpt": "明天19:00在A201开班会",
+          "date": "2026-12-01",
+          "start_time": "19:00"
+        },
+        {
+          "source_excerpt": "本周五18:00前交信息表",
+          "date": "2026-12-04",
+          "start_time": "18:00"
+        }
+      ]
+    },
+    {
+      "id": "relative_date_missing_sent_on",
+      "status": "checked_in_b_input_and_output",
+      "input_source": "modules/m1/examples/parse-output.json missing_sent_on.input",
+      "input": {
+        "text": "明天19:00在A201开班会",
+        "sent_on": null,
+        "today": "2026-11-16"
+      },
+      "expected_constraints": {
+        "date": null,
+        "start_time": "19:00",
+        "pending_fields": [
+          "date"
+        ],
+        "question_field": "sent_on",
+        "rule": "不得用 today 代替原发送日"
+      }
+    },
+    {
+      "id": "date_without_time",
+      "status": "independent_expectation",
+      "input_source": "本批任务卡要求；B 当前登记样例没有只给日期的原样输入",
+      "independent_input": {
+        "text": "2026年11月20日前交数据分析作业PDF",
+        "sent_on": "2026-11-16",
+        "mode": "example"
+      },
+      "expected_constraints": {
+        "date": "2026-11-20",
+        "start_time": null,
+        "end_time": null,
+        "pending_fields": [],
+        "conflict_rule": "只给日期没有时刻，不判定时间重叠"
+      }
+    },
+    {
+      "id": "single_occurrence_reschedule",
+      "status": "checked_in_b_input_and_output",
+      "input_source": "modules/m1/examples/d2-d3-workflow.json reschedule",
+      "target_before": {
+        "date": "2026-11-17",
+        "start_time": "14:00",
+        "end_time": "15:35",
+        "location": "大学城校区 A101"
+      },
+      "expected_target_after": {
+        "date": "2026-11-18",
+        "start_time": "14:00",
+        "end_time": "15:35",
+        "location": "大学城校区 B202",
+        "same_event_id": true
+      },
+      "expected_untouched_occurrence": {
+        "date": "2026-11-24",
+        "start_time": "14:00",
+        "end_time": "15:35",
+        "location": "大学城校区 A101"
+      },
+      "replay_rule": "重传原课表不得恢复 11 月 17 日的旧日期或旧地点"
+    },
+    {
+      "id": "cancelled_course",
+      "status": "mixed_evidence",
+      "input_source": "modules/m1/examples/d2-d3-workflow.json cancel",
+      "checked_in_b_output": {
+        "target_date_after_reschedule": "2026-11-18",
+        "status": "cancelled",
+        "same_event_id": true,
+        "replay_preserves_status": true
+      },
+      "independent_expectation": {
+        "source_preserved": true,
+        "history_preserved": true,
+        "evidence_required": "由 A 的事项快照或平台回读证明来源与取消历史可恢复"
+      },
+      "downstream_consumer_expectation": {
+        "rule": "不进入冲突占用或后续提醒，历史查询仍可读取",
+        "evidence_required": "由 D 或 A 的实际冲突、提醒和历史查询结果证明"
+      }
+    },
+    {
+      "id": "completed_assignment",
+      "status": "mixed_evidence",
+      "input_source": "modules/m1/examples/d2-d3-workflow.json assignment, postpone and complete",
+      "checked_in_b_output": {
+        "original_deadline": "2026-11-20T20:00",
+        "deadline_after_postpone": "2026-11-22T21:00",
+        "status": "completed",
+        "same_event_id": true,
+        "submission_requirements": [
+          "PDF"
+        ],
+        "replay_preserves_deadline_and_status": true
+      },
+      "independent_expectation": {
+        "history_kinds": [
+          "postpone",
+          "complete"
+        ],
+        "history_preserved": true,
+        "evidence_required": "由 A 的事项快照或平台回读证明延期与完成历史可恢复"
+      },
+      "downstream_consumer_expectation": {
+        "rule": "不进入临期提醒，历史查询仍可读取",
+        "evidence_required": "由 D 或 A 的实际提醒和历史查询结果证明"
+      }
+    }
+  ]
+}
