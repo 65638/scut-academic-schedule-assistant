@@ -6,15 +6,24 @@
 
 团队成员先看 [协作与交接入口](docs/协作/00-从这里开始.md)。其中有你、A、B、C、D 的工作流程、首批任务、共同样例和交接格式。
 
-A 的首批平台代码已推送到 `a/platform-v0`，提交 `5c55bb1`，待主管审查；主分支中的任务包可供 B、C、D 先行开发各自模块。
-
-项目处于首次平台接入阶段。A 负责最小流程：载入示例、保存事项、查询本周安排、重新进入后恢复，并验证独立账号访问与隔离。
+A 的平台接入位于 `a/platform-v0`。当前 0.2.0 已接入 B 组审核通过的消息拆项、地点更正和重传去重，并支持载入示例、保存、查询本周安排和跨任务恢复；独立账号访问与隔离仍待实际验收。当前能力和验证步骤以 [A 分支 README](https://github.com/65638/scut-academic-schedule-assistant/blob/a/platform-v0/README.md) 为准。
 
 - [启动方案](docs/启动方案.md)：已确认的范围、阶段和审查标准。
 - [A 首批任务](docs/A首批任务.md)：当前实施任务与预期结果。
 - [协作约定](AGENTS.md)：开发和交接要求。
 
-业务代码和平台配置尚未接入，当前没有可执行的应用或测试命令。A 在首次跑通后补充实际运行方法。
+C 组 M2 资料与判断模块已放在 `modules/m2/`，包含通知抽取、相关性判断、更正对比、公开栏目刷新、模型提示词、公开资料和回归测试。A 的平台配置仍在独立分支接入。
+
+运行 C 组共同样例：
+
+```sh
+python -m modules.m2.cli extract --input modules/m2/fixtures/handoff_c.json
+python -m modules.m2.cli compare --input modules/m2/fixtures/handoff_c_correction.json
+python -m modules.m2.cli refresh --input modules/m2/fixtures/refresh_sources.json
+python -m unittest discover -s modules/m2/tests -v
+```
+
+公开资料和来源台账见 `knowledge/`，C 组交接说明见 `modules/m2/HANDOFF.md`。
 
 ## 使用边界
 

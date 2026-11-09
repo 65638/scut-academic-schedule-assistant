@@ -1,0 +1,48 @@
+{
+  "previous_sources": [
+    {
+      "id": "u7-notice-001",
+      "text": "原通知截止日期为2026年11月25日。"
+    },
+    {
+      "id": "u7-notice-keep",
+      "text": "内容没有变化。"
+    }
+  ],
+  "current_sources": [
+    {
+      "id": "u7-notice-keep",
+      "text": "内容没有变化。"
+    },
+    {
+      "id": "u7-notice-002",
+      "text": "截止日期延长至2026年11月27日。",
+      "corrects": "u7-notice-001"
+    },
+    {
+      "id": "u7-notice-003",
+      "text": "新增通知。"
+    }
+  ],
+  "expected": {
+    "added": [
+      {
+        "id": "u7-notice-003",
+        "text": "新增通知。"
+      }
+    ],
+    "corrected": [
+      {
+        "before": {
+          "id": "u7-notice-001",
+          "text": "原通知截止日期为2026年11月25日。"
+        },
+        "after": {
+          "id": "u7-notice-002",
+          "text": "截止日期延长至2026年11月27日。",
+          "corrects": "u7-notice-001"
+        }
+      }
+    ]
+  }
+}

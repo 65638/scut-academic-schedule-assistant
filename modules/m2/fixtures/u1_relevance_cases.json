@@ -1,0 +1,64 @@
+{
+  "cases": [
+    {
+      "name": "年级不符",
+      "audience": "A学院2022级本科生",
+      "basis": "面向A学院2022级本科生。",
+      "profile": {
+        "college": "A学院",
+        "grade": "2023级",
+        "education_level": "undergraduate"
+      },
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向A学院2022级本科生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "全部条件匹配",
+      "audience": "A学院2023级本科生",
+      "basis": "面向A学院2023级本科生。",
+      "profile": {
+        "college": "A学院",
+        "grade": "2023级",
+        "education_level": "undergraduate"
+      },
+      "expected": {
+        "relevance": "明确相关",
+        "basis": "面向A学院2023级本科生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "学院不符",
+      "audience": "B学院2023级本科生",
+      "basis": "面向B学院2023级本科生。",
+      "profile": {
+        "college": "A学院",
+        "grade": "2023级",
+        "education_level": "undergraduate"
+      },
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向B学院2023级本科生。",
+        "missing_profile_question": null
+      }
+    },
+    {
+      "name": "缺少学院画像",
+      "audience": "A学院2023级本科生",
+      "basis": "面向A学院2023级本科生。",
+      "profile": {
+        "college": null,
+        "grade": "2023级",
+        "education_level": "undergraduate"
+      },
+      "expected": {
+        "relevance": "可能相关",
+        "basis": "面向A学院2023级本科生。",
+        "missing_profile_question": "请确认你的学院。"
+      }
+    }
+  ]
+}
