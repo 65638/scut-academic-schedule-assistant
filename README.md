@@ -8,6 +8,8 @@
 
 A 的平台接入位于 `a/platform-v0`。0.2.0 随包接入 B 已审核的消息解析与地点更正模块（`0d509c9`）；实际验收见 [M1 接入记录](docs/M1接入.md)。
 
+本分支提供 **0.3.0 源包接入方案**：在 A 的存储和消息入口上接入 C 的通知适用性确认、保存计划、通知更正和来源恢复。运行方式与验证证据见 [M2 接入记录](docs/M2接入.md)。下方分享链接仍是已发布的 0.2.0，不代表 0.3.0 已安装或平台验收通过。
+
 当前支持载入示例、消息拆项、保存、地点更正、重传去重、本周查询和跨任务恢复。混合消息中的未识别片段保留为待核对问题，缺发送日可原位补充；独立账号隔离仍需实际验收。
 
 - [启动方案](docs/启动方案.md)：已确认的范围、阶段和审查标准。
@@ -58,7 +60,7 @@ python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py prepare -
 python platform/scut-schedule/skills/scut-schedule/scripts/schedule.py week --csv work/demo/schedule.csv --mode example --today 2026-11-16
 ```
 
-这些命令验证本地计算；`prepare` 不会保存到云端。消息入口为随包 `runtime.py message/location/snapshot`，具体参数见 [专家说明](platform/scut-schedule/README.md)。真实存储调用由 WorkBuddy 原生 library 执行。来源和事项在一行中关联，完整来源、问题及更正历史存于既有 `source` JSON 列，无需迁移表结构。
+这些命令验证本地计算；`prepare` 不会保存到云端。消息入口为随包 `runtime.py message/location/snapshot`，通知入口为 `notice_runtime.py notice/correction/snapshot`，具体参数见 [专家说明](platform/scut-schedule/README.md)。真实存储调用由 WorkBuddy 原生 library 执行。来源和事项在一行中关联，完整来源、问题及更正历史存于既有 `source` JSON 列，无需迁移表结构。
 
 ## 第二账号验收
 
@@ -78,4 +80,4 @@ B 的消息解析可在仓库根目录运行 `python -X utf8 -m modules.m1.demo`
 
 产品面向各专业；通知本身的学院、专业、年级限制仍按原文处理。GitHub 仓库用于协作和版本管理，评委最终从 WorkBuddy 入口体验。
 
-M0 先支持单人顺序操作；平台表格未提供业务编号唯一约束，暂不承诺多会话并发写入的去重。通知判断、课表解析、冲突分析和定时提醒尚未接入。
+M0 先支持单人顺序操作；平台表格未提供业务编号唯一约束，暂不承诺多会话并发写入的去重。0.3.0 通知接入仍需 A 安装并完成云端回读实测；课表解析、冲突分析和定时提醒不在本批 C 组交付中。
