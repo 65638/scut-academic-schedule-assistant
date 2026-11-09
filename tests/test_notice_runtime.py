@@ -337,6 +337,64 @@ class NoticeRuntimeTests(unittest.TestCase):
         self.assertEqual(source_data["m2"]["extraction"]["basis"], fixture["correction"]["text"])
         self.assertNotIn("audience", row)
 
+    def test_combined_correction_updates_old_audience_or_adds_new_audience(self):
+        fixture = read_fixture("u4_audience_correction.json")
+        original = dict(fixture["original_source"],
+                        text=fixture["original_source"]["text"] + "办理地点为A101。")
+        correction = dict(
+            fixture["correction"],
+            text="截止日期由2026年11月25日17:00调整为2026年11月27日18:00，新增A学院2022级本科生为适用对象。"
+                 "所需材料由申请表调整为申请表、证明材料；办理地点由A101改为B202。",
+        )
+        profile = {"college": "A学院", "grade": "2023级", "education_level": "undergraduate"}
+        payload = {
+            "original_source": original, "correction": correction,
+            "mode": "example", "today": "2026-11-16", "profile": profile,
+            "save_requested": True, "applicability_confirmed": True,
+        }
+        original_input = {"source": original, "profile": profile, "today": payload["today"], "save_requested": True}
+        content, _ = self.save_notice(original_input)
+        target_id = fixture["target_event_id"]
+        old_plan = self.runtime.prepare_correction(content, dict(payload, target_event_id=target_id), NOW)
+        self.assertEqual(old_plan["records"], [])
+        self.assertEqual([update["event_id"] for update in old_plan["updates"]], [target_id])
+        self.assertEqual(old_plan["proposal"]["changes"]["date"], {"before": "2026-11-25", "after": "2026-11-27"})
+
+        new_profile = dict(profile, grade="2022级")
+        self.assertEqual(self.runtime.prepare_notice("", dict(original_input, profile=new_profile), NOW)["records"], [])
+        new_payload = dict(payload, profile=new_profile, newly_applicable=True)
+        pending = self.runtime.prepare_correction("", dict(new_payload, applicability_confirmed=False), NOW)
+        self.assertEqual(pending["records"] + pending["updates"], [])
+        self.assertEqual(pending["questions"][0]["field"], "applicability_confirmed")
+        pending_save = self.runtime.prepare_correction("", dict(new_payload, save_requested=False), NOW)
+        self.assertEqual(pending_save["records"] + pending_save["updates"], [])
+        self.assertEqual(pending_save["questions"][0]["field"], "save_requested")
+        existing = self.runtime.prepare_correction(content, new_payload, NOW)
+        self.assertEqual(existing["records"] + existing["updates"], [])
+        self.assertEqual(existing["questions"][0]["field"], "target_event_id")
+        new_plan = self.runtime.prepare_correction("", new_payload, NOW)
+        self.assertEqual(new_plan["updates"], [])
+        self.assertEqual(len(new_plan["records"]), 1)
+
+        for prior, plan, replay_payload in (
+            (content, old_plan, dict(payload, target_event_id=target_id)),
+            ("", new_plan, new_payload),
+        ):
+            with self.subTest(newly_applicable=not prior):
+                changed = apply_plan(prior, plan)
+                snapshot = self.runtime.notice_snapshot(changed, "example", payload["today"])
+                event, = snapshot["events"]
+                self.assertEqual((event["id"], event["source_id"]), (target_id, original["id"]))
+                self.assertEqual((event["date"], event["start_time"], event["location"]),
+                                 ("2026-11-27", "18:00", "B202"))
+                self.assertEqual(event["m2"]["extraction"]["materials"], ["申请表", "证明材料"])
+                self.assertEqual(event["history"][0]["source"], dict(correction, ingested_at=NOW))
+                replay = self.runtime.prepare_correction(changed, replay_payload, NOW)
+                self.assertEqual(replay["records"] + replay["updates"], [])
+                self.assertEqual(replay["skipped_event_ids"], [target_id])
+                original_replay = self.runtime.prepare_notice(changed, original_input, NOW)
+                self.assertEqual(original_replay["records"] + original_replay["updates"], [])
+
     def test_real_notice_keeps_null_time_and_original_ingested_at(self):
         payload = read_fixture("real_job_subsidy.json")
         payload.update(save_requested=True, applicability_confirmed=True)

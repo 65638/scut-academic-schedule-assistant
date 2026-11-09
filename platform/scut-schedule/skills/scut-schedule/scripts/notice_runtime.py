@@ -223,12 +223,12 @@ def _correction_gate(source, changes, payload):
     return [], relevance
 
 
-def _correction_update(row, source, correction, changes, payload, now, audience_relevance):
-    properties = {}
+def _corrected_values(event_id, source, correction, changes, payload, now, audience_relevance):
+    values = {}
     extraction = dict(source.get("m2", {}).get("extraction", {}))
     for field, change in changes.items():
         if field in EVENT_FIELDS:
-            properties[field] = change["after"] or ""
+            values[field] = change["after"]
             if field == "date":
                 extraction["date"] = change["after"]
             elif field == "start_time":
@@ -251,7 +251,7 @@ def _correction_update(row, source, correction, changes, payload, now, audience_
     correction_source.setdefault("ingested_at", now)
     history_entry = {
         "kind": "notice_correction",
-        "event_id": row["id"],
+        "event_id": event_id,
         "changes": changes,
         "source": correction_source,
         "applied_at": now,
@@ -272,11 +272,69 @@ def _correction_update(row, source, correction, changes, payload, now, audience_
         chain.append(correction["id"])
     m2["source_chain"] = chain
     source["questions"] = []
-    properties["source"] = json.dumps(source, ensure_ascii=False)
+    return values
+
+
+def _correction_update(row, source, correction, changes, payload, now, audience_relevance):
+    values = _corrected_values(row["id"], source, correction, changes, payload, now, audience_relevance)
+    values["source"] = json.dumps(source, ensure_ascii=False)
     return {
         "event_id": row["id"],
-        "properties": {key: {"text": value} for key, value in properties.items()},
+        "properties": {key: {"text": value or ""} for key, value in values.items()},
     }
+
+
+def _check_before_values(current, source, changes):
+    for field, change in changes.items():
+        if field not in EVENT_FIELDS + METADATA_FIELDS:
+            raise ValueError(f"暂不支持原位应用更正字段 {field}")
+        if _current_value(current, source, field) != change["before"]:
+            raise ValueError(f"更正字段 {field} 的 before 与当前事项不一致")
+
+
+def _prepare_newly_applicable(content, payload, original, correction, now):
+    today = payload.get("today")
+    if not today or original["id"] == correction["id"]:
+        raise ValueError("新增更正事项需要 today 和独立的更正来源编号")
+    extraction = _validated_extraction(payload, original)
+    bundle = build_bundle(
+        original, extraction, today,
+        payload.get("timezone", "Asia/Shanghai"), payload.get("campus", "大学城校区"),
+    )
+    event = bundle["events"][0]
+    event_id = event["id"]
+    result = _result(skipped_event_ids=[])
+    if _replayed_correction(content, event_id, correction):
+        result["skipped_event_ids"] = [event_id]
+        return result
+    if _check_notice_collision(content, original, event, bundle["mode"]):
+        result["questions"] = [_question("target_event_id", "该通知已有事项，请选定原事项后更新。")]
+        return result
+
+    proposal = compare_notice_versions(original, correction, event_id)
+    changes = proposal["changes"]
+    if extraction["relevance"] != "不适用" or "audience" not in changes:
+        result["questions"] = [_question("relevance", "请核对画像是否由原通知不适用变为更正后适用。")]
+        return result
+
+    source = _notice_source(original, extraction, payload)
+    _check_before_values(event, source, changes)
+    result["proposal"] = proposal
+    questions, relevance = _correction_gate(source, changes, payload)
+    if questions:
+        result["questions"] = questions
+        return result
+    if not _flag(payload, "save_requested"):
+        result["questions"] = [_question("save_requested", "更正后的通知适用于你，是否新增到个人日程？")]
+        return result
+
+    event.update(_corrected_values(event_id, source, correction, changes, payload, now, relevance))
+    if event["date"]:
+        event["pending_fields"] = [field for field in event["pending_fields"] if field != "date"]
+    bundle["sources"] = [source]
+    additions = prepare_import(content, bundle, now)
+    result.update(bundle=bundle, records=additions["records"], skipped_event_ids=additions["skipped"])
+    return result
 
 
 def prepare_correction(content, payload, now):
@@ -289,6 +347,11 @@ def prepare_correction(content, payload, now):
         raise ValueError("correction 需要明确 example 或 real 模式")
     if correction.get("mode") != mode or original.get("mode") != mode:
         raise ValueError("更正、原来源和目标事项必须使用同一模式")
+    if _flag(payload, "newly_applicable"):
+        if target_id:
+            raise ValueError("已有目标事项时请走原位更正")
+        return _prepare_newly_applicable(content, payload, original, correction, now)
+
     result = _result(skipped_event_ids=[])
     if not target_id:
         result["questions"] = [_question("target_event_id", "请选择要更正的通知事项。")]
@@ -322,12 +385,7 @@ def prepare_correction(content, payload, now):
         )]
         return result
     changes = proposal["changes"]
-    for field, change in changes.items():
-        if field not in EVENT_FIELDS + METADATA_FIELDS:
-            raise ValueError(f"暂不支持原位应用更正字段 {field}")
-        current = _current_value(target, stored, field)
-        if current != change["before"]:
-            raise ValueError(f"更正字段 {field} 的 before 与当前事项不一致")
+    _check_before_values(target, stored, changes)
 
     result["proposal"] = proposal
     questions, audience_relevance = _correction_gate(stored, changes, payload)

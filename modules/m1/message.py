@@ -14,11 +14,12 @@ CAMPUS = "大学城校区"
 RELATIVE_DAYS = {"今天": 0, "明天": 1, "后天": 2}
 WEEKDAYS = "一二三四五六日"
 DATE_AND_TIME = re.compile(
-    r"(?P<day>[0-9]{4}-[0-9]{2}-[0-9]{2}|今天|明天|后天|本周[一二三四五六日天])"
+    r"(?P<day>[0-9]{4}-[0-9]{2}-[0-9]{2}|[0-9]{4}年[0-9]{1,2}月[0-9]{1,2}日|今天|明天|后天|本周[一二三四五六日天])"
     r"\s*(?:(?P<hour>[0-9]{1,2}):(?P<minute>[0-9]{2})\s*)?(?P<action>.+)"
 )
 ACTIVITY = re.compile(r"在(?P<location>[A-Za-z][0-9]+)开(?P<title>.+)")
 SUBMISSION = re.compile(r"前(?:提交|交)(?P<title>.+)")
+PDF_SUFFIX = re.compile(r"\s*PDF$", re.IGNORECASE)
 ATTENDANCE_REMINDER = re.compile(r"(?:请(?:大家|各位)?\s*)?准时(?:参加|到场|出席)[！!]*")
 
 
@@ -43,6 +44,8 @@ def _source(message, mode):
 
 def _resolve_date(expression, sent_on):
     if expression[0].isdigit():
+        if "年" in expression:
+            return date(*map(int, re.findall(r"[0-9]+", expression))).isoformat()
         return date.fromisoformat(expression).isoformat()
     if sent_on is None:
         return None
@@ -75,8 +78,11 @@ def _parse_event(excerpt, source, sent_on, position):
     start_time = None
     if match["hour"] is not None:
         start_time = time(int(match["hour"]), int(match["minute"])).strftime("%H:%M")
+    event_id = _stable_id("event", source["mode"], source["id"], position, excerpt)
+    if submission and PDF_SUFFIX.search(submission["title"]):
+        source.setdefault("submission_requirements", {})[event_id] = ["PDF"]
     return {
-        "id": _stable_id("event", source["mode"], source["id"], position, excerpt),
+        "id": event_id,
         "type": event_type,
         "title": title,
         "date": day,
