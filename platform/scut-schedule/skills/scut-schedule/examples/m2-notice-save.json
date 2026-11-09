@@ -1,0 +1,19 @@
+{
+  "source": {
+    "id": "handoff-c-notice-001",
+    "type": "notice",
+    "title": "示例报名通知",
+    "mode": "example",
+    "text": "【示例通知】面向大学城校区全体本科生，不限专业。请于2026年11月25日17:00前提交报名表PDF，办理入口为本示例附件中的报名表。",
+    "publisher": "示例发布单位（非真实学校机构）",
+    "published_on": "2026-11-16",
+    "file_name": "m2-notice-save.json"
+  },
+  "profile": {
+    "campus": "大学城校区",
+    "education_level": "undergraduate"
+  },
+  "today": "2026-11-16",
+  "save_requested": true,
+  "applicability_confirmed": false
+}

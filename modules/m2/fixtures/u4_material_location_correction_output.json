@@ -1,0 +1,32 @@
+{
+  "update": {
+    "target_event_id": "u4-material-event-001",
+    "changes": {
+      "materials": {
+        "before": [
+          "身份证",
+          "申请表"
+        ],
+        "after": [
+          "身份证",
+          "证明材料"
+        ]
+      },
+      "location": {
+        "before": "A101",
+        "after": "B202"
+      }
+    },
+    "source_id": "u4-material-notice-002",
+    "source_excerpt": "所需材料由身份证、申请表调整为身份证、证明材料；办理地点由A101改为B202。"
+  },
+  "source": {
+    "id": "u4-material-notice-002",
+    "type": "notice",
+    "title": "示例材料通知更正",
+    "mode": "example",
+    "text": "所需材料由身份证、申请表调整为身份证、证明材料；办理地点由A101改为B202。",
+    "file_name": "u4_material_location_correction.json#correction",
+    "corrects": "u4-material-notice-001"
+  }
+}

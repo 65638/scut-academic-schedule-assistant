@@ -1,0 +1,24 @@
+{
+  "original_source": {
+    "id": "handoff-c-notice-001",
+    "type": "notice",
+    "title": "示例报名通知",
+    "mode": "example",
+    "text": "【示例通知】面向大学城校区全体本科生，不限专业。请于2026年11月25日17:00前提交报名表PDF，办理入口为本示例附件中的报名表。",
+    "publisher": "示例发布单位（非真实学校机构）",
+    "published_on": "2026-11-16",
+    "file_name": "联调样例.json#C.input"
+  },
+  "correction": {
+    "id": "handoff-c-notice-002",
+    "type": "notice",
+    "title": "示例报名通知更正",
+    "mode": "example",
+    "text": "【示例更正】报名表PDF提交截止由2026年11月25日17:00延长至2026年11月27日17:00，其余内容不变。",
+    "publisher": "示例发布单位（非真实学校机构）",
+    "published_on": "2026-11-17",
+    "file_name": "联调样例.json#C.correction",
+    "corrects": "handoff-c-notice-001"
+  },
+  "target_event_id": "handoff-c-event-001"
+}

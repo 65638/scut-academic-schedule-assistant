@@ -54,7 +54,8 @@ def prepare_import(existing, bundle, imported_at):
         source = dict(sources[event["source_id"]])
         if source.get("mode", mode) != mode:
             raise ValueError("来源与事项的真实／示例标记不一致")
-        source.update(mode=mode, ingested_at=imported_at)
+        source["mode"] = mode
+        source["ingested_at"] = source.get("ingested_at") or imported_at
         row = {key: event.get(key) or "" for key in COLUMNS}
         row.update(pending_fields=json.dumps(event.get("pending_fields", []), ensure_ascii=False),
                    source=json.dumps(source, ensure_ascii=False), mode=mode,

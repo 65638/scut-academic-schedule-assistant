@@ -43,6 +43,28 @@ class ScheduleTests(unittest.TestCase):
         self.assertEqual(result["skipped"], ["demo-event-001"])
         self.assertEqual(result["csv"], changed)
 
+    def test_existing_source_ingested_at_is_preserved(self):
+        bundle = copy.deepcopy(self.demo)
+        bundle["sources"][0]["ingested_at"] = "2026-11-01T09:00:00+08:00"
+        result = self.schedule.prepare_import(
+            "", bundle, "2026-11-09T10:00:00+08:00"
+        )
+        row = next(csv.DictReader(io.StringIO(result["csv"])))
+        self.assertEqual(
+            json.loads(row["source"])["ingested_at"],
+            "2026-11-01T09:00:00+08:00",
+        )
+        bundle["events"][0]["id"] = "demo-event-null-ingested"
+        bundle["sources"][0]["ingested_at"] = None
+        null_result = self.schedule.prepare_import(
+            "", bundle, "2026-11-09T10:00:00+08:00"
+        )
+        null_row = next(csv.DictReader(io.StringIO(null_result["csv"])))
+        self.assertEqual(
+            json.loads(null_row["source"])["ingested_at"],
+            "2026-11-09T10:00:00+08:00",
+        )
+
     def test_week_uses_monday_sunday_and_separates_real_from_example(self):
         bundle = copy.deepcopy(self.demo)
         bundle["events"] = []
