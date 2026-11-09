@@ -19,7 +19,7 @@ DATE_AND_TIME = re.compile(
 )
 ACTIVITY = re.compile(r"在(?P<location>[A-Za-z][0-9]+)开(?P<title>.+)")
 SUBMISSION = re.compile(r"前(?:提交|交)(?P<title>.+)")
-PDF_SUFFIX = re.compile(r"\s*PDF$", re.IGNORECASE)
+SUBMISSION_FORMAT_SUFFIX = re.compile(r"(PDF|Word\s*文档)$", re.IGNORECASE)
 ATTENDANCE_REMINDER = re.compile(r"(?:请(?:大家|各位)?\s*)?准时(?:参加|到场|出席)[！!]*")
 
 
@@ -78,11 +78,8 @@ def _parse_event(excerpt, source, sent_on, position):
     start_time = None
     if match["hour"] is not None:
         start_time = time(int(match["hour"]), int(match["minute"])).strftime("%H:%M")
-    event_id = _stable_id("event", source["mode"], source["id"], position, excerpt)
-    if submission and PDF_SUFFIX.search(submission["title"]):
-        source.setdefault("submission_requirements", {})[event_id] = ["PDF"]
     return {
-        "id": event_id,
+        "id": _stable_id("event", source["mode"], source["id"], position, excerpt),
         "type": event_type,
         "title": title,
         "date": day,
@@ -94,6 +91,26 @@ def _parse_event(excerpt, source, sent_on, position):
         "source_id": source["id"],
         "source_excerpt": excerpt,
     }
+
+
+def _submission_requirements(events, confirmed):
+    submissions = [event for event in events if event["type"] == "submission"]
+    if not isinstance(confirmed, dict) or confirmed.keys() - {event["source_excerpt"] for event in submissions}:
+        raise ValueError("submission_requirements 应按已解析提交事项的原文片段填写")
+
+    by_event = {}
+    for event in submissions:
+        extra = confirmed.get(event["source_excerpt"], [])
+        if not isinstance(extra, list) or any(not isinstance(item, str) or not item.strip() for item in extra):
+            raise ValueError("提交要求应为非空文本组成的列表")
+        requirements = []
+        suffix = SUBMISSION_FORMAT_SUFFIX.search(event["title"])
+        if suffix:
+            requirements.append("PDF" if suffix[1].upper() == "PDF" else "Word文档")
+        requirements.extend(item.strip() for item in extra)
+        if requirements:
+            by_event[event["id"]] = list(dict.fromkeys(requirements))
+    return by_event
 
 
 def parse_message(message):
@@ -123,6 +140,10 @@ def parse_message(message):
                 })
     if not events and first_error is not None:
         raise first_error
+
+    requirements = _submission_requirements(events, message.get("submission_requirements", {}))
+    if requirements:
+        source["submission_requirements"] = requirements
 
     bundle = {
         "mode": mode,

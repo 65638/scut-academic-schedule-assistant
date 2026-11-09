@@ -74,7 +74,9 @@ A 调用 `modules.m1.timetable.parse_timetable(csv_text, config, file_name=...)`
 python -X utf8 -m modules.m1.demo workflow
 ```
 
-[输入](examples/d2-d3-workflow.json)和[实际输出](examples/d2-d3-workflow-output.json)包含作业、延期、完成、单次调课、同名候选、取消和旧输入重放。作业用 `parse_message` 生成 `submission`，截止时间放 `start_time`，`end_time` 为 `null`。句末 PDF 保存在来源的 `submission_requirements[event_id]` 中。A 及 D 从快照的 `sources` 按 `event.source_id` 查找来源，再按事项编号读取要求。M0 的 `source` JSON 列已能保存和回读这一映射。
+[输入](examples/d2-d3-workflow.json)和[实际输出](examples/d2-d3-workflow-output.json)包含作业、延期、完成、单次调课、同名候选、取消和旧输入重放。作业用 `parse_message` 生成 `submission`，截止时间放 `start_time`，`end_time` 为 `null`。自动识别句末的 PDF 和 Word文档。A 已从原文确认的其他要求可放在消息的 `submission_requirements` 中，键是提交事项的完整原文片段，值是文本列表。例如 `{"2026年11月21日20:00前交附运行截图的课程报告":["附运行截图"]}`。
+
+A 及 D 从快照的 `sources` 按 `event.source_id` 查找来源，再读取 `source.submission_requirements[event_id]`。自动识别和调用方提供的要求合并后都通过 M0 的 `source` JSON 列保存和回读。
 
 A 使用 `modules.m1.updates.propose_event_update(message, current_bundle)`。消息保留 `text`、原发送日及模式，A 把确认过的操作放入 `kind`，用 `target_event_id` 或精确的 `target_title` 定位目标，可加 `target_date` 指定当前课次日期。日期、时刻使用 `YYYY-MM-DD` 和 `HH:MM`。结果与地点更正共用补丁和候选结构。
 
@@ -84,7 +86,7 @@ A 使用 `modules.m1.updates.propose_event_update(message, current_bundle)`。�
 | `reschedule` | 单次课程的新 `date`、`start_time`、`end_time`、`location`，可只传变化字段 |
 | `cancel` / `complete` | 由模块生成 `status=cancelled` / `status=completed` |
 
-A 从当前个人表读取快照，再对原编号应用补丁。可复用 `runtime.py` 的 `_patch` 生成写入计划，保留原始来源并将补丁前后值和完整新来源追加到 `event_history`。生产编排、个人表回读和独立账号由 A/D 验收。根目录的 `test_m1_workflow.py` 用该适配和本地 CSV 验证实际往返。
+A 从当前个人表读取快照，再对原编号应用补丁。可复用 `runtime.py` 的 `_patch` 生成写入计划，保留原始来源并将补丁前后值和完整新来源追加到 `event_history`。更正重传应沿用原来源编号，或原文及原发送日。已在对应事项的 `history` 中出现的来源返回空 `changes`，A 只应用非空补丁。生产编排、个人表回读和独立账号由 A/D 验收。用 `python -X utf8 -m unittest discover -s tests -p test_m1_workflow.py -v` 验证本地往返。
 
 ## D2 + D3 联调复核
 

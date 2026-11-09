@@ -54,6 +54,10 @@ def _propose(message, current_bundle, candidates, changes, subject):
         selected = [event for event in candidates if event["id"] == target_id]
     if len(selected) == 1:
         target = selected[0]
+        result["target_event_id"] = target["id"]
+        if any(entry["source"]["id"] == source["id"] for entry in target.get("history", [])):
+            return result
+
         kind = message.get("kind")
         if kind == "postpone":
             old_date, old_time = target.get("date"), target.get("start_time")
@@ -66,7 +70,6 @@ def _propose(message, current_bundle, candidates, changes, subject):
             end = changes.get("end_time", target.get("end_time"))
             if start and end and start >= end:
                 raise ValueError("调课后的结束时刻应晚于开始时刻")
-        result["target_event_id"] = target["id"]
         result["changes"] = {field: value for field, value in changes.items() if target.get(field) != value}
         return result
 

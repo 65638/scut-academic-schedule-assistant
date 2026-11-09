@@ -4,11 +4,12 @@ import importlib
 import json
 import sys
 import unittest
+from unittest.mock import patch
 
 from modules.m1.message import parse_message
 from modules.m1.timetable import parse_timetable
-from modules.m1.updates import plan_import, propose_event_update
-from test_runtime import NOW, ROOT, SCRIPTS, apply_plan
+from modules.m1.updates import plan_import, propose_event_update, propose_location_update
+from test_runtime import MESSAGE, NOW, ROOT, SCRIPTS, apply_plan
 
 
 class M1WorkflowTests(unittest.TestCase):
@@ -26,8 +27,10 @@ class M1WorkflowTests(unittest.TestCase):
     def snapshot(self, content):
         return self.runtime.current_bundle(content, "example", "2026-11-16")
 
-    def apply_update(self, content, kind):
-        proposal = propose_event_update(self.messages[kind], self.snapshot(content))
+    def apply_update(self, content, kind, message=None):
+        proposal = propose_event_update(message or self.messages[kind], self.snapshot(content))
+        if not proposal["changes"]:
+            return content
         row = next(row for row in self.schedule.read_rows(content) if row["id"] == proposal["target_event_id"])
         patch = self.runtime._patch(row, proposal["changes"], proposal["source"], kind, NOW)
         return apply_plan(content, {"records": [], "updates": [patch]})
@@ -52,6 +55,28 @@ class M1WorkflowTests(unittest.TestCase):
         self.assertEqual(restored["sources"][0]["submission_requirements"], {event["id"]: ["PDF"]})
         self.assertEqual([h["kind"] for h in after["history"]], ["postpone", "complete"])
         self.assertEqual(after["history"][1]["source"]["text"], self.messages["complete"]["text"])
+
+    def test_word_and_confirmed_requirements_round_trip(self):
+        word = "2026年11月20日20:00前交数据分析作业Word文档"
+        report = "2026年11月21日20:00前交附运行截图的课程报告"
+        for text, confirmed, expected in (
+            (word, {}, [["Word文档"]]),
+            (f"{word}，{report}", {report: ["附运行截图"]}, [["Word文档"], ["附运行截图"]]),
+        ):
+            with self.subTest(text=text):
+                message = dict(self.messages["assignment"], text=text, submission_requirements=confirmed)
+                incoming = parse_message(message)
+                content = self.schedule.prepare_import("", incoming, NOW)["csv"]
+                restored = self.snapshot(content)
+                source, = restored["sources"]
+                self.assertEqual(source["text"], text)
+                self.assertEqual(len(restored["events"]), len(expected))
+                self.assertEqual(source["submission_requirements"],
+                                 {event["id"]: values for event, values in zip(restored["events"], expected)})
+                event = restored["events"][0]
+                self.assertEqual((event["type"], event["date"], event["start_time"], event["end_time"]),
+                                 ("submission", "2026-11-20", "20:00", None))
+                self.assertEqual(event["source_excerpt"], word)
 
     def test_only_selected_occurrence_moves_and_cancel_survives_replay(self):
         content = self.schedule.prepare_import("", self.timetable, NOW)["csv"]
@@ -80,6 +105,42 @@ class M1WorkflowTests(unittest.TestCase):
         self.assertEqual(restored["source_excerpt"], first["source_excerpt"])
         self.assertEqual(restored["history"][0]["source"]["text"], self.messages["reschedule"]["text"])
         self.assertEqual(untouched, second)
+
+    def test_applied_course_correction_does_not_revert_a_later_location(self):
+        content = self.schedule.prepare_import("", self.timetable, NOW)["csv"]
+        first, second = self.snapshot(content)["events"]
+        old = {"kind": "reschedule", "text": "这次课改到B202", "sent_on": "2026-11-16",
+               "target_event_id": first["id"], "changes": {"location": "B202"}}
+        new = dict(old, text="这次课改到C303", sent_on="2026-11-17", changes={"location": "C303"})
+        content = self.apply_update(content, "reschedule", old)
+        content = self.apply_update(content, "reschedule", new)
+        current = self.snapshot(content)
+        restored = current["events"][0]
+        self.assertEqual(restored["location"], "C303")
+        self.assertEqual([entry["source"]["sent_on"] for entry in restored["history"]],
+                         ["2026-11-16", "2026-11-17"])
+        replay = propose_event_update(old, current)
+        self.assertEqual((replay["target_event_id"], replay["changes"]), (first["id"], {}))
+        self.assertEqual(self.snapshot(self.apply_update(content, "reschedule", old)), current)
+        other = propose_event_update(dict(old, target_event_id=second["id"]), current)
+        self.assertEqual(other["changes"], {"location": "B202"})
+
+    def test_existing_location_update_path_skips_applied_source(self):
+        content = apply_plan("", self.runtime.prepare_message("", MESSAGE, NOW))
+        target_id = self.snapshot(content)["events"][0]["id"]
+        old = {"text": "班会地点改到B202", "sent_on": "2026-11-16",
+               "mode": "example", "target_event_id": target_id}
+        new = dict(old, text="班会地点改到C303", sent_on="2026-11-17")
+        # 使用 B 的新模块复核 A 现有适配，随包同步仍由 A 处理。
+        with patch.object(self.runtime, "propose_location_update", propose_location_update):
+            for message in (old, new):
+                plan = self.runtime.prepare_location_update(content, message, NOW)
+                self.assertEqual(len(plan["updates"]), 1)
+                content = apply_plan(content, plan)
+            replay = self.runtime.prepare_location_update(content, old, NOW)
+            self.assertEqual(replay["updates"], [])
+        restored = self.snapshot(apply_plan(content, replay))["events"][0]
+        self.assertEqual((restored["location"], len(restored["history"])), ("C303", 2))
 
     def test_invalid_updates_cannot_overwrite_identity_or_reverse_time(self):
         current = dict(self.timetable, events=self.timetable["events"] + self.assignment["events"])
