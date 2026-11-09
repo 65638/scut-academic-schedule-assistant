@@ -1,7 +1,7 @@
 {
   "name": "scut-schedule",
-  "version": "0.4.0",
-  "description": "Import timetables, record assignments and messages, check campus notice applicability, and preserve personal schedule updates in WorkBuddy's library.",
+  "version": "0.5.0",
+  "description": "Save sourced academic schedules, apply updates, and present weekly plans, conflicts, free slots and briefings from the user's WorkBuddy library.",
   "agents": ["./agents/scut-schedule.md"],
   "skills": ["./skills/scut-schedule"],
   "expertType": "agent",
@@ -9,8 +9,8 @@
   "displayName": {"en": "SCUT Schedule", "zh": "华工日程"},
   "profession": {"en": "Academic Schedule Assistant", "zh": "校园学业日程助手"},
   "displayDescription": {
-    "en": "Import timetables, record assignments, update events and notices, and restore sourced personal schedules.",
-    "zh": "面向华工大学城校区各专业，导入课表、登记作业与消息，处理延期完成取消和通知更正，追溯来源并恢复日程。"
+    "en": "Import timetables, save assignments and notices, and view sourced weekly plans, conflicts, free slots and briefings.",
+    "zh": "面向华工大学城校区，整理课表、作业、消息与通知，查看周计划、冲突、空档和简报，保留来源与更正历史。"
   },
   "avatar": "avatars/expert.png",
   "categoryId": "12-IndustryConsultant",
@@ -24,6 +24,6 @@
   "quickPrompts": [
     {"en": "In example mode, save this message sent on 2026-11-16: 明天19:00在A201开班会，本周五18:00前交信息表", "zh": "示例模式，保存发送于2026-11-16的消息：明天19:00在A201开班会，本周五18:00前交信息表"},
     {"en": "Show this week's saved real events.", "zh": "查看我本周已保存的真实事项"},
-    {"en": "In example mode, change the class meeting location to A202.", "zh": "示例模式：班会地点改到A202"}
+    {"en": "In example mode, show tonight's briefing and conflicts for 2026-11-16.", "zh": "示例模式，今天是2026-11-16，查看今晚简报和时间冲突"}
   ]
 }

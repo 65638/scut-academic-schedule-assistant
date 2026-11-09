@@ -1,4 +1,4 @@
-# 华工日程 · 0.4.0 集成源包（M0 + M1 + M2）
+# 华工日程 · 0.5.0 集成源包（M0 + M1 + M2 + M3）
 
 面向华南理工大学大学城校区各专业。安装后可问：
 
@@ -9,13 +9,15 @@
 - 示例模式：班会地点改到A202。若有多条班会，先选定需要更正的一条。
 - 解读这条校园通知，核对适用条件、所需材料、办理入口和原文依据。
 - 示例模式，保存随包报名通知，再将它的截止日期延长到 11 月 27 日，并查看更正依据。
+- 示例模式，今天为2026-11-16，查看今晚简报和时间冲突。
+- 查看11月17日14:00–18:00内的空档，为预计3小时的作业推荐截止前准备时间。
 
 日程存入当前账号“我的文档”中的“华工个人日程 v0”在线表格。新任务重新读取这张表；示例重复载入会保留已有修改。
 示例今天固定为 2026-11-16，班会在 11 月 17 日 19:00、A201；真实日程使用北京时间。
 
 需要 WorkBuddy 原生 library 能力及 Python 3.9+。脚本仅使用标准库，不需要 API Key，不包含作者的个人表格 ID。
 消息入口为 `skills/scut-schedule/scripts/runtime.py`，M0 入口为同目录 `schedule.py`，示例为 `skills/scut-schedule/examples/m0-demo.json`。
-同目录 `m1/message.py`、`m1/updates.py`、`m1/timetable.py` 是 B 已审核提交 `16413c5` 的原样副本，无需开发仓库即可运行。`runtime.py timetable` 接课表 CSV，`runtime.py update` 接延期、完成、取消和单次调课。
+同目录 `m1/message.py`、`m1/updates.py`、`m1/timetable.py` 与仓库模块一致，以 B 已审核提交 `16413c5` 为基础，0.5.0 仅补明确跨日课程的调动。无需开发仓库即可运行。`runtime.py timetable` 接课表 CSV，`runtime.py update` 接延期、完成、取消和单次调课。
 通知入口为同目录 `notice_runtime.py notice/correction/snapshot`，随包 `m2/` 与仓库 C 模块保持一致。提示词及公开资料位于 Skill 的 `references/`，两个通知演示输入位于 `examples/m2-notice-save.json` 和 `examples/m2-notice-correction.json`。
 
 D2 + D3 新增 `knowledge_runtime.py`，可按关键词检索随包公开通知、校历和作息，并按来源编号读取。结果保留原链接、发布日期和收录时间，分别返回整理资料与可用的原文节选；这是本地资料检索，不是在线刷新。0.3.1 修复“部分学院”未知名单的判断，并补齐四字段通知更正案例；版本更新用于区分客户端旧 0.3.0 缓存。本批平台结果见仓库的 `docs/C-D2-D3交付.md`，没有生成新版分享链接。
@@ -39,7 +41,18 @@ python -m unittest discover -s modules/m2/tests -v
 通过 WorkBuddy 内置 expert-manager 安装、校验和注册该目录，再从“我的专家”召唤。仓库总 README 记录本次实测结果和未通过项。
 
 支持双事项消息保存、地点原位更正、重复输入不回退、缺发送日补充和混合消息待核对提示。更正历史和完整来源保存于个人表；新任务可恢复。
-0.4.0 已将 B 的课表、作业与状态流转和 C 的 U1/U4 接到源包，修复完整更正版重复新增与已明确日期仍追问发送日的问题。当前为单人顺序使用；本次合并版本的云端流程待 A 实测，第二账号隔离待 D 实测。C 的 0.3.1 平台记录属于此前版本。冲突、空档、简报与定时推送未接入，分享仍为 0.2.0。
+0.4.0 的课表、调课取消、作业延期完成、通知原位更正及独立任务恢复已于 2026-11-10 通过同账号平台实测。0.5.0 新增 M3 呈现，修复完成会议误报、更正依据缺失及跨日保存；本版的实际安装和发布由主管继续。第二账号按用户决定本次跳过，仍记未测。当前只提供查询时的对话内提醒，线上分享尚为 0.2.0。
+
+呈现直接读取本轮本人在线表快照：
+
+```sh
+python platform/scut-schedule/skills/scut-schedule/scripts/presentation_runtime.py tonight --existing latest.csv --mode example --today 2026-11-16 --out tonight.md
+python platform/scut-schedule/skills/scut-schedule/scripts/presentation_runtime.py free --existing latest.csv --mode example --today 2026-11-16 --start 2026-11-17 --end 2026-11-17 --day-start 14:00 --day-end 18:00
+```
+
+同一入口支持 week、week-brief、conflicts、prepare，默认 Markdown，`--format json` 输出结构化结果。真实模式省略 today 使用北京时间当天。准备建议需要 `--event-id`、`--minutes` 和上述窗口；只读计算，不改原截止。完整参数见 Skill。模块与包内 presentation.py 字节一致。
+
+无需个人表的本地演示：`python platform/scut-schedule/skills/scut-schedule/scripts/presentation.py tonight --input platform/scut-schedule/skills/scut-schedule/examples/m3-demo.json`。样例保留共同 D 的六项内容，使用独立稳定编号，避免和早期已修改的样例混用；并非当前用户真实日程。
 
 课表示例：
 

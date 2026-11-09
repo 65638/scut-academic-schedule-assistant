@@ -1,7 +1,7 @@
 """M1 + M0 integration. Plans native library writes; never stores account state."""
 import argparse
 import csv
-from datetime import datetime
+from datetime import date, datetime
 import json
 from pathlib import Path
 
@@ -24,6 +24,8 @@ def current_bundle(content, mode, today):
                  if key not in ('source', 'mode', 'campus', 'timezone')}
         event['pending_fields'] = json.loads(row['pending_fields'])
         event['history'] = history
+        if source.get('event_end_date'):
+            event['end_date'] = source.pop('event_end_date')
         events.append(event)
         sources[source['id']] = source
         for entry in history:
@@ -60,6 +62,12 @@ def _patch(row, values, source, kind, now):
     original = json.loads(row['source'])
     changes = {key: {'before': row[key] or None, 'after': value or None}
                for key, value in values.items() if row[key] != value}
+    if 'date' in changes and row['date'] and values['date'] and original.get('event_end_date'):
+        before = original['event_end_date']
+        offset = date.fromisoformat(values['date']) - date.fromisoformat(row['date'])
+        after = (date.fromisoformat(before) + offset).isoformat()
+        original['event_end_date'] = after
+        changes['end_date'] = {'before': before, 'after': after}
     correction = dict(source, ingested_at=now)
     if kind == 'sender_date':
         changes['source.sent_on'] = {'before': original.get('sent_on'), 'after': source['sent_on']}
