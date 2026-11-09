@@ -1,4 +1,6 @@
 {
+  "mode": "example",
+  "purpose": "C/D 的 U1 合成画像与通知对象核对，不代表真实学生资料",
   "profile": {
     "campus": "大学城校区",
     "college": "A学院",
