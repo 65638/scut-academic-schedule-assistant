@@ -18,6 +18,13 @@
 同目录 `m1/message.py`、`m1/updates.py` 是 B 已审核提交 `0d509c9` 的原样副本，无需开发仓库即可运行。
 通知入口为同目录 `notice_runtime.py notice/correction/snapshot`，随包 `m2/` 与仓库 C 模块保持一致。提示词及公开资料位于 Skill 的 `references/`，两个通知演示输入位于 `examples/m2-notice-save.json` 和 `examples/m2-notice-correction.json`。
 
+D2 + D3 开发中新增 `knowledge_runtime.py`，可按关键词检索随包公开通知、校历和作息，并按来源编号读取。结果保留原链接、发布日期和收录时间，分别返回整理资料与可用的原文节选；这是本地资料检索，不是在线刷新。此改动尚未同步安装或生成新版分享链接。
+
+```sh
+python platform/scut-schedule/skills/scut-schedule/scripts/knowledge_runtime.py search --query "求职 补贴"
+python platform/scut-schedule/skills/scut-schedule/scripts/knowledge_runtime.py read --source-id scut-student-2026-1027-job-subsidy
+```
+
 通知计划默认不写入：先核对适用性，可能相关先确认，明确请求保存后才生成新增载荷；不适用不保存。通知更正沿用原事项编号，材料、对象、完整来源和前后值保存在既有来源 JSON；重传不会回退用户修改。每次计划读取当前账号的新快照，平台增量写入并回读后才确认保存。
 
 从仓库根目录验证源包入口：

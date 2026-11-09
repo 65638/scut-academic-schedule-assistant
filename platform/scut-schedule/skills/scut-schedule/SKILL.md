@@ -10,6 +10,14 @@ description: 华工大学城校区通知抽取与适用性核对、消息日期�
 消息接入入口是 `scripts/runtime.py`；同目录 `m1/message.py`、`m1/updates.py` 为已审核 B 提交 0d509c9 的原样副本。所有运行文件均在专家包内，不依赖开发仓库。
 通知入口为 `scripts/notice_runtime.py`，同目录 `m2/` 为 C 组通知模块副本。抽取提示词见 `references/M2-PROMPT.md`，公开资料与台账位于 `references/knowledge/`。先展示适用条件和原文依据，再按用户要求保存。
 
+## 检索随包公开资料
+
+运行 `python3 "<本技能目录>/scripts/knowledge_runtime.py" search --query "求职 补贴" --out "<检索结果.json>"`，按空格分隔的关键词查标题、发布单位和正文；也可查“校历”或“第5节”。这是随包资料的本地检索，结果显示原链接、发布日期及收录时间，不代表刚刚联网刷新。
+
+用返回的 id 运行 `knowledge_runtime.py read --source-id "<来源编号>" --out "<资料.json>"`。`document` 是整理资料；`source` 有值时才包含可交给通知入口的原文节选，引用时保留 `text_scope`。`source=null` 时据整理资料回答并附原链接，不把摘要当成逐字原文。当前求职补贴来源有节选；校历、作息有整理资料，校历另附原始表格。
+
+读取资料本身不保存个人事项。需要保存通知时，将返回的 `source`、用户实际画像和本次日期交给下面的通知流程；不带入开发测试中的画像。求职补贴个人申请截止只有日期，时刻留空。
+
 ## 找到当前用户的日程表
 
 1. 加载内置 library 技能。通过 `space_api.py space.workspace.list-user-spaces --limit 100` 取得 `category=personal` 的空间；有分页则继续。使用平台返回的 ID，不从本地缓存、用户输入的账号名或示例复制账号标识。
