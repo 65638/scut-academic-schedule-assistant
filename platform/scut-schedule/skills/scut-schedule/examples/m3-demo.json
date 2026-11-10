@@ -1,0 +1,130 @@
+{
+  "mode": "example",
+  "today": "2026-11-16",
+  "timezone": "Asia/Shanghai",
+  "campus": "大学城校区",
+  "sources": [
+    {
+      "id": "m3-050-handoff-b-message-001",
+      "type": "message",
+      "title": "示例班会与交表消息",
+      "mode": "example",
+      "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+      "sent_on": "2026-11-16"
+    },
+    {
+      "id": "m3-050-handoff-d-source-001",
+      "type": "message",
+      "title": "示例数据分析课",
+      "mode": "example",
+      "text": "2026年11月17日14:00至15:40在A101上数据分析课",
+      "sent_on": "2026-11-16"
+    },
+    {
+      "id": "m3-050-handoff-d-source-002",
+      "type": "message",
+      "title": "示例学院会议",
+      "mode": "example",
+      "text": "2026年11月17日15:00至16:00在B305开学院会议",
+      "sent_on": "2026-11-16"
+    },
+    {
+      "id": "m3-050-handoff-d-source-003",
+      "type": "message",
+      "title": "提交示例活动确认表",
+      "mode": "example",
+      "text": "2026年11月18日12:00前提交活动确认表",
+      "sent_on": "2026-11-16"
+    },
+    {
+      "id": "m3-050-handoff-d-source-004",
+      "type": "message",
+      "title": "确认讲座日期",
+      "mode": "example",
+      "text": "讲座地点在示例报告厅，日期待公布",
+      "sent_on": "2026-11-16"
+    }
+  ],
+  "events": [
+    {
+      "id": "m3-050-handoff-b-event-001",
+      "type": "activity",
+      "title": "班会",
+      "date": "2026-11-17",
+      "start_time": "19:00",
+      "end_time": null,
+      "location": "A201",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m3-050-handoff-b-message-001",
+      "source_excerpt": "明天19:00在A201开班会"
+    },
+    {
+      "id": "m3-050-handoff-b-event-002",
+      "type": "submission",
+      "title": "提交信息表",
+      "date": "2026-11-20",
+      "start_time": "18:00",
+      "end_time": null,
+      "location": null,
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m3-050-handoff-b-message-001",
+      "source_excerpt": "本周五18:00前交信息表"
+    },
+    {
+      "id": "m3-050-handoff-d-event-001",
+      "type": "course",
+      "title": "示例数据分析课",
+      "date": "2026-11-17",
+      "start_time": "14:00",
+      "end_time": "15:40",
+      "location": "A101",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m3-050-handoff-d-source-001",
+      "source_excerpt": "2026年11月17日14:00至15:40在A101上数据分析课"
+    },
+    {
+      "id": "m3-050-handoff-d-event-002",
+      "type": "activity",
+      "title": "示例学院会议",
+      "date": "2026-11-17",
+      "start_time": "15:00",
+      "end_time": "16:00",
+      "location": "B305",
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m3-050-handoff-d-source-002",
+      "source_excerpt": "2026年11月17日15:00至16:00在B305开学院会议"
+    },
+    {
+      "id": "m3-050-handoff-d-event-003",
+      "type": "submission",
+      "title": "提交示例活动确认表",
+      "date": "2026-11-18",
+      "start_time": "12:00",
+      "end_time": null,
+      "location": null,
+      "status": "not_started",
+      "pending_fields": [],
+      "source_id": "m3-050-handoff-d-source-003",
+      "source_excerpt": "2026年11月18日12:00前提交活动确认表"
+    },
+    {
+      "id": "m3-050-handoff-d-event-004",
+      "type": "notice_task",
+      "title": "确认讲座日期",
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "location": "示例报告厅",
+      "status": "not_started",
+      "pending_fields": [
+        "date"
+      ],
+      "source_id": "m3-050-handoff-d-source-004",
+      "source_excerpt": "讲座地点在示例报告厅，日期待公布"
+    }
+  ]
+}

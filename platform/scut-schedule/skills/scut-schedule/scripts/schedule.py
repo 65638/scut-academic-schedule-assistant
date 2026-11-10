@@ -56,6 +56,12 @@ def prepare_import(existing, bundle, imported_at):
             raise ValueError("来源与事项的真实／示例标记不一致")
         source["mode"] = mode
         source["ingested_at"] = source.get("ingested_at") or imported_at
+        # Row-specific metadata fits the existing source JSON column.
+        if event.get("end_date"):
+            end_day = date.fromisoformat(event["end_date"])
+            if end_day.isoformat() != event["end_date"] or (day and end_day < date.fromisoformat(day)):
+                raise ValueError("结束日期需为 YYYY-MM-DD，且不早于开始日期")
+            source["event_end_date"] = event["end_date"]
         row = {key: event.get(key) or "" for key in COLUMNS}
         row.update(pending_fields=json.dumps(event.get("pending_fields", []), ensure_ascii=False),
                    source=json.dumps(source, ensure_ascii=False), mode=mode,

@@ -68,7 +68,9 @@ def _propose(message, current_bundle, candidates, changes, subject):
         elif kind == "reschedule":
             start = changes.get("start_time", target.get("start_time"))
             end = changes.get("end_time", target.get("end_time"))
-            if start and end and start >= end:
+            crosses_day = (target.get('date') and target.get('end_date')
+                           and target['end_date'] > target['date'])
+            if start and end and start >= end and not crosses_day:
                 raise ValueError("调课后的结束时刻应晚于开始时刻")
         result["changes"] = {field: value for field, value in changes.items() if target.get(field) != value}
         return result

@@ -1,13 +1,13 @@
 ---
 name: scut-schedule
-description: 华工大学城校区通知适用性核对、课表 CSV 导入、消息和作业登记、延期完成取消与单次调课、通知更正、本周查询和跨会话恢复。日程存于当前账号的 WorkBuddy 个人资料库。
+description: 华工大学城校区通知、课表、作业和消息入表与更新，周计划、冲突、空档和简报，保留来源及更正历史。日程存于当前账号的 WorkBuddy 个人资料库。
 ---
 
-# 华工日程 0.4.0 · M0 + M1 + M2
+# 华工日程 0.5.0 · M0 + M1 + M2 + M3
 
 使用 WorkBuddy 内置 library 技能及其正式脚本访问在线表格。本技能的 Python 脚本只计算，不存账号状态，不联网。
 源代码位于本技能的 `scripts/schedule.py`，示例位于 `examples/m0-demo.json`。Python 3.9+，仅标准库。
-消息、课表和状态更新入口是 `scripts/runtime.py`；同目录 `m1/` 为已审核 B 提交 16413c5 的消息、更新及课表模块副本。所有运行文件均在专家包内，不依赖开发仓库。
+消息、课表和状态更新入口是 `scripts/runtime.py`；同目录 `m1/` 与仓库模块一致，在 B 提交 16413c5 基础上补齐明确跨日课程的调动。所有运行文件均在专家包内，不依赖开发仓库。
 通知入口为 `scripts/notice_runtime.py`，同目录 `m2/` 为 C 组通知模块副本。抽取提示词见 `references/M2-PROMPT.md`，公开资料与台账位于 `references/knowledge/`。先展示适用条件和原文依据，再按用户要求保存。
 
 ## 检索随包公开资料
@@ -95,16 +95,27 @@ description: 华工大学城校区通知适用性核对、课表 CSV 导入、�
 
 只返回简短保存结果及平台返回的表格链接。链接用 `[查看我的日程](平台返回的URL)` 单独一行，中文标点放在链接之外。个人表保持原有个人权限，不发布、不分享，不把数据或其 ID 写进专家包。M0 采用单人顺序写入；平台没有业务编号唯一约束，不承诺多会话同时写入的去重。
 
-## 查询本周
+## 周计划、冲突、空档与简报
 
-取得本轮远端 CSV 后运行：
+每次先通过 library 读取本人最新个人表 CSV，再运行随包 `presentation_runtime.py`；它内部调用 notice_snapshot，恢复通知材料、作业要求、来源问题和更正历史。按用户请求只展示相应模式，不从旧对话或旧快照推断当前状态。
 
-`python3 "<本技能目录>/scripts/schedule.py" week --csv "<最新.csv>" --mode example --today 2026-11-16`
+```sh
+python3 "<本技能目录>/scripts/presentation_runtime.py" week --existing "<最新.csv>" --mode example --today 2026-11-16 --out "<周计划.md>"
+python3 "<本技能目录>/scripts/presentation_runtime.py" tonight --existing "<最新.csv>" --mode example --today 2026-11-16 --out "<今晚简报.md>"
+python3 "<本技能目录>/scripts/presentation_runtime.py" free --existing "<最新.csv>" --mode example --today 2026-11-16 --start 2026-11-17 --end 2026-11-17 --day-start 14:00 --day-end 18:00 --out "<空档.md>"
+python3 "<本技能目录>/scripts/presentation_runtime.py" prepare --existing "<最新.csv>" --mode example --today 2026-11-16 --event-id "<提交事项编号>" --minutes 180 --start 2026-11-17 --end 2026-11-20 --day-start 16:00 --day-end 20:00 --out "<准备建议.md>"
+```
 
-真实模式用 `--mode real`，省略 today 即北京时间当天；用户明确指定某天时传该日。本周按周一到周日计算，示例和真实分别显示，取消事项不列入安排；无日期的记录放入待确认区。
-将结果整理成日期、时刻、事项、地点、状态、来源的简表。不要直接把内部 JSON、脚本路径或记录 ID 塞进用户回复。
-submission 的 start_time 显示为“截止”；日期未知列入待确认。同时运行 snapshot 恢复来源 questions，避免换会话后丢掉未识别片段。
+`week-brief` 输出本周简报，`conflicts` 单独查看冲突，`welcome` 输出简短开场。真实模式用 `--mode real`，省略 today 即北京时间当天；示例必须显式传演示日。默认输出 Markdown，可加 `--format json` 供继续计算。直接处理正常 bundle 时用同目录 `presentation.py --input`，命令与格式一致。
+
+周计划按周一至周日，保留已完成事项供回顾，取消事项可从快照及历史查询。今晚简报列明天课程活动、今天至后天的截止、日期早于今天的未完成提交、所有待确认项和今天实际变化。本周简报及临期提示排除完成／取消事项；冲突和占用也排除它们。只有日期的截止保留“截止时刻未提供”，不补 23:59。
+
+冲突展示两项与实际重叠区间，提交截止不算占用。缺日期或结束时刻的活动不补造时长，空档结果明确哪些时段仍待核对。准备建议需要用户给定的日期范围、可安排窗口和预计用时；用时不足显示可用总分钟、最长连续空档和缺口，不改教师 DDL。涉及真实今天时入口自动采用北京时间当前时刻；涉及示例今天时明确传 `--not-before` 带时区时刻。
+
+当前事项同时展示原始依据和影响它的更正来源，即使更正不发生在本周；变化区只列实际 history。向用户展示日期、标题、状态和来源，不展示内部字段、脚本路径或记录 ID。保存前需要提示冲突时，可用最新 bundle 加上本次候选调用 conflicts；用户已明确要求保存时不因此机械再问一次。
+
+明确的跨日结束日期用 `event.end_date` 传入；M0 将它存到每行 source JSON 的 `event_end_date`，快照还原为 end_date，个人表仍为 15 列。单次调课移动日期时保留已有跨日跨度，写入变化历史；没有结束日期时不推断跨日。`examples/m3-demo.json` 是共同 D 合成场景，供演示或按明确要求保存。
 
 ## 本批边界
 
-本技能不建立定时提醒、不抓取教务账号。冲突、空档与简报等待 D 模块接入；当前提供周查询和完整展示数据。M2 当前处理明确通知和代码覆盖的更正表达；复杂语义由模型理解、原文证据校验和用户核对共同完成。重复载入示例不是重置命令。
+本技能提供用户查询时的对话内提醒，不建立后台定时推送，不抓取教务账号。M2 当前处理明确通知和代码覆盖的更正表达；复杂语义由模型理解、原文证据校验和用户核对共同完成。重复载入示例不是重置命令。
