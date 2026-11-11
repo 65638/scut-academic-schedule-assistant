@@ -129,7 +129,7 @@ def _check_notice_collision(content, source, event, mode):
     known = _source_with_history(row)
     if row["mode"] != mode or row["source_id"] != source["id"]:
         raise ValueError("事项编号已被其他模式或来源占用")
-    if not _same_source(known, source) or row["source_excerpt"] != event["source_excerpt"]:
+    if not _same_source(known, source) or (row["source_excerpt"] or None) != (event["source_excerpt"] or None):
         raise ValueError("事项编号已存在但来源内容不同，不能静默忽略或覆盖")
     return True
 

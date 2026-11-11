@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0",
+  "baseline_commit": "eaaee46",
+  "timezone": "Asia/Shanghai",
+  "checked_window": {
+    "started_at": "2026-11-10T23:40:55+08:00",
+    "finished_at": "2026-11-10T23:41:17+08:00",
+    "basis": "HTTP response Date headers, converted from GMT to Asia/Shanghai"
+  },
+  "method": {
+    "scope": "Public HTTPS GET only; no login or platform write",
+    "client": "curl 8.21.0 with Schannel",
+    "follow_redirects": true,
+    "connect_timeout_seconds": 15,
+    "total_timeout_seconds": 45,
+    "certificate_verification_enabled": true,
+    "authorization_sent": false,
+    "cookie_sent": false,
+    "notes": [
+      "All requests used the normal certificate verifier; no insecure option was used.",
+      "The schedule response set a JSESSIONID cookie, but no follow-up request used it.",
+      "HTTP check time is independent of publication date and the original ingested_at values."
+    ]
+  },
+  "summary": {
+    "unique_get_requests": 10,
+    "http_200": 10,
+    "redirects": 0,
+    "curl_failures": 0,
+    "ssl_verify_result_nonzero": 0,
+    "ledger_real_sources": 3,
+    "refresh_snapshot_titles": 7,
+    "overlap": "The job-subsidy notice is both a real ledger source and one of the seven refresh snapshot entries.",
+    "coverage_statement": "This is three real ledger sources plus seven title-and-link snapshot entries, not ten full-text notices."
+  },
+  "ledger_sources": [
+    {
+      "id": "scut-student-2026-1027-job-subsidy",
+      "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm",
+      "original_metadata": {
+        "title": "关于开展华南理工大学2027届毕业生一次性求职补贴申领工作的通知",
+        "publisher": "党委学生工作部（学生工作处）、学生就业指导中心",
+        "published_on": "2026-10-27",
+        "ingested_at": "2026-11-09T00:32:22+08:00",
+        "campus_scope": "全校，包含大学城校区"
+      },
+      "http": {
+        "status": 200,
+        "redirects": 0,
+        "content_type": "text/html",
+        "downloaded_bytes": 65138,
+        "ssl_verify_result": 0
+      },
+      "verification": {
+        "status": "verified",
+        "exact_html_title_match": true,
+        "published_on_match": true,
+        "publisher_markers_present": [
+          "党委学生工作部",
+          "学生工作处",
+          "学生就业指导中心"
+        ],
+        "audience_markers_present": [
+          "毕业学年",
+          "低保家庭",
+          "零就业家庭",
+          "持证残疾人",
+          "国家助学贷款"
+        ],
+        "workflow_markers_present": [
+          "困难情形证明材料",
+          "广东省政务服务网",
+          "2026年11月10日"
+        ]
+      }
+    },
+    {
+      "id": "scut-jw-calendar-2026-2027-1",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/article/download.do?id=eec18a7b9dfc61df019e4d781cce0095",
+      "original_metadata": {
+        "title": "2026-2027学年第一学期校历",
+        "publisher": "华南理工大学本科生院",
+        "published_on": "2026-05-22",
+        "ingested_at": "2026-11-09T00:32:22+08:00",
+        "campus_scope": "全校"
+      },
+      "http": {
+        "status": 200,
+        "redirects": 0,
+        "content_type": "application/octet-stream;charset=utf-8",
+        "downloaded_bytes": 14479,
+        "ssl_verify_result": 0
+      },
+      "verification": {
+        "status": "verified_file_content",
+        "xlsx_zip_signature": true,
+        "download_sha256": "563CE0FA7CC8CA4DC9D4B3AEC0C3C66CF67E16FB0C83FF1D1EF5A19B3CCF5BAC",
+        "repository_xlsx_sha256": "563CE0FA7CC8CA4DC9D4B3AEC0C3C66CF67E16FB0C83FF1D1EF5A19B3CCF5BAC",
+        "hashes_match": true,
+        "workbook_title": "华南理工大学2026～2027学年度第一学期校历",
+        "worksheet_names": [
+          "2026-2027学年第一学期"
+        ],
+        "key_dates_read_only": {
+          "term": "2026-08-31 to 2027-01-17, 20 weeks",
+          "teaching_weeks": "1-18",
+          "exam_weeks": "19-20",
+          "anniversary": "2026-11-17",
+          "winter_vacation": "2027-01-18 to 2027-02-28, 6 weeks",
+          "next_term_registration": "2027-02-26 and 2027-02-27"
+        },
+        "published_on_reverified": false,
+        "published_on_note": "The download response and workbook do not expose the ledger publication date; 2026-05-22 remains original metadata, not a new HTTP finding."
+      }
+    },
+    {
+      "id": "scut-jw-schedule-university-town",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/category/index.do?id=f25701314e913361014e91450b510010",
+      "original_metadata": {
+        "title": "作息安排",
+        "publisher": "华南理工大学本科生院",
+        "published_on": null,
+        "ingested_at": "2026-11-09T00:32:22+08:00",
+        "campus_scope": "大学城校区和国际校区"
+      },
+      "http": {
+        "status": 200,
+        "redirects": 0,
+        "content_type": "text/html;charset=UTF-8",
+        "downloaded_bytes": 32265,
+        "ssl_verify_result": 0
+      },
+      "verification": {
+        "status": "partially_verified",
+        "html_title": "华南理工大学本科生院主页",
+        "category_label_present": "作息安排",
+        "get_body_markers_absent": [
+          "大学城校区",
+          "国际校区",
+          "14:00",
+          "15:35"
+        ],
+        "published_on_present": false,
+        "limitation": "The GET page loads category details through AJAX POST. This public-GET-only run did not POST, so campus labels and schedule times were not reverified."
+      }
+    }
+  ],
+  "refresh_snapshot": {
+    "column_url": "https://www2.scut.edu.cn/student/",
+    "original_snapshot": {
+      "previous_fetched_at": "2026-11-09T00:48:12+08:00",
+      "current_fetched_at": "2026-11-09T00:50:12+08:00",
+      "entry_fields": [
+        "id",
+        "text",
+        "url"
+      ],
+      "missing_entry_fields": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "full_text"
+      ]
+    },
+    "column_recheck": {
+      "status": 200,
+      "redirects": 0,
+      "content_type": "text/html",
+      "downloaded_bytes": 96957,
+      "ssl_verify_result": 0,
+      "html_title": "学生工作处",
+      "all_seven_titles_present_exactly": true
+    },
+    "entries": [
+      {
+        "id": "scut-student-c9326a638980",
+        "title": "关于公示我校2025—2026学年本科生国家励志奖学金获奖学生建议名单的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1102/c9326a638980/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 56058,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-11-02"
+      },
+      {
+        "id": "scut-student-c9326a638964",
+        "title": "关于召开学生工作调度会（第二期）的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1102/c9326a638964/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 56908,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-11-02"
+      },
+      {
+        "id": "scut-student-c9326a638927",
+        "title": "关于公示2025年度广东省“最美高校辅导员”“最美大学生”推选名单的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1030/c9326a638927/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 61854,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-10-30"
+      },
+      {
+        "id": "scut-student-c9326a638708",
+        "title": "关于2026年11月大学城校区学工干部值班安排的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1028/c9326a638708/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 56819,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-10-28"
+      },
+      {
+        "id": "scut-student-c9326a638593",
+        "title": "关于开展华南理工大学2027届毕业生一次性求职补贴申领工作的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 65138,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-10-27",
+        "overlaps_ledger_source": "scut-student-2026-1027-job-subsidy"
+      },
+      {
+        "id": "scut-student-c9326a638548",
+        "title": "关于举办华南理工大学广州国际校区2026年秋季“一站式”学生社区嘉年华的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1026/c9326a638548/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 60932,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-10-26"
+      },
+      {
+        "id": "scut-student-c9326a638535",
+        "title": "关于评选2025—2026学年度“先进班集体”和“校园十佳班集体”的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1026/c9326a638535/page.htm",
+        "http_status": 200,
+        "redirects": 0,
+        "downloaded_bytes": 64162,
+        "exact_html_title_match": true,
+        "page_metadata_date": "2026-10-26",
+        "body_signature_date": "2026-10-27",
+        "date_note": "The page metadata and body signature differ; both observations are retained without choosing one as snapshot metadata."
+      }
+    ],
+    "coverage_limit": "The seven detail pages were checked for reachability, exact HTML title, and visible page date only. The refresh snapshot still stores title and link records, not seven ingested full-text sources."
+  },
+  "metadata_preservation": {
+    "source_ledger_ingested_at_changed": false,
+    "source_ledger_published_on_changed": false,
+    "refresh_snapshot_changed": false,
+    "http_checked_at_written_as_ingested_at": false
+  },
+  "limitations": [
+    "Reachability at the checked time does not prove that a notice remains currently applicable.",
+    "HTTP 200 and a matching title do not by themselves establish the audience, materials, or deadlines of the six refresh-only notices.",
+    "The schedule detail values were not reverified because they were absent from the GET body and the run intentionally did not use the page's AJAX POST.",
+    "The calendar publication date was not exposed by the downloaded file response and remains unverified in this run."
+  ]
+}

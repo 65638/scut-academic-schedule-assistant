@@ -265,6 +265,33 @@ class NoticeExtractionTests(unittest.TestCase):
             "请于2026年11月25日前提交身份证或护照。"
         )
         payload["input"] = source
+        material_only = extract_notice(
+            dict(source, text="提交身份证或护照。"), payload["profile"]
+        )
+        self.assertIsNone(material_only["action"])
+        self.assertEqual(["身份证或护照"], material_only["materials"])
+        self.assertIsNone(material_only["source_excerpt"])
+        identity_proof = extract_notice(
+            dict(source, text="提交身份证明。"), payload["profile"]
+        )
+        self.assertEqual(["身份证明"], identity_proof["materials"])
+        alternative_list = extract_notice(
+            dict(source, text="提交身份证、申请表任选其一。"), payload["profile"]
+        )
+        self.assertEqual(["身份证、申请表任选其一"], alternative_list["materials"])
+        for text, expected in (
+            ("提交身份证和申请表二选一。", ["身份证和申请表二选一"]),
+            ("提交身份证和申请表。", ["身份证和申请表"]),
+        ):
+            with self.subTest(text=text):
+                self.assertEqual(
+                    expected,
+                    extract_notice(dict(source, text=text), payload["profile"])["materials"],
+                )
+        negated_identity = extract_notice(
+            dict(source, text="无需提交身份证，只需提交申请表。"), payload["profile"]
+        )
+        self.assertEqual(["只需提交申请表"], negated_identity["materials"])
         candidate = dict(payload["expected_extraction"])
         candidate.update(
             {

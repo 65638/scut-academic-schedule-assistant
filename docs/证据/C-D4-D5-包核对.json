@@ -1,0 +1,181 @@
+{
+  "checked_at": "2026-11-11T00:05:04+08:00",
+  "expert_version": "0.5.0",
+  "candidate": "C D4/D5 未发布候选，不能替代0.5.0历史发布包",
+  "manager_version": "5.9.3-wb.42398134.gd4692421.h480e8d1fee0f",
+  "official_steps": {
+    "validate_expert.py": 0,
+    "register_expert.py": 0,
+    "package_expert.py": 0
+  },
+  "isolated_config": true,
+  "normal_client_install_modified": false,
+  "published": false,
+  "zip_name": "scut-schedule.zip",
+  "zip_sha256": "9f26cc1ec547c4cff20f8c470eda6f73eaf12b3373c28d9d7697f734cd8418e0",
+  "zip_crc_passed": true,
+  "source_staging_zip_equal": true,
+  "file_count": 40,
+  "files": [
+    {
+      "path": ".codebuddy-plugin/plugin.json",
+      "sha256": "685fbaac0cf8ab5c02881cf794a551553cdd449ea150dd5d05415f1b4dfb7cc6"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b2e94c0c2c4be1ddba1db33e383490815acde0fbdba778cec785185026007334"
+    },
+    {
+      "path": "agents/scut-schedule.md",
+      "sha256": "53fea28a6e72ea7a0b701f42d671527bd9db8b39f51ca700bc4794a13ce2f0d8"
+    },
+    {
+      "path": "avatars/expert.png",
+      "sha256": "ed75b76316dad26790b98a6a669a22d2f2f83db36f96ea59547b85ccc86866be"
+    },
+    {
+      "path": "skills/scut-schedule/SKILL.md",
+      "sha256": "dcc701b418417cc29b8e1e5c793f56ad5e47aaed552a5005e58e86e4d50f2d3b"
+    },
+    {
+      "path": "skills/scut-schedule/examples/d2-d3-workflow.json",
+      "sha256": "2e36285b828e31ae7dcdbe46826508b8ed0b7598ef6421f77dc35e0b8f2261db"
+    },
+    {
+      "path": "skills/scut-schedule/examples/m0-demo.json",
+      "sha256": "e7d58126b59c304f55105edbaea3da1cc079bfeb32ab6daf7c856938dc8237ad"
+    },
+    {
+      "path": "skills/scut-schedule/examples/m2-notice-correction.json",
+      "sha256": "3f03128aeb750b293da9c05a12802e53d6cfb4f7348893b4532713312a3a95dc"
+    },
+    {
+      "path": "skills/scut-schedule/examples/m2-notice-save.json",
+      "sha256": "42cb9e40bae4bd8a49c309a444acdde11d109825086e9c4820eda0bdd126ee6f"
+    },
+    {
+      "path": "skills/scut-schedule/examples/m3-demo.json",
+      "sha256": "c4ac01b1aaef31f61b6a2f67736840eda71e8258c76d28dee90d730d51a2db13"
+    },
+    {
+      "path": "skills/scut-schedule/examples/term-config.json",
+      "sha256": "c264208cd3d7589e71a3ecb3290c4c5685fe9ea88d3f022a9d9dbf4d9d6ab92a"
+    },
+    {
+      "path": "skills/scut-schedule/examples/timetable.csv",
+      "sha256": "80740b5057f8a69302eedc48a6e8c6fff2f9e19b1eb198b0dd448f1208915add"
+    },
+    {
+      "path": "skills/scut-schedule/references/C-D4-D5-来源复核.json",
+      "sha256": "9ad90555a4d328640d509dbefb6ab455c0da3aa1569a0866d8693af2cefec9b6"
+    },
+    {
+      "path": "skills/scut-schedule/references/C-D4-D5-通知核对.json",
+      "sha256": "2e0484c352b76abb77721b2f5d6cd5960eb84fc1121e9227530eace9d81f6aab"
+    },
+    {
+      "path": "skills/scut-schedule/references/M2-PROMPT.md",
+      "sha256": "9ace7f5dd487beec958814049ec1f82c5beafc1f2cfebe399fca47f9b0055721"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/D4-D5-发布说明.md",
+      "sha256": "6f209604813d7383a223f698a8adbb7973ee885cbde9d7d8d762a05043a14d14"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/D4-D5-来源复核.md",
+      "sha256": "484d03eeed507fdbd4251667585bd844ce71586f1f33b5abc95732563b6c9cfe"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/README.md",
+      "sha256": "eb97f89695344f896809c249e012e3726c1413dc0e5bb2d7e2ee2683c7f67351"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_2027_graduate_job_subsidy.md",
+      "sha256": "fdcf0c077b21debac62774b1bc577b6a90fa7bdc8c5385a376dfe0c7fa06a8d6"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_2027_graduate_job_subsidy.source.json",
+      "sha256": "a8b8c44010566e95a95fff42b2b2fbf48530dc2667053c48182cf3d8563b2ca1"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_2027_graduate_job_subsidy_output.json",
+      "sha256": "2c782fcd812400fa329414782a17e78387d4b3fff25cc8b4f21711835a9edc06"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_academic_calendar_2026_2027_1.md",
+      "sha256": "05c9754a88948b85c6a0e0449dcbb8ee02f2ae19700ed1112c0e7e5b1d9c15b8"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_academic_calendar_2026_2027_1.xlsx",
+      "sha256": "563ce0fa7cc8ca4dc9d4b3aec0c3c66cf67e16fb0c83ff1d1ef5a19b3ccf5bac"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/official/scut_university_town_schedule.md",
+      "sha256": "5e6e4c0062fa12b1805a1d9358d23e629b7fd75e3b95ad5b7eaca51e95b5b2c1"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/refresh/README.md",
+      "sha256": "8ee3996ee11561f66d61cc9d6298562e9aa0d7275527fcda6946c5c0a6a87b97"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/refresh/student_information_refresh_input.json",
+      "sha256": "5962e60c12681e991580091c5ff61b622bfb046154d1f1b238187cffdb68d1c5"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/refresh/student_information_refresh_output.json",
+      "sha256": "f42a46627e5559f8cbacefb2a47a5d685f4339d39271603c45f29d0e39a2ce92"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/source_ledger.json",
+      "sha256": "8214a8f22a80098e8e0a3d9bdca0d7cde5168d6936fe848fcd8a267ded0e88af"
+    },
+    {
+      "path": "skills/scut-schedule/references/knowledge/source_ledger.md",
+      "sha256": "146750800585ee7dfc6cdc4c7c96813f55b5ba0e4ef64d1a672da9ff040b74eb"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/knowledge_runtime.py",
+      "sha256": "9e0cae71d21b75abc7e62849030f803362ee3e1ea737ed972c9cb3fcc6348aae"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/m1/message.py",
+      "sha256": "0b0128c1a6ed259e714a15f0b667405ed6178e3b7c52aff944a852e30a2a7f75"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/m1/timetable.py",
+      "sha256": "2f4650ca997992e8592de63bcb984d50b1119450964550cea690fe86cba76944"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/m1/updates.py",
+      "sha256": "e03996cd21ca354993dabe520b889c0286e10549808f4c24a89796f8ff8f8fdf"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/m2/__init__.py",
+      "sha256": "7d96fac4fa1d366c1fae6af992439952abff56a93f15f560ff5f9c0b074e10fd"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/m2/notice.py",
+      "sha256": "26f0da566d2f4e107b1bcb3baab8a8d81f609a72e17a2ed4a01d670bb53776cd"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/notice_runtime.py",
+      "sha256": "0f656afc1dd75ad450faebe0cb3fe438089f38cc90aa1676427bc933d084f6f5"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/presentation.py",
+      "sha256": "dd6d9ea4f04d7309f078cedc5aaded33610f8e6d95fa99102d34fe2f0c23109a"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/presentation_runtime.py",
+      "sha256": "b7979c64ecc91ef0d16d27eb97af5f623ac0dd191c2941251d8dde5862c9eb4b"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/runtime.py",
+      "sha256": "2077f19a8a7b62f4a0d84ec97c01b4169cfdbb507a03e7b589fba92a7c5c0003"
+    },
+    {
+      "path": "skills/scut-schedule/scripts/schedule.py",
+      "sha256": "d913be3d1a0a2238da7c1786242f6ed5b73e966090588e362d87aef4f8559723"
+    }
+  ]
+}
