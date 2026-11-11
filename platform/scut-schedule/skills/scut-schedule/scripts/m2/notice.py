@@ -596,11 +596,34 @@ def _action_details(text: str) -> Tuple[Optional[str], Optional[str], Optional[s
 def _materials(action: Optional[str], text: str) -> List[str]:
     if action and action.startswith("提交") and len(action) > 2:
         return [action[2:].strip()]
-    candidates = re.findall(
-        r"[A-Za-z0-9\u4e00-\u9fff_-]{1,30}(?:PDF|pdf|表格|表|材料|证明|附件)",
-        text,
+    matches = []
+    identity_spans = []
+    identity_pattern = re.compile(
+        r"(?:^|(?<=[。；;\n]))[ \t]*提交"
+        r"(?P<material>身份证(?!明)(?:"
+        r"或(?:者)?[^，。；;\r\n]+|"
+        r"、(?=[^，。；;\r\n]*(?:任选|二选一|只需.+之一|确无.+提供))"
+        r"[^，。；;\r\n]+|"
+        r"和(?=[^，。；;\r\n]*二选一)[^，。；;\r\n]+)?)(?=[、，,。；;\r\n]|$)"
     )
-    return list(dict.fromkeys(candidate.removeprefix("提交") for candidate in candidates))
+    for match in identity_pattern.finditer(text):
+        span = match.span("material")
+        identity_spans.append(span)
+        matches.append((span[0], match.group("material")))
+
+    fallback_pattern = re.compile(
+        r"[A-Za-z0-9\u4e00-\u9fff_-]{1,30}(?:PDF|pdf|表格|表|材料|证明|附件)"
+    )
+    for match in fallback_pattern.finditer(text):
+        if any(match.start() < end and match.end() > start for start, end in identity_spans):
+            continue
+        matches.append((match.start(), match.group(0).removeprefix("提交")))
+
+    materials = []
+    for _, material in sorted(matches):
+        if material not in materials:
+            materials.append(material)
+    return materials
 
 
 def _entry_details(text: str) -> Tuple[Optional[str], Optional[str]]:

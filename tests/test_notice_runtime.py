@@ -663,6 +663,96 @@ class NoticeRuntimeTests(unittest.TestCase):
                 original_replay = self.runtime.prepare_notice(changed, original_input, NOW)
                 self.assertEqual(original_replay["records"] + original_replay["updates"], [])
 
+    def test_material_location_correction_round_trip_preserves_source_and_history(self):
+        fixture = read_fixture("u4_material_location_correction.json")
+        target_id = fixture["target_event_id"]
+        original_payload = {
+            "source": fixture["original_source"],
+            "profile": {},
+            "today": "2026-11-16",
+            "save_requested": True,
+            "applicability_confirmed": True,
+        }
+
+        content, original_plan = self.save_notice(original_payload)
+        self.assertEqual(len(original_plan["records"]), 1)
+        self.assertEqual(original_plan["updates"], [])
+        extraction = original_plan["extraction"]
+        self.assertIsNone(extraction["action"])
+        self.assertEqual(extraction["materials"], ["身份证", "申请表"])
+        self.assertEqual(extraction["location"], "A101")
+        self.assertIsNone(extraction["source_excerpt"])
+        saved_source = json.loads(original_plan["records"][0]["source"]["text"])
+        self.assertEqual(saved_source["m2"]["extraction"], extraction)
+
+        correction_payload = {
+            "original_source": fixture["original_source"],
+            "correction": fixture["correction"],
+            "target_event_id": target_id,
+            "mode": "example",
+            "profile": {},
+            "save_requested": True,
+            "applicability_confirmed": True,
+        }
+        correction_plan = self.runtime.prepare_correction(
+            content, correction_payload, NOW
+        )
+        self.assertEqual(correction_plan["records"], [])
+        self.assertEqual(
+            [update["event_id"] for update in correction_plan["updates"]],
+            [target_id],
+        )
+        self.assertEqual(
+            correction_plan["proposal"]["changes"],
+            {
+                "materials": {
+                    "before": ["身份证", "申请表"],
+                    "after": ["身份证", "证明材料"],
+                },
+                "location": {"before": "A101", "after": "B202"},
+            },
+        )
+
+        changed = apply_plan(content, correction_plan)
+        original_replay = self.runtime.prepare_notice(changed, original_payload, NOW)
+        correction_replay = self.runtime.prepare_correction(
+            changed, correction_payload, NOW
+        )
+        self.assertEqual(original_replay["records"] + original_replay["updates"], [])
+        self.assertEqual(original_replay["skipped_event_ids"], [target_id])
+        self.assertEqual(correction_replay["records"] + correction_replay["updates"], [])
+        self.assertEqual(correction_replay["skipped_event_ids"], [target_id])
+
+        replayed = apply_plan(apply_plan(changed, original_replay), correction_replay)
+        snapshot = self.runtime.notice_snapshot(replayed, "example", "2026-11-16")
+        event, = snapshot["events"]
+        self.assertEqual((event["id"], event["source_id"]), (target_id, fixture["original_source"]["id"]))
+        self.assertEqual(event["location"], "B202")
+        self.assertEqual(
+            event["m2"]["extraction"]["materials"],
+            ["身份证", "证明材料"],
+        )
+        self.assertEqual(len(event["history"]), 1)
+        self.assertEqual(
+            event["history"][0],
+            {
+                "kind": "notice_correction",
+                "event_id": target_id,
+                "changes": correction_plan["proposal"]["changes"],
+                "source": dict(fixture["correction"], ingested_at=NOW),
+                "applied_at": NOW,
+            },
+        )
+        sources = {source["id"]: source for source in snapshot["sources"]}
+        self.assertEqual(
+            sources[fixture["original_source"]["id"]]["text"],
+            fixture["original_source"]["text"],
+        )
+        self.assertEqual(
+            sources[fixture["correction"]["id"]]["text"],
+            fixture["correction"]["text"],
+        )
+
     def test_real_notice_keeps_null_time_and_original_ingested_at(self):
         payload = read_fixture("real_job_subsidy.json")
         payload.update(save_requested=True, applicability_confirmed=True)

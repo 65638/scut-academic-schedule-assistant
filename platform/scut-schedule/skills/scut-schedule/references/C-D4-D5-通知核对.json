@@ -1,0 +1,1084 @@
+{
+  "checked_at": "2026-11-11T00:05:03+08:00",
+  "baseline_commit": "eaaee4628bfd88e6c2c7264dbc495dacd85724cc",
+  "expert_version": "0.5.0",
+  "coverage": "C D4/D5 工作树候选，本地10来源核对；不代表已发布0.5.0云端验收",
+  "network_access": false,
+  "cloud_writes": 0,
+  "new_model_calls": 0,
+  "selection": "未找到命名固定的10篇清单；从现有fixture选择10个不同来源，所有更正父来源均在清单内",
+  "real_sources": 1,
+  "synthetic_sources": 9,
+  "unique_source_ids": 10,
+  "source_ids_unique": true,
+  "notice_results": [
+    {
+      "case": "C01",
+      "fixture": "modules/m2/fixtures/handoff_c.json#input",
+      "command": "extract",
+      "candidate_origin": null,
+      "source": {
+        "id": "handoff-c-notice-001",
+        "type": "notice",
+        "title": "示例报名通知",
+        "mode": "example",
+        "text": "【示例通知】面向大学城校区全体本科生，不限专业。请于2026年11月25日17:00前提交报名表PDF，办理入口为本示例附件中的报名表。",
+        "publisher": "示例发布单位（非真实学校机构）",
+        "published_on": "2026-11-16",
+        "file_name": "联调样例.json#C.input"
+      },
+      "source_metadata": {
+        "id": "handoff-c-notice-001",
+        "mode": "example",
+        "publisher": "示例发布单位（非真实学校机构）",
+        "url": null,
+        "file_name": "联调样例.json#C.input",
+        "published_on": "2026-11-16",
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": null
+      },
+      "missing_metadata": [
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "audience": {
+          "expected": "大学城校区全体本科生，不限专业",
+          "actual": "大学城校区全体本科生，不限专业",
+          "passed": true
+        },
+        "action": {
+          "expected": "提交报名表PDF",
+          "actual": "提交报名表PDF",
+          "passed": true
+        },
+        "date": {
+          "expected": "2026-11-25",
+          "actual": "2026-11-25",
+          "passed": true
+        },
+        "time": {
+          "expected": "17:00",
+          "actual": "17:00",
+          "passed": true
+        },
+        "materials": {
+          "expected": [
+            "报名表PDF"
+          ],
+          "actual": [
+            "报名表PDF"
+          ],
+          "passed": true
+        },
+        "entry": {
+          "expected": "本示例附件中的报名表",
+          "actual": "本示例附件中的报名表",
+          "passed": true
+        },
+        "entry_url": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "location": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "relevance": {
+          "expected": "明确相关",
+          "actual": "明确相关",
+          "passed": true
+        },
+        "basis": {
+          "expected": "面向大学城校区全体本科生，不限专业。",
+          "actual": "面向大学城校区全体本科生，不限专业。",
+          "passed": true
+        },
+        "missing_profile_question": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "source_excerpt": {
+          "expected": "请于2026年11月25日17:00前提交报名表PDF",
+          "actual": "请于2026年11月25日17:00前提交报名表PDF",
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": "大学城校区全体本科生，不限专业",
+        "action": "提交报名表PDF",
+        "date": "2026-11-25",
+        "time": "17:00",
+        "materials": [
+          "报名表PDF"
+        ],
+        "entry": "本示例附件中的报名表",
+        "entry_url": null,
+        "location": null,
+        "relevance": "明确相关",
+        "basis": "面向大学城校区全体本科生，不限专业。",
+        "missing_profile_question": null,
+        "source_excerpt": "请于2026年11月25日17:00前提交报名表PDF"
+      },
+      "passed": true
+    },
+    {
+      "case": "C02",
+      "fixture": "modules/m2/fixtures/handoff_c_correction.json#correction",
+      "command": "compare",
+      "candidate_origin": null,
+      "source": {
+        "id": "handoff-c-notice-002",
+        "type": "notice",
+        "title": "示例报名通知更正",
+        "mode": "example",
+        "text": "【示例更正】报名表PDF提交截止由2026年11月25日17:00延长至2026年11月27日17:00，其余内容不变。",
+        "publisher": "示例发布单位（非真实学校机构）",
+        "published_on": "2026-11-17",
+        "file_name": "联调样例.json#C.correction",
+        "corrects": "handoff-c-notice-001"
+      },
+      "source_metadata": {
+        "id": "handoff-c-notice-002",
+        "mode": "example",
+        "publisher": "示例发布单位（非真实学校机构）",
+        "url": null,
+        "file_name": "联调样例.json#C.correction",
+        "published_on": "2026-11-17",
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": "handoff-c-notice-001"
+      },
+      "missing_metadata": [
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "date": {
+          "expected": {
+            "before": "2026-11-25",
+            "after": "2026-11-27"
+          },
+          "actual": {
+            "before": "2026-11-25",
+            "after": "2026-11-27"
+          },
+          "passed": true
+        }
+      },
+      "actual": {
+        "date": {
+          "before": "2026-11-25",
+          "after": "2026-11-27"
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "C03",
+      "fixture": "modules/m2/fixtures/real_job_subsidy.json#source",
+      "command": "extract",
+      "candidate_origin": "既有人工核对候选；本次未调用模型",
+      "source": {
+        "id": "scut-student-2026-1027-job-subsidy",
+        "type": "notice",
+        "title": "关于开展华南理工大学2027届毕业生一次性求职补贴申领工作的通知",
+        "mode": "real",
+        "text": "一、补贴对象\n2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。\n三、所需材料\n（一）申请人基本身份类证明。\n（二）根据申请条件类型提供以下困难情形材料（只需提供以下材料之一便可）：\n（三）学籍证明\n通过“中国高等教育学生信息网”（学信网）学籍信息查询。\n（四）毕业生本人社保卡金融账户（原则上提供个人社保卡金融账户，确无社保卡账户的提供个人名下其他银行账户）。\n四、具体流程\n（一）个人申请。各院（系）、书院应在即日起至2026年11月10日组织学生集中申请，符合条件的学生可在毕业学年内自愿登录“广东省政务服务网”（网址：https://www.gdzwfw.gov.cn/）提出补贴申请，申请材料应提供困难情形证明材料。相关名词解释及申请注意事项详见《2027届毕业生一次性求职补贴申领共性问题梳理》（附件1）。\n2.学生系统申请后，将系统上传的材料扫描件同步提交至所在院（系）审核（院（系）联系人见附件2），两份材料务必保持一致。",
+        "text_scope": "官方页面正文节选；保留补贴对象、所需材料和个人申请段落，其他段落见原文链接",
+        "publisher": "党委学生工作部（学生工作处）、学生就业指导中心",
+        "published_on": "2026-10-27",
+        "ingested_at": "2026-11-09T00:32:22+08:00",
+        "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm"
+      },
+      "source_metadata": {
+        "id": "scut-student-2026-1027-job-subsidy",
+        "mode": "real",
+        "publisher": "党委学生工作部（学生工作处）、学生就业指导中心",
+        "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm",
+        "file_name": null,
+        "published_on": "2026-10-27",
+        "ingested_at": "2026-11-09T00:32:22+08:00",
+        "text_scope": "官方页面正文节选；保留补贴对象、所需材料和个人申请段落，其他段落见原文链接",
+        "corrects": null
+      },
+      "missing_metadata": [],
+      "missing_metadata_note": "官方原文节选，保留原收录时间",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "audience": {
+          "expected": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+          "actual": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+          "passed": true
+        },
+        "action": {
+          "expected": "提出补贴申请",
+          "actual": "提出补贴申请",
+          "passed": true
+        },
+        "date": {
+          "expected": "2026-11-10",
+          "actual": "2026-11-10",
+          "passed": true
+        },
+        "time": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "materials": {
+          "expected": [
+            "申请人基本身份类证明",
+            "困难情形材料",
+            "学籍证明",
+            "毕业生本人社保卡金融账户（原则上提供个人社保卡金融账户，确无社保卡账户的提供个人名下其他银行账户）"
+          ],
+          "actual": [
+            "申请人基本身份类证明",
+            "困难情形材料",
+            "学籍证明",
+            "毕业生本人社保卡金融账户（原则上提供个人社保卡金融账户，确无社保卡账户的提供个人名下其他银行账户）"
+          ],
+          "passed": true
+        },
+        "entry": {
+          "expected": "广东省政务服务网",
+          "actual": "广东省政务服务网",
+          "passed": true
+        },
+        "entry_url": {
+          "expected": "https://www.gdzwfw.gov.cn/",
+          "actual": "https://www.gdzwfw.gov.cn/",
+          "passed": true
+        },
+        "location": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "relevance": {
+          "expected": "可能相关",
+          "actual": "可能相关",
+          "passed": true
+        },
+        "basis": {
+          "expected": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+          "actual": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+          "passed": true
+        },
+        "missing_profile_question": {
+          "expected": "请确认你是否为2027年毕业学年的学生，并符合通知列出的三类条件之一。",
+          "actual": "请确认你是否为2027年毕业学年的学生，并符合通知列出的三类条件之一。",
+          "passed": true
+        },
+        "source_excerpt": {
+          "expected": "各院（系）、书院应在即日起至2026年11月10日组织学生集中申请，符合条件的学生可在毕业学年内自愿登录“广东省政务服务网”（网址：https://www.gdzwfw.gov.cn/）提出补贴申请",
+          "actual": "各院（系）、书院应在即日起至2026年11月10日组织学生集中申请，符合条件的学生可在毕业学年内自愿登录“广东省政务服务网”（网址：https://www.gdzwfw.gov.cn/）提出补贴申请",
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+        "action": "提出补贴申请",
+        "date": "2026-11-10",
+        "time": null,
+        "materials": [
+          "申请人基本身份类证明",
+          "困难情形材料",
+          "学籍证明",
+          "毕业生本人社保卡金融账户（原则上提供个人社保卡金融账户，确无社保卡账户的提供个人名下其他银行账户）"
+        ],
+        "entry": "广东省政务服务网",
+        "entry_url": "https://www.gdzwfw.gov.cn/",
+        "location": null,
+        "relevance": "可能相关",
+        "basis": "2027年毕业学年的学生（研究生如在上一学制已领取，不重复申领），且符合以下3个条件之一：（1）属于低保家庭、零就业家庭、防止返贫致贫对象家庭成员，或属于特困人员；（2）属于持证残疾人；（3）曾获得国家助学贷款。",
+        "missing_profile_question": "请确认你是否为2027年毕业学年的学生，并符合通知列出的三类条件之一。",
+        "source_excerpt": "各院（系）、书院应在即日起至2026年11月10日组织学生集中申请，符合条件的学生可在毕业学年内自愿登录“广东省政务服务网”（网址：https://www.gdzwfw.gov.cn/）提出补贴申请"
+      },
+      "passed": true
+    },
+    {
+      "case": "C04",
+      "fixture": "modules/m2/fixtures/u4_d2_d3_full_correction.json#original_source",
+      "command": "extract",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-complete-notice-001",
+        "type": "notice",
+        "title": "示例材料申报通知",
+        "mode": "example",
+        "text": "面向大学城校区A学院2023级本科生。请于2026年11月25日17:00前提交申请表，办理地点为A101。",
+        "file_name": "u4_d2_d3_full_correction.json#original_source"
+      },
+      "source_metadata": {
+        "id": "u4-complete-notice-001",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_d2_d3_full_correction.json#original_source",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": null
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "audience": {
+          "expected": "大学城校区A学院2023级本科生",
+          "actual": "大学城校区A学院2023级本科生",
+          "passed": true
+        },
+        "date": {
+          "expected": "2026-11-25",
+          "actual": "2026-11-25",
+          "passed": true
+        },
+        "time": {
+          "expected": "17:00",
+          "actual": "17:00",
+          "passed": true
+        },
+        "materials": {
+          "expected": [
+            "申请表"
+          ],
+          "actual": [
+            "申请表"
+          ],
+          "passed": true
+        },
+        "location": {
+          "expected": "A101",
+          "actual": "A101",
+          "passed": true
+        },
+        "relevance": {
+          "expected": "明确相关",
+          "actual": "明确相关",
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": "大学城校区A学院2023级本科生",
+        "action": "提交申请表",
+        "date": "2026-11-25",
+        "time": "17:00",
+        "materials": [
+          "申请表"
+        ],
+        "entry": null,
+        "entry_url": null,
+        "location": "A101",
+        "relevance": "明确相关",
+        "basis": "面向大学城校区A学院2023级本科生。",
+        "missing_profile_question": null,
+        "source_excerpt": "请于2026年11月25日17:00前提交申请表"
+      },
+      "passed": true
+    },
+    {
+      "case": "C05",
+      "fixture": "modules/m2/fixtures/u4_d2_d3_full_correction.json#correction",
+      "command": "extract",
+      "candidate_origin": "既有人工核对候选；本次未调用模型",
+      "source": {
+        "id": "u4-complete-notice-002",
+        "type": "notice",
+        "title": "示例材料申报通知更正",
+        "mode": "example",
+        "text": "更正内容：截止时间由2026年11月25日17:00调整为2026年11月25日18:30；适用对象新增大学城校区A学院2022级本科生为适用对象；所需材料由申请表调整为申请表、承诺书；办理地点由A101改为B202。现面向大学城校区A学院2023级、2022级本科生。请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202。",
+        "file_name": "u4_d2_d3_full_correction.json#correction",
+        "corrects": "u4-complete-notice-001"
+      },
+      "source_metadata": {
+        "id": "u4-complete-notice-002",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_d2_d3_full_correction.json#correction",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": "u4-complete-notice-001"
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "audience": {
+          "expected": "大学城校区A学院2023级、2022级本科生",
+          "actual": "大学城校区A学院2023级、2022级本科生",
+          "passed": true
+        },
+        "action": {
+          "expected": "提交申请表、承诺书",
+          "actual": "提交申请表、承诺书",
+          "passed": true
+        },
+        "date": {
+          "expected": "2026-11-25",
+          "actual": "2026-11-25",
+          "passed": true
+        },
+        "time": {
+          "expected": "18:30",
+          "actual": "18:30",
+          "passed": true
+        },
+        "materials": {
+          "expected": [
+            "申请表",
+            "承诺书"
+          ],
+          "actual": [
+            "申请表",
+            "承诺书"
+          ],
+          "passed": true
+        },
+        "entry": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "entry_url": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "location": {
+          "expected": "B202",
+          "actual": "B202",
+          "passed": true
+        },
+        "relevance": {
+          "expected": "明确相关",
+          "actual": "明确相关",
+          "passed": true
+        },
+        "basis": {
+          "expected": "面向大学城校区A学院2023级、2022级本科生。",
+          "actual": "面向大学城校区A学院2023级、2022级本科生。",
+          "passed": true
+        },
+        "missing_profile_question": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "source_excerpt": {
+          "expected": "请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202",
+          "actual": "请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202",
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": "大学城校区A学院2023级、2022级本科生",
+        "action": "提交申请表、承诺书",
+        "date": "2026-11-25",
+        "time": "18:30",
+        "materials": [
+          "申请表",
+          "承诺书"
+        ],
+        "entry": null,
+        "entry_url": null,
+        "location": "B202",
+        "relevance": "明确相关",
+        "basis": "面向大学城校区A学院2023级、2022级本科生。",
+        "missing_profile_question": null,
+        "source_excerpt": "请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202"
+      },
+      "passed": true
+    },
+    {
+      "case": "C06",
+      "fixture": "modules/m2/fixtures/u4_d2_d3_full_correction.json#second_correction",
+      "command": "compare",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-complete-notice-003",
+        "type": "notice",
+        "title": "示例材料申报通知第二次更正",
+        "mode": "example",
+        "text": "更正内容：适用对象新增大学城校区A学院2021级本科生为适用对象。现面向大学城校区A学院2023级、2022级、2021级本科生。其他事项不变。",
+        "file_name": "u4_d2_d3_full_correction.json#second_correction",
+        "corrects": "u4-complete-notice-002"
+      },
+      "source_metadata": {
+        "id": "u4-complete-notice-003",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_d2_d3_full_correction.json#second_correction",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": "u4-complete-notice-002"
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "audience": {
+          "expected": {
+            "before": "大学城校区A学院2023级、2022级本科生",
+            "after": "大学城校区A学院2023级、2022级、2021级本科生"
+          },
+          "actual": {
+            "before": "大学城校区A学院2023级、2022级本科生",
+            "after": "大学城校区A学院2023级、2022级、2021级本科生"
+          },
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": {
+          "before": "大学城校区A学院2023级、2022级本科生",
+          "after": "大学城校区A学院2023级、2022级、2021级本科生"
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "C07",
+      "fixture": "modules/m2/fixtures/u4_material_location_correction.json#original_source",
+      "command": "extract",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-material-notice-001",
+        "type": "notice",
+        "title": "示例材料通知",
+        "mode": "example",
+        "text": "提交身份证、申请表，办理地点为A101。",
+        "file_name": "u4_material_location_correction.json#original_source"
+      },
+      "source_metadata": {
+        "id": "u4-material-notice-001",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_material_location_correction.json#original_source",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": null
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "date": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "time": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "materials": {
+          "expected": [
+            "身份证",
+            "申请表"
+          ],
+          "actual": [
+            "身份证",
+            "申请表"
+          ],
+          "passed": true
+        },
+        "location": {
+          "expected": "A101",
+          "actual": "A101",
+          "passed": true
+        },
+        "audience": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "relevance": {
+          "expected": "可能相关",
+          "actual": "可能相关",
+          "passed": true
+        },
+        "action": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "source_excerpt": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": null,
+        "action": null,
+        "date": null,
+        "time": null,
+        "materials": [
+          "身份证",
+          "申请表"
+        ],
+        "entry": null,
+        "entry_url": null,
+        "location": "A101",
+        "relevance": "可能相关",
+        "basis": null,
+        "missing_profile_question": null,
+        "source_excerpt": null
+      },
+      "passed": true
+    },
+    {
+      "case": "C08",
+      "fixture": "modules/m2/fixtures/u4_material_location_correction.json#correction",
+      "command": "compare",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-material-notice-002",
+        "type": "notice",
+        "title": "示例材料通知更正",
+        "mode": "example",
+        "text": "所需材料由身份证、申请表调整为身份证、证明材料；办理地点由A101改为B202。",
+        "file_name": "u4_material_location_correction.json#correction",
+        "corrects": "u4-material-notice-001"
+      },
+      "source_metadata": {
+        "id": "u4-material-notice-002",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_material_location_correction.json#correction",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": "u4-material-notice-001"
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "materials": {
+          "expected": {
+            "before": [
+              "身份证",
+              "申请表"
+            ],
+            "after": [
+              "身份证",
+              "证明材料"
+            ]
+          },
+          "actual": {
+            "before": [
+              "身份证",
+              "申请表"
+            ],
+            "after": [
+              "身份证",
+              "证明材料"
+            ]
+          },
+          "passed": true
+        },
+        "location": {
+          "expected": {
+            "before": "A101",
+            "after": "B202"
+          },
+          "actual": {
+            "before": "A101",
+            "after": "B202"
+          },
+          "passed": true
+        }
+      },
+      "actual": {
+        "materials": {
+          "before": [
+            "身份证",
+            "申请表"
+          ],
+          "after": [
+            "身份证",
+            "证明材料"
+          ]
+        },
+        "location": {
+          "before": "A101",
+          "after": "B202"
+        }
+      },
+      "passed": true
+    },
+    {
+      "case": "C09",
+      "fixture": "modules/m2/fixtures/u4_end_time_correction.json#original_source",
+      "command": "extract",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-time-notice-001",
+        "type": "notice",
+        "title": "示例活动通知",
+        "mode": "example",
+        "text": "活动结束时间为17:00。",
+        "file_name": "u4_end_time_correction.json#original_source"
+      },
+      "source_metadata": {
+        "id": "u4-time-notice-001",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_end_time_correction.json#original_source",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": null
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "date": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "time": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "materials": {
+          "expected": [],
+          "actual": [],
+          "passed": true
+        },
+        "audience": {
+          "expected": null,
+          "actual": null,
+          "passed": true
+        },
+        "relevance": {
+          "expected": "可能相关",
+          "actual": "可能相关",
+          "passed": true
+        }
+      },
+      "actual": {
+        "audience": null,
+        "action": null,
+        "date": null,
+        "time": null,
+        "materials": [],
+        "entry": null,
+        "entry_url": null,
+        "location": null,
+        "relevance": "可能相关",
+        "basis": null,
+        "missing_profile_question": null,
+        "source_excerpt": null
+      },
+      "passed": true
+    },
+    {
+      "case": "C10",
+      "fixture": "modules/m2/fixtures/u4_end_time_correction.json#correction",
+      "command": "compare",
+      "candidate_origin": null,
+      "source": {
+        "id": "u4-time-notice-002",
+        "type": "notice",
+        "title": "示例活动通知更正",
+        "mode": "example",
+        "text": "活动结束时间由17:00调整为18:30。",
+        "file_name": "u4_end_time_correction.json#correction",
+        "corrects": "u4-time-notice-001"
+      },
+      "source_metadata": {
+        "id": "u4-time-notice-002",
+        "mode": "example",
+        "publisher": null,
+        "url": null,
+        "file_name": "u4_end_time_correction.json#correction",
+        "published_on": null,
+        "ingested_at": null,
+        "text_scope": null,
+        "corrects": "u4-time-notice-001"
+      },
+      "missing_metadata": [
+        "publisher",
+        "published_on",
+        "ingested_at",
+        "url"
+      ],
+      "missing_metadata_note": "合成来源未提供的字段保持空；file_name是逻辑来源定位，fixture为实际路径",
+      "source_preserved": true,
+      "correction_parent_in_manifest": true,
+      "field_checks": {
+        "end_time": {
+          "expected": {
+            "before": "17:00",
+            "after": "18:30"
+          },
+          "actual": {
+            "before": "17:00",
+            "after": "18:30"
+          },
+          "passed": true
+        }
+      },
+      "actual": {
+        "end_time": {
+          "before": "17:00",
+          "after": "18:30"
+        }
+      },
+      "passed": true
+    }
+  ],
+  "u1_results": [
+    {
+      "name": "2024级限定",
+      "actual": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院2024级本科生。",
+        "missing_profile_question": null
+      },
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院2024级本科生。",
+        "missing_profile_question": null
+      },
+      "passed": true
+    },
+    {
+      "name": "全体本科生",
+      "actual": {
+        "relevance": "明确相关",
+        "basis": "面向大学城校区全体本科生。",
+        "missing_profile_question": null
+      },
+      "expected": {
+        "relevance": "明确相关",
+        "basis": "面向大学城校区全体本科生。",
+        "missing_profile_question": null
+      },
+      "passed": true
+    },
+    {
+      "name": "A学院研究生",
+      "actual": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院研究生。",
+        "missing_profile_question": null
+      },
+      "expected": {
+        "relevance": "不适用",
+        "basis": "面向大学城校区A学院研究生。",
+        "missing_profile_question": null
+      },
+      "passed": true
+    },
+    {
+      "name": "部分学院名单未提供",
+      "actual": {
+        "relevance": "可能相关",
+        "basis": "面向大学城校区部分学院2023级本科生。",
+        "missing_profile_question": "请确认A学院是否在通知所称部分学院名单中。"
+      },
+      "expected": {
+        "relevance": "可能相关",
+        "basis": "面向大学城校区部分学院2023级本科生。",
+        "missing_profile_question": "请确认A学院是否在通知所称部分学院名单中。"
+      },
+      "passed": true
+    }
+  ],
+  "module_package_parity": [
+    {
+      "module": "modules/m2/notice.py",
+      "packaged": "platform/scut-schedule/skills/scut-schedule/scripts/m2/notice.py",
+      "passed": true
+    },
+    {
+      "module": "modules/m2/PROMPT.md",
+      "packaged": "platform/scut-schedule/skills/scut-schedule/references/M2-PROMPT.md",
+      "passed": true
+    }
+  ],
+  "version_hash_algorithm": "SHA256; text=UTF-8/LF, xlsx=raw bytes; see hash_kind",
+  "versions": [
+    {
+      "path": "platform/scut-schedule/skills/scut-schedule/SKILL.md",
+      "sha256": "dcadbc2f454d432c8879ec0965d231fb043b05c057ec598ed56e282f2e594e54",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/PROMPT.md",
+      "sha256": "a5fe903ab65a3613f5298a5b3b461331f8bd3d2e07885e2893c18b0d179433ed",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/cli.py",
+      "sha256": "c6145f8d350155fc92d12b942b181984fa631b613c419cb746d4cbda9e8a9254",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "platform/scut-schedule/skills/scut-schedule/scripts/notice_runtime.py",
+      "sha256": "7487ebb8b1dec8c2445c037a56b652b26220064a7aa8d2a708056d6740b07677",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/notice.py",
+      "sha256": "1e10761f8fa5d2e5cd29bcac340339dea330d22e77a8084637ab80933ce839df",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "platform/scut-schedule/agents/scut-schedule.md",
+      "sha256": "219c83530d3f501ec9b49f2ef61abed38c05f2672dd73e7949ba4e30ff850034",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "platform/scut-schedule/skills/scut-schedule/scripts/knowledge_runtime.py",
+      "sha256": "8c7ee989d4f5ad6c2d9dfe966071ad7fe47761b0775c13cdb49a0044b8c7afa1",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "knowledge/source_ledger.json",
+      "sha256": "256ec200f9323156da17eee2785529e1e3eda3955022f0b16923233d9e72e471",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "knowledge/official/scut_2027_graduate_job_subsidy.md",
+      "sha256": "637b8ca5261afb70670525a83d754f437bc5fd1c3b2d016286fb998f4c73d788",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "knowledge/official/scut_academic_calendar_2026_2027_1.md",
+      "sha256": "daef1ca5692a1fe09e99cdc4cc9dc67eafc9979a3c48201b07ef62b8118e65b7",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "knowledge/official/scut_academic_calendar_2026_2027_1.xlsx",
+      "sha256": "563ce0fa7cc8ca4dc9d4b3aec0c3c66cf67e16fb0c83ff1d1ef5a19b3ccf5bac",
+      "hash_kind": "raw_bytes"
+    },
+    {
+      "path": "knowledge/official/scut_university_town_schedule.md",
+      "sha256": "db71b5f5d962280054f4dc4595172a767af99dc73f5422681d390af23194c05e",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "tools/check_c_d4_d5.py",
+      "sha256": "8149e89e57d3a5adeadaad8946725801aa6c016995e8942702878a96a5fdab7a",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/handoff_c.json",
+      "sha256": "71145e18c9f3182283fb236373d9e0a16b0b1219180a70b4cde637a02b7a4b35",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/handoff_c_correction.json",
+      "sha256": "b32dbbb3e91fc233a9f07242769132d897725192592625096b30d6c51fb7835f",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/real_job_subsidy.json",
+      "sha256": "a93c6daf37fdce7db0a9c86d2716604e2f767078c4985ddb32eaec5fa5291c55",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u4_d2_d3_full_correction.json",
+      "sha256": "6e2069ed2cfc02fa0d8ec3a03b283b6e99e7b05da042042d0e01f6c8e373b4cd",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u4_end_time_correction.json",
+      "sha256": "98a768c3707239a9195e88ed3b901a12603c69e7b7c7dad639166ae7a7130f96",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u4_material_location_correction.json",
+      "sha256": "3d2e701ff7b0f2fc512617792079e41308d9bc111b051691547ef86c9bbce75a",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/handoff_c_correction_output.json",
+      "sha256": "7e74f0a47868fac23bd19cee6201cc51648a6910bb2f042009062c0ddc9ce543",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u4_material_location_correction_output.json",
+      "sha256": "c0000720be74ac91a030d93df3f16b1deb6b9105de496d59fb4b1ddc7b037923",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u4_end_time_correction_output.json",
+      "sha256": "2be85a9e10cb8d88423acdbdc6586f9552da1cfdfe32a07f178deecad4588da3",
+      "hash_kind": "utf8_lf"
+    },
+    {
+      "path": "modules/m2/fixtures/u1_d2_d3_cases.json",
+      "sha256": "bed0158ef8aad28f82858f3b93da29529a422b9f42d43776e61e0b49bc34ec03",
+      "hash_kind": "utf8_lf"
+    }
+  ],
+  "passed": true
+}
