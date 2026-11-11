@@ -17,3 +17,5 @@ python -B -X utf8 -m modules.m3.presentation free --input work/m3-demo/input.jso
 来源引用包含原始依据与历史中的更正来源；本周以前的更正仍可追溯。顶层 questions 若已由快照提供，使用其当前值，不恢复 source 中已经解决的问题。作业提交要求与 M2 材料、适用性随事项显示。
 
 示例和实际结果见 demo 输出；相关测试为 `tests/test_presentation.py` 与 `tests/test_m3_integration.py`。这些验证本地行为，不等于 WorkBuddy 平台验收。第二账号按用户决定本次跳过，状态为未测。
+
+D4–D5提交材料与证据见 [交付目录](../../docs/交付/0.5.0/README.md)。运行 `python -B -X utf8 -m modules.m3.verify_delivery --out-dir work/d4-d5-evidence` 可生成本批5组合成呈现核验及源包逐文件校验；不联网、不读取个人快照、不写云端，也不代替平台或第二账号验收。

@@ -1,0 +1,320 @@
+{
+  "description": "Synthetic local inputs only; not personal-table snapshots or cloud results",
+  "status_and_deadline_bundle": {
+    "mode": "example",
+    "today": "2026-11-16",
+    "timezone": "Asia/Shanghai",
+    "campus": "大学城校区",
+    "sources": [
+      {
+        "id": "handoff-b-message-001",
+        "type": "message",
+        "title": "示例班会与交表消息",
+        "mode": "example",
+        "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "handoff-d-source-001",
+        "type": "message",
+        "title": "示例数据分析课",
+        "mode": "example",
+        "text": "2026年11月17日14:00至15:40在A101上数据分析课",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "handoff-d-source-002",
+        "type": "message",
+        "title": "示例学院会议",
+        "mode": "example",
+        "text": "2026年11月17日15:00至16:00在B305开学院会议",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "handoff-d-source-003",
+        "type": "message",
+        "title": "提交示例活动确认表",
+        "mode": "example",
+        "text": "2026年11月18日12:00前提交活动确认表",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "handoff-d-source-004",
+        "type": "message",
+        "title": "确认讲座日期",
+        "mode": "example",
+        "text": "讲座地点在示例报告厅，日期待公布",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "d4-source-cancelled",
+        "type": "message",
+        "title": "示例已取消课程",
+        "mode": "example",
+        "text": "2026年11月17日16:00至17:00在B305上示例课程，现已取消",
+        "sent_on": "2026-11-16"
+      },
+      {
+        "id": "d4-source-completed",
+        "type": "message",
+        "title": "示例已完成作业",
+        "mode": "example",
+        "text": "2026年11月18日18:00前提交示例作业，已完成",
+        "sent_on": "2026-11-16"
+      }
+    ],
+    "events": [
+      {
+        "id": "handoff-b-event-001",
+        "type": "activity",
+        "title": "班会",
+        "date": "2026-11-17",
+        "start_time": "19:00",
+        "end_time": null,
+        "location": "A201",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "handoff-b-message-001",
+        "source_excerpt": "明天19:00在A201开班会"
+      },
+      {
+        "id": "handoff-b-event-002",
+        "type": "submission",
+        "title": "提交信息表",
+        "date": "2026-11-20",
+        "start_time": "18:00",
+        "end_time": null,
+        "location": null,
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "handoff-b-message-001",
+        "source_excerpt": "本周五18:00前交信息表"
+      },
+      {
+        "id": "handoff-d-event-001",
+        "type": "course",
+        "title": "示例数据分析课",
+        "date": "2026-11-17",
+        "start_time": "14:00",
+        "end_time": "15:40",
+        "location": "A101",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "handoff-d-source-001",
+        "source_excerpt": "2026年11月17日14:00至15:40在A101上数据分析课"
+      },
+      {
+        "id": "handoff-d-event-002",
+        "type": "activity",
+        "title": "示例学院会议",
+        "date": "2026-11-17",
+        "start_time": "15:00",
+        "end_time": "16:00",
+        "location": "B305",
+        "status": "completed",
+        "pending_fields": [],
+        "source_id": "handoff-d-source-002",
+        "source_excerpt": "2026年11月17日15:00至16:00在B305开学院会议"
+      },
+      {
+        "id": "handoff-d-event-003",
+        "type": "submission",
+        "title": "提交示例活动确认表",
+        "date": "2026-11-18",
+        "start_time": "12:00",
+        "end_time": null,
+        "location": null,
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "handoff-d-source-003",
+        "source_excerpt": "2026年11月18日12:00前提交活动确认表"
+      },
+      {
+        "id": "handoff-d-event-004",
+        "type": "notice_task",
+        "title": "确认讲座日期",
+        "date": null,
+        "start_time": null,
+        "end_time": null,
+        "location": "示例报告厅",
+        "status": "not_started",
+        "pending_fields": [
+          "date"
+        ],
+        "source_id": "handoff-d-source-004",
+        "source_excerpt": "讲座地点在示例报告厅，日期待公布"
+      },
+      {
+        "id": "d4-synthetic-cancelled",
+        "type": "course",
+        "title": "示例已取消课程",
+        "date": "2026-11-17",
+        "start_time": "16:00",
+        "end_time": "17:00",
+        "location": "B305",
+        "status": "cancelled",
+        "pending_fields": [],
+        "source_id": "d4-source-cancelled",
+        "source_excerpt": "2026年11月17日16:00至17:00在B305上示例课程，现已取消"
+      },
+      {
+        "id": "d4-synthetic-completed",
+        "type": "submission",
+        "title": "示例已完成作业",
+        "date": "2026-11-18",
+        "start_time": "18:00",
+        "end_time": null,
+        "location": null,
+        "status": "completed",
+        "pending_fields": [],
+        "source_id": "d4-source-completed",
+        "source_excerpt": "2026年11月18日18:00前提交示例作业，已完成"
+      }
+    ]
+  },
+  "cross_month_bundle": {
+    "mode": "example",
+    "today": "2026-11-16",
+    "timezone": "Asia/Shanghai",
+    "campus": "大学城校区",
+    "sources": [
+      {
+        "id": "d4-cross-a-source",
+        "type": "message",
+        "title": "示例跨日甲",
+        "mode": "example",
+        "text": "示例跨日甲：2026年11月30日23:00至2026年12月1日01:00，A201",
+        "sent_on": "2026-11-30"
+      },
+      {
+        "id": "d4-cross-b-source",
+        "type": "message",
+        "title": "示例跨日乙",
+        "mode": "example",
+        "text": "示例跨日乙：2026年11月30日23:30至2026年12月1日00:30，A201",
+        "sent_on": "2026-11-30"
+      }
+    ],
+    "events": [
+      {
+        "id": "d4-cross-a",
+        "type": "activity",
+        "title": "示例跨日甲",
+        "date": "2026-11-30",
+        "start_time": "23:00",
+        "end_time": "01:00",
+        "location": "A201",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "d4-cross-a-source",
+        "source_excerpt": "示例跨日甲：2026年11月30日23:00至2026年12月1日01:00，A201",
+        "end_date": "2026-12-01"
+      },
+      {
+        "id": "d4-cross-b",
+        "type": "activity",
+        "title": "示例跨日乙",
+        "date": "2026-11-30",
+        "start_time": "23:30",
+        "end_time": "00:30",
+        "location": "A201",
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "d4-cross-b-source",
+        "source_excerpt": "示例跨日乙：2026年11月30日23:30至2026年12月1日00:30，A201",
+        "end_date": "2026-12-01"
+      }
+    ]
+  },
+  "notice_save_payload": {
+    "source": {
+      "id": "handoff-c-notice-001",
+      "type": "notice",
+      "title": "示例报名通知",
+      "mode": "example",
+      "text": "【示例通知】面向大学城校区全体本科生，不限专业。请于2026年11月25日17:00前提交报名表PDF，办理入口为本示例附件中的报名表。",
+      "publisher": "示例发布单位（非真实学校机构）",
+      "published_on": "2026-11-16",
+      "file_name": "m2-notice-save.json"
+    },
+    "profile": {
+      "campus": "大学城校区",
+      "education_level": "undergraduate"
+    },
+    "today": "2026-11-16",
+    "save_requested": true,
+    "applicability_confirmed": false
+  },
+  "notice_correction_payload": {
+    "original_source": {
+      "id": "handoff-c-notice-001",
+      "type": "notice",
+      "title": "示例报名通知",
+      "mode": "example",
+      "text": "【示例通知】面向大学城校区全体本科生，不限专业。请于2026年11月25日17:00前提交报名表PDF，办理入口为本示例附件中的报名表。",
+      "publisher": "示例发布单位（非真实学校机构）",
+      "published_on": "2026-11-16",
+      "file_name": "m2-notice-save.json"
+    },
+    "correction": {
+      "id": "handoff-c-notice-002",
+      "type": "notice",
+      "title": "示例报名通知更正",
+      "mode": "example",
+      "text": "【示例更正】报名表PDF提交截止由2026年11月25日17:00延长至2026年11月27日17:00，其他内容不变。",
+      "publisher": "示例发布单位（非真实学校机构）",
+      "published_on": "2026-11-17",
+      "file_name": "m2-notice-correction.json",
+      "corrects": "handoff-c-notice-001"
+    },
+    "target_event_id": "handoff-c-event-001",
+    "mode": "example",
+    "profile": {
+      "campus": "大学城校区",
+      "education_level": "undergraduate"
+    },
+    "today": "2026-11-17",
+    "save_requested": true,
+    "applicability_confirmed": false
+  },
+  "notice_correction_applied_at_synthetic": "2026-11-17T11:00:00+08:00",
+  "notice_report_today": "2026-11-23",
+  "preparation_bundle": {
+    "mode": "example",
+    "today": "2026-11-16",
+    "timezone": "Asia/Shanghai",
+    "campus": "大学城校区",
+    "sources": [
+      {
+        "id": "d4-shortfall-source",
+        "type": "message",
+        "mode": "example",
+        "title": "示例三小时作业",
+        "sent_on": "2026-11-16",
+        "text": "2026年11月20日20:00前交示例三小时作业"
+      }
+    ],
+    "events": [
+      {
+        "id": "d4-shortfall",
+        "type": "submission",
+        "title": "示例三小时作业",
+        "date": "2026-11-20",
+        "start_time": "20:00",
+        "end_time": null,
+        "location": null,
+        "status": "not_started",
+        "pending_fields": [],
+        "source_id": "d4-shortfall-source",
+        "source_excerpt": "2026年11月20日20:00前交示例三小时作业"
+      }
+    ]
+  },
+  "preparation_window": {
+    "minutes": 180,
+    "start": "2026-11-20",
+    "end": "2026-11-20",
+    "day_start": "18:00",
+    "day_end": "20:00"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-11-10T14:31:48+08:00",
+  "version": "0.5.0",
+  "business_code_changed": false,
+  "evidence_kind": "synthetic_local_table_roundtrip_not_cloud_or_second_account",
+  "new_synthetic_scenarios": {
+    "completed_cancelled_and_pending": "passed",
+    "three_day_deadline_window": "passed",
+    "cross_month_end_date_roundtrip": "passed",
+    "correction_cited_outside_report_week": "passed",
+    "preparation_shortfall": "passed"
+  },
+  "module_mirror_checks": 5,
+  "source_files": 36,
+  "archive_sha256": "ba252a90126afc18ca251cdce72b7a4a9ee0dab1fa6e2c166f432fcb44737906",
+  "source_zip_byte_verification": "passed",
+  "known_token_and_uuid_literal_scan": "passed_limited_pattern_scan",
+  "personal_snapshot_read": false,
+  "cloud_writes": 0,
+  "platform_short_flow": "not_executed_no_desktop_control_tool",
+  "second_account": "not_tested"
+}
