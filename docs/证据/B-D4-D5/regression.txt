@@ -1,0 +1,13 @@
+test_cross_day_overlap_survives_table_storage_and_single_event_move (test_m3_integration.M3IntegrationTests.test_cross_day_overlap_survives_table_storage_and_single_event_move) ... ok
+test_b_updates_change_occupancy_and_stop_finished_assignment_alerts (test_m3_integration.M3IntegrationTests.test_b_updates_change_occupancy_and_stop_finished_assignment_alerts) ... ok
+test_current_deadline_cites_old_correction_even_outside_report_week (test_m3_integration.M3IntegrationTests.test_current_deadline_cites_old_correction_even_outside_report_week) ... ok
+test_sender_date_completion_updates_existing_ids_without_resetting_location (test_runtime.RuntimeTests.test_sender_date_completion_updates_existing_ids_without_resetting_location) ... ok
+test_double_message_update_and_replay_preserve_original_and_correction (test_runtime.RuntimeTests.test_double_message_update_and_replay_preserve_original_and_correction) ... ok
+test_applied_course_correction_does_not_revert_a_later_location (test_m1_workflow.M1WorkflowTests.test_applied_course_correction_does_not_revert_a_later_location) ... ok
+test_invalid_updates_cannot_overwrite_identity_or_reverse_time (test_m1_workflow.M1WorkflowTests.test_invalid_updates_cannot_overwrite_identity_or_reverse_time) ... ok
+test_timetable_single_reschedule_cancel_and_replay_from_installed_scripts (test_m1_packaged_workflow.PackagedWorkflowTests.test_timetable_single_reschedule_cancel_and_replay_from_installed_scripts) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.850s
+
+OK

@@ -1,0 +1,82 @@
+{
+  "input_without_sent_on": {
+    "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+    "sent_on": null,
+    "mode": "example",
+    "today": "2026-11-16"
+  },
+  "initial_questions": [
+    {
+      "field": "sent_on",
+      "question": "请提供原消息的发送日期。"
+    }
+  ],
+  "saved_changes": {
+    "records": 0,
+    "updates": 2
+  },
+  "restored_event": {
+    "id": "m1-event-8cc573ec84932057ec1e964f",
+    "type": "activity",
+    "title": "班会",
+    "date": "2026-11-17",
+    "start_time": "19:00",
+    "end_time": null,
+    "location": "A202",
+    "status": "not_started",
+    "pending_fields": [],
+    "source_id": "m1-message-aae3e8aab60fa9b622d02498",
+    "source_excerpt": "明天19:00在A201开班会",
+    "history": [
+      {
+        "kind": "location",
+        "event_id": "m1-event-8cc573ec84932057ec1e964f",
+        "changes": {
+          "location": {
+            "before": "A201",
+            "after": "A202"
+          }
+        },
+        "source": {
+          "id": "m1-message-8c2e958e4e2a80524b2c5873",
+          "type": "message",
+          "title": "示例校园消息",
+          "mode": "example",
+          "text": "班会地点改到A202",
+          "sent_on": null,
+          "ingested_at": "2026-11-08T20:00:00+08:00"
+        },
+        "applied_at": "2026-11-08T20:00:00+08:00"
+      },
+      {
+        "kind": "sender_date",
+        "event_id": "m1-event-8cc573ec84932057ec1e964f",
+        "changes": {
+          "date": {
+            "before": null,
+            "after": "2026-11-17"
+          },
+          "pending_fields": {
+            "before": "[\"date\"]",
+            "after": "[]"
+          },
+          "source.sent_on": {
+            "before": null,
+            "after": "2026-11-16"
+          }
+        },
+        "source": {
+          "id": "m1-message-aae3e8aab60fa9b622d02498",
+          "type": "message",
+          "title": "示例校园消息",
+          "mode": "example",
+          "text": "明天19:00在A201开班会，本周五18:00前交信息表",
+          "sent_on": "2026-11-16",
+          "questions": [],
+          "ingested_at": "2026-11-09T10:00:00+08:00"
+        },
+        "applied_at": "2026-11-09T10:00:00+08:00"
+      }
+    ]
+  }
+}
