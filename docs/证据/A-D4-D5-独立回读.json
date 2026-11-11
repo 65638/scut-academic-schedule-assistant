@@ -1,0 +1,350 @@
+{
+  "version": "0.5.0",
+  "date": "2026-11-10",
+  "timezone": "Asia/Singapore",
+  "scope": "同一账号的两个独立 WorkBuddy 原生任务；只读合成示例；第二账号未测",
+  "sessions": [
+    {
+      "label": "甲",
+      "task_title": "华工日程 0.5.0 D4 验收回读",
+      "read_at": "2026-11-10T23:04:06+08:00",
+      "directory": "work/d4-native/session-a",
+      "row_count": 19,
+      "columns": 15,
+      "snapshot_sha256": "1eb45e53931b01125188efebc0a327a0ab4dec707a69e537258f06f396aab0c3"
+    },
+    {
+      "label": "乙",
+      "task_title": "华工日程0.5.0 D4独立回读验收乙",
+      "read_at": "2026-11-10T23:06:52+08:00",
+      "directory": "work/d4-native/session-b",
+      "row_count": 19,
+      "columns": 15,
+      "snapshot_sha256": "1eb45e53931b01125188efebc0a327a0ab4dec707a69e537258f06f396aab0c3"
+    }
+  ],
+  "checks": {
+    "independent_node_list_and_node_info_traceids": true,
+    "both_nodes_match_current_personal_space": true,
+    "both_exact_title_database_unique": true,
+    "both_csv_equal_own_native_response": true,
+    "both_schema_equal_csv_header": true,
+    "snapshot_rows_equal": true,
+    "both_runtime_restore_target_fields_and_full_history": true,
+    "both_runtime_restore_original_source_text": true
+  },
+  "evidence_note": "A 独立核对两任务的原始节点列表、节点归属、表结构、内容响应与 CSV。甲空间列表原始响应保存在 raw/；乙空间列表发现记于原生任务记录与报告，未另存该响应文件。各项 checks 在本机比较得到，不公开平台标识或 traceid。",
+  "output_scope": "甲的四份呈现使用完整示例快照；乙额外保留完整输出，results/ 按下列五个业务编号筛选且不改字段。比较的是同五条记录的状态、来源、历史与跨日日期，不要求两套呈现全文相同。",
+  "observation": {
+    "tonight_conflicts": "2026-11-16 今晚简报按明日 11-17 的分段日期筛选，只显示 23:30 至次日 00:00（30 分钟）。",
+    "full_conflicts": "周计划和 conflicts 同时显示 11-17 23:30 至 11-18 00:00、11-18 00:00 至 00:30，总计60分钟。",
+    "assessment": "当前日期窗口行为，非跨日字段丢失；本轮不修改呈现范围。"
+  },
+  "records": [
+    {
+      "id": "m1-event-63d86109c9e113bd9f324ea0",
+      "type": "submission",
+      "title": "提交数据分析作业PDF",
+      "date": "2026-11-22",
+      "start_time": "21:00",
+      "end_time": null,
+      "location": null,
+      "status": "completed",
+      "source_id": "m1-message-4f6c528a7d9fbc7f23ade289",
+      "source_excerpt": "2026年11月20日20:00前交数据分析作业PDF",
+      "mode": "example",
+      "campus": "大学城校区",
+      "timezone": "Asia/Shanghai",
+      "end_date": null,
+      "source": {
+        "id": "m1-message-4f6c528a7d9fbc7f23ade289",
+        "type": "message",
+        "title": "示例校园消息",
+        "mode": "example",
+        "text": "2026年11月20日20:00前交数据分析作业PDF",
+        "sent_on": "2026-11-16",
+        "submission_requirements": {
+          "m1-event-63d86109c9e113bd9f324ea0": [
+            "PDF"
+          ]
+        },
+        "questions": [],
+        "ingested_at": "2026-11-10T00:22:37+08:00",
+        "event_history": [
+          {
+            "kind": "postpone",
+            "event_id": "m1-event-63d86109c9e113bd9f324ea0",
+            "changes": {
+              "date": {
+                "before": "2026-11-20",
+                "after": "2026-11-22"
+              },
+              "start_time": {
+                "before": "20:00",
+                "after": "21:00"
+              }
+            },
+            "source": {
+              "id": "m1-message-51e20643d5110f364640f690",
+              "type": "message",
+              "title": "示例校园消息",
+              "mode": "example",
+              "text": "数据分析作业延期到2026年11月22日21:00",
+              "sent_on": "2026-11-16",
+              "ingested_at": "2026-11-10T00:23:02+08:00"
+            },
+            "applied_at": "2026-11-10T00:23:02+08:00"
+          },
+          {
+            "kind": "complete",
+            "event_id": "m1-event-63d86109c9e113bd9f324ea0",
+            "changes": {
+              "status": {
+                "before": "not_started",
+                "after": "completed"
+              }
+            },
+            "source": {
+              "id": "m1-message-78afa07ce0270a7246bec5a3",
+              "type": "message",
+              "title": "示例校园消息",
+              "mode": "example",
+              "text": "数据分析作业PDF已完成",
+              "sent_on": "2026-11-16",
+              "ingested_at": "2026-11-10T00:23:36+08:00"
+            },
+            "applied_at": "2026-11-10T00:23:36+08:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "m1-course-eac36755927d45228a2b6e3e",
+      "type": "course",
+      "title": "示例数据分析课",
+      "date": "2026-11-18",
+      "start_time": "14:00",
+      "end_time": "15:35",
+      "location": "大学城校区 B202",
+      "status": "cancelled",
+      "source_id": "m1-timetable-42c7bceb35d604a2cf23e731",
+      "source_excerpt": "示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表",
+      "mode": "example",
+      "campus": "大学城校区",
+      "timezone": "Asia/Shanghai",
+      "end_date": null,
+      "source": {
+        "id": "m1-timetable-42c7bceb35d604a2cf23e731",
+        "type": "timetable",
+        "title": "示例课表 CSV",
+        "mode": "example",
+        "text": "课程名,星期,开始节,结束节,起止周,单双周,校区教室,备注\n示例数据分析课,周二,5,6,12–13周,每周,大学城校区 A101,合成课表\n",
+        "timetable": {
+          "term_start": "2026-08-31",
+          "references": [
+            "references/knowledge/official/scut_academic_calendar_2026_2027_1.md",
+            "references/knowledge/official/scut_university_town_schedule.md"
+          ]
+        },
+        "file_name": "timetable.csv",
+        "ingested_at": "2026-11-10T00:20:37+08:00",
+        "event_history": [
+          {
+            "kind": "reschedule",
+            "event_id": "m1-course-eac36755927d45228a2b6e3e",
+            "changes": {
+              "date": {
+                "before": "2026-11-17",
+                "after": "2026-11-18"
+              },
+              "location": {
+                "before": "大学城校区 A101",
+                "after": "大学城校区 B202"
+              }
+            },
+            "source": {
+              "id": "m1-message-ecaee4c15efc0f5a33cfb1eb",
+              "type": "message",
+              "title": "示例校园消息",
+              "mode": "example",
+              "text": "11月17日的示例数据分析课改到11月18日，地点改到大学城校区B202",
+              "sent_on": "2026-11-16",
+              "ingested_at": "2026-11-10T00:21:05+08:00"
+            },
+            "applied_at": "2026-11-10T00:21:05+08:00"
+          },
+          {
+            "kind": "cancel",
+            "event_id": "m1-course-eac36755927d45228a2b6e3e",
+            "changes": {
+              "status": {
+                "before": "not_started",
+                "after": "cancelled"
+              }
+            },
+            "source": {
+              "id": "m1-message-e3fe871792294de3830688f3",
+              "type": "message",
+              "title": "示例校园消息",
+              "mode": "example",
+              "text": "调到11月18日的那次示例数据分析课取消",
+              "sent_on": "2026-11-16",
+              "ingested_at": "2026-11-10T00:21:54+08:00"
+            },
+            "applied_at": "2026-11-10T00:21:54+08:00"
+          }
+        ],
+        "questions": []
+      }
+    },
+    {
+      "id": "u4-complete-event-001",
+      "type": "submission",
+      "title": "提交申请表",
+      "date": "2026-11-25",
+      "start_time": "18:30",
+      "end_time": null,
+      "location": "B202",
+      "status": "not_started",
+      "source_id": "u4-complete-notice-001",
+      "source_excerpt": "请于2026年11月25日17:00前提交申请表",
+      "mode": "example",
+      "campus": "大学城校区",
+      "timezone": "Asia/Shanghai",
+      "end_date": null,
+      "source": {
+        "id": "u4-complete-notice-001",
+        "type": "notice",
+        "title": "示例材料申报通知",
+        "mode": "example",
+        "text": "面向大学城校区A学院2023级本科生。请于2026年11月25日17:00前提交申请表，办理地点为A101。",
+        "file_name": "u4_d2_d3_full_correction.json#original_source",
+        "m2": {
+          "extraction": {
+            "audience": "大学城校区A学院2023级、2022级本科生",
+            "action": "提交申请表",
+            "date": "2026-11-25",
+            "time": "18:30",
+            "materials": [
+              "申请表",
+              "承诺书"
+            ],
+            "entry": null,
+            "entry_url": null,
+            "location": "B202",
+            "relevance": "明确相关",
+            "basis": "更正内容：截止时间由2026年11月25日17:00调整为2026年11月25日18:30；适用对象新增大学城校区A学院2022级本科生为适用对象；所需材料由申请表调整为申请表、承诺书；办理地点由A101改为B202。现面向大学城校区A学院2023级、2022级本科生。请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202。",
+            "missing_profile_question": null,
+            "source_excerpt": "请于2026年11月25日17:00前提交申请表"
+          },
+          "profile": {
+            "campus": "大学城校区",
+            "college": "A学院",
+            "grade": "2023级",
+            "education_level": "undergraduate"
+          },
+          "applicability_confirmed": true,
+          "latest_source_id": "u4-complete-notice-002",
+          "source_chain": [
+            "u4-complete-notice-001",
+            "u4-complete-notice-002"
+          ]
+        },
+        "questions": [],
+        "ingested_at": "2026-11-10T00:24:14+08:00",
+        "event_history": [
+          {
+            "kind": "notice_correction",
+            "event_id": "u4-complete-event-001",
+            "changes": {
+              "start_time": {
+                "before": "17:00",
+                "after": "18:30"
+              },
+              "audience": {
+                "before": "大学城校区A学院2023级本科生",
+                "after": "大学城校区A学院2023级、2022级本科生"
+              },
+              "materials": {
+                "before": [
+                  "申请表"
+                ],
+                "after": [
+                  "申请表",
+                  "承诺书"
+                ]
+              },
+              "location": {
+                "before": "A101",
+                "after": "B202"
+              }
+            },
+            "source": {
+              "id": "u4-complete-notice-002",
+              "type": "notice",
+              "title": "示例材料申报通知更正",
+              "mode": "example",
+              "text": "更正内容：截止时间由2026年11月25日17:00调整为2026年11月25日18:30；适用对象新增大学城校区A学院2022级本科生为适用对象；所需材料由申请表调整为申请表、承诺书；办理地点由A101改为B202。现面向大学城校区A学院2023级、2022级本科生。请于2026年11月25日18:30前提交申请表、承诺书，办理地点为B202。",
+              "file_name": "u4_d2_d3_full_correction.json#correction",
+              "corrects": "u4-complete-notice-001",
+              "ingested_at": "2026-11-10T00:25:35+08:00"
+            },
+            "applied_at": "2026-11-10T00:25:35+08:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "release-050-night-a",
+      "type": "activity",
+      "title": "发布验收跨日甲",
+      "date": "2026-11-17",
+      "start_time": "23:00",
+      "end_time": "01:00",
+      "location": "大学城校区示例教室",
+      "status": "not_started",
+      "source_id": "release-050-source-night-a",
+      "source_excerpt": "合成验收：发布验收跨日甲，2026-11-17 23:00 至 2026-11-18 01:00，大学城校区示例教室，状态 not_started。",
+      "mode": "example",
+      "campus": "大学城校区",
+      "timezone": "Asia/Shanghai",
+      "end_date": "2026-11-18",
+      "source": {
+        "id": "release-050-source-night-a",
+        "type": "message",
+        "title": "发布验收跨日甲合成来源",
+        "mode": "example",
+        "text": "合成验收：发布验收跨日甲，2026-11-17 23:00 至 2026-11-18 01:00，大学城校区示例教室，状态 not_started。",
+        "sent_on": "2026-11-16",
+        "ingested_at": "2026-11-10T01:14:29+08:00",
+        "event_end_date": "2026-11-18"
+      }
+    },
+    {
+      "id": "release-050-night-b",
+      "type": "activity",
+      "title": "发布验收跨日乙",
+      "date": "2026-11-17",
+      "start_time": "23:30",
+      "end_time": "00:30",
+      "location": "大学城校区示例教室",
+      "status": "not_started",
+      "source_id": "release-050-source-night-b",
+      "source_excerpt": "合成验收：发布验收跨日乙，2026-11-17 23:30 至 2026-11-18 00:30，大学城校区示例教室，状态 not_started。",
+      "mode": "example",
+      "campus": "大学城校区",
+      "timezone": "Asia/Shanghai",
+      "end_date": "2026-11-18",
+      "source": {
+        "id": "release-050-source-night-b",
+        "type": "message",
+        "title": "发布验收跨日乙合成来源",
+        "mode": "example",
+        "text": "合成验收：发布验收跨日乙，2026-11-17 23:30 至 2026-11-18 00:30，大学城校区示例教室，状态 not_started。",
+        "sent_on": "2026-11-16",
+        "ingested_at": "2026-11-10T01:14:29+08:00",
+        "event_end_date": "2026-11-18"
+      }
+    }
+  ]
+}
