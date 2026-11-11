@@ -1,0 +1,21 @@
+{
+  "mode": "example",
+  "conflicts": [
+    {
+      "date": "2026-12-01",
+      "start_time": "00:10",
+      "end_date": "2026-12-01",
+      "end_time": "00:30",
+      "minutes": 20,
+      "event_ids": [
+        "d4-example-overnight",
+        "d4-example-after-midnight"
+      ],
+      "titles": [
+        "示例跨月值班",
+        "示例凌晨会议"
+      ]
+    }
+  ],
+  "warnings": []
+}
