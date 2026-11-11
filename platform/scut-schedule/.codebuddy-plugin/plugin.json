@@ -1,6 +1,6 @@
 {
   "name": "scut-schedule",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Save sourced academic schedules, apply updates, and present weekly plans, conflicts, free slots and briefings from the user's WorkBuddy library.",
   "agents": ["./agents/scut-schedule.md"],
   "skills": ["./skills/scut-schedule"],

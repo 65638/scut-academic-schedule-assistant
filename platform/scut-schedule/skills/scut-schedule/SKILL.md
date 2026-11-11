@@ -3,7 +3,7 @@ name: scut-schedule
 description: 华工大学城校区通知、课表、作业和消息入表与更新，周计划、冲突、空档和简报，保留来源及更正历史。日程存于当前账号的 WorkBuddy 个人资料库。
 ---
 
-# 华工日程 0.5.0 · M0 + M1 + M2 + M3
+# 华工日程 0.5.1 · M0 + M1 + M2 + M3
 
 使用 WorkBuddy 内置 library 技能及其正式脚本访问在线表格。本技能的 Python 脚本只计算，不存账号状态，不联网。
 源代码位于本技能的 `scripts/schedule.py`，示例位于 `examples/m0-demo.json`。Python 3.9+，仅标准库。

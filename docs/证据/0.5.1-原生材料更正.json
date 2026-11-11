@@ -1,0 +1,222 @@
+{
+  "version": "0.5.1",
+  "task_title": "修复华工日程 0.5.1 材料验收通知",
+  "executed_at": {
+    "start": "2026-11-11T22:49:30+08:00",
+    "end": "2026-11-11T22:50:27+08:00"
+  },
+  "scope": "本人个人表的一条合成通知；无日期；实际新增、更正、回读与重放；第二账号未测",
+  "checks": {
+    "version": "0.5.1",
+    "snapshot_counts": [
+      19,
+      20,
+      20,
+      20
+    ],
+    "prior_records_unchanged": 19,
+    "added": 1,
+    "updated": 1,
+    "same_platform_record": true,
+    "both_replays": {
+      "records": 0,
+      "updates": 0,
+      "skipped_event_ids": [
+        "release-051-material-event-001"
+      ]
+    },
+    "history_count": 1,
+    "date_and_time_unknown": true,
+    "after_replay_equals_after_update": true,
+    "snapshot_sha256": [
+      "1eb45e53931b01125188efebc0a327a0ab4dec707a69e537258f06f396aab0c3",
+      "25acda464e643efe7e6ceba0fcecf958809c64224188350ccbe31164f4cd5fd5",
+      "a91d01cd8cc11dd8c8fdb5b87698c57107c8c5c5165a5a5733b22ab9d8f58574",
+      "a91d01cd8cc11dd8c8fdb5b87698c57107c8c5c5165a5a5733b22ab9d8f58574"
+    ]
+  },
+  "notice_input": {
+    "mode": "example",
+    "profile": {},
+    "today": "2026-11-16",
+    "save_requested": true,
+    "applicability_confirmed": true,
+    "source": {
+      "id": "release-051-material-notice-001",
+      "type": "notice",
+      "title": "0.5.1 合成材料通知",
+      "mode": "example",
+      "text": "提交身份证、申请表，办理地点为A101。",
+      "file_name": "release-051-material.json#original_source"
+    }
+  },
+  "correction_input": {
+    "mode": "example",
+    "profile": {},
+    "today": "2026-11-16",
+    "save_requested": true,
+    "applicability_confirmed": true,
+    "original_source": {
+      "id": "release-051-material-notice-001",
+      "type": "notice",
+      "title": "0.5.1 合成材料通知",
+      "mode": "example",
+      "text": "提交身份证、申请表，办理地点为A101。",
+      "file_name": "release-051-material.json#original_source"
+    },
+    "correction": {
+      "id": "release-051-material-notice-002",
+      "type": "notice",
+      "title": "0.5.1 合成材料通知更正",
+      "mode": "example",
+      "text": "所需材料由身份证、申请表调整为身份证、证明材料；办理地点由A101改为B202。",
+      "file_name": "release-051-material.json#correction",
+      "corrects": "release-051-material-notice-001"
+    },
+    "target_event_id": "release-051-material-event-001"
+  },
+  "after_add": {
+    "id": "release-051-material-event-001",
+    "type": "notice_task",
+    "title": "0.5.1 合成材料通知",
+    "date": "",
+    "start_time": "",
+    "end_time": "",
+    "location": "A101",
+    "status": "not_started",
+    "pending_fields": [
+      "date"
+    ],
+    "source_id": "release-051-material-notice-001",
+    "source_excerpt": "",
+    "source": {
+      "id": "release-051-material-notice-001",
+      "type": "notice",
+      "title": "0.5.1 合成材料通知",
+      "mode": "example",
+      "text": "提交身份证、申请表，办理地点为A101。",
+      "file_name": "release-051-material.json#original_source",
+      "m2": {
+        "extraction": {
+          "audience": null,
+          "action": null,
+          "date": null,
+          "time": null,
+          "materials": [
+            "身份证",
+            "申请表"
+          ],
+          "entry": null,
+          "entry_url": null,
+          "location": "A101",
+          "relevance": "可能相关",
+          "basis": null,
+          "missing_profile_question": null,
+          "source_excerpt": null
+        },
+        "profile": {},
+        "applicability_confirmed": true,
+        "latest_source_id": "release-051-material-notice-001",
+        "source_chain": [
+          "release-051-material-notice-001"
+        ]
+      },
+      "questions": [],
+      "ingested_at": "2026-11-11T22:49:33+08:00"
+    },
+    "mode": "example",
+    "campus": "大学城校区",
+    "timezone": "Asia/Shanghai"
+  },
+  "after_correction_and_replays": {
+    "id": "release-051-material-event-001",
+    "type": "notice_task",
+    "title": "0.5.1 合成材料通知",
+    "date": "",
+    "start_time": "",
+    "end_time": "",
+    "location": "B202",
+    "status": "not_started",
+    "pending_fields": [
+      "date"
+    ],
+    "source_id": "release-051-material-notice-001",
+    "source_excerpt": "",
+    "source": {
+      "id": "release-051-material-notice-001",
+      "type": "notice",
+      "title": "0.5.1 合成材料通知",
+      "mode": "example",
+      "text": "提交身份证、申请表，办理地点为A101。",
+      "file_name": "release-051-material.json#original_source",
+      "m2": {
+        "extraction": {
+          "audience": null,
+          "action": null,
+          "date": null,
+          "time": null,
+          "materials": [
+            "身份证",
+            "证明材料"
+          ],
+          "entry": null,
+          "entry_url": null,
+          "location": "B202",
+          "relevance": "可能相关",
+          "basis": null,
+          "missing_profile_question": null,
+          "source_excerpt": null
+        },
+        "profile": {},
+        "applicability_confirmed": true,
+        "latest_source_id": "release-051-material-notice-002",
+        "source_chain": [
+          "release-051-material-notice-001",
+          "release-051-material-notice-002"
+        ]
+      },
+      "questions": [],
+      "ingested_at": "2026-11-11T22:49:33+08:00",
+      "event_history": [
+        {
+          "kind": "notice_correction",
+          "event_id": "release-051-material-event-001",
+          "changes": {
+            "materials": {
+              "before": [
+                "身份证",
+                "申请表"
+              ],
+              "after": [
+                "身份证",
+                "证明材料"
+              ]
+            },
+            "location": {
+              "before": "A101",
+              "after": "B202"
+            }
+          },
+          "source": {
+            "id": "release-051-material-notice-002",
+            "type": "notice",
+            "title": "0.5.1 合成材料通知更正",
+            "mode": "example",
+            "text": "所需材料由身份证、申请表调整为身份证、证明材料；办理地点由A101改为B202。",
+            "file_name": "release-051-material.json#correction",
+            "corrects": "release-051-material-notice-001",
+            "ingested_at": "2026-11-11T22:49:49+08:00"
+          },
+          "applied_at": "2026-11-11T22:49:49+08:00"
+        }
+      ]
+    },
+    "mode": "example",
+    "campus": "大学城校区",
+    "timezone": "Asia/Shanghai"
+  },
+  "package": {
+    "files": 40,
+    "sha256": "64d90998cd8650d4e712ec46a7d47467e83819e5b316857d8fb8bbbd3feeb56e"
+  }
+}
