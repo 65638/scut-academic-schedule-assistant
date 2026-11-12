@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0",
+  "baseline_commit": "2850893682147dd641055647f485f912fe185f9e",
+  "timezone": "Asia/Shanghai",
+  "checked_window": {
+    "started_at": "2026-11-12T23:14:37+08:00",
+    "finished_at": "2026-11-12T23:18:21+08:00",
+    "basis": "HTTP response Date headers converted from GMT to Asia/Shanghai"
+  },
+  "method": {
+    "scope": "Public official sources already used by the project, plus the student-department visible notice lists needed to check for a related correction",
+    "client": "curl 8.21.0 with Schannel",
+    "follow_redirects": true,
+    "connect_timeout_seconds": 15,
+    "total_timeout_seconds": 45,
+    "certificate_verification_enabled": true,
+    "login_used": false,
+    "authorization_sent": false,
+    "request_cookie_sent": false,
+    "successful_source_requests": {
+      "get": 4,
+      "read_only_post": 1,
+      "http_200": 5,
+      "redirects": 0,
+      "curl_failures": 0,
+      "ssl_verify_result_nonzero": 0
+    },
+    "raw_evidence_directory": ".m2-output/c-final-sources/sources",
+    "raw_evidence_committed": false,
+    "notes": [
+      "The schedule POST uses the same public category id, page number, and page size shown in the official page JavaScript.",
+      "Responses set JSESSIONID cookies, but no response cookie was reused in another request.",
+      "No unrelated attachment, student list, or personal record was downloaded."
+    ]
+  },
+  "summary": {
+    "official_sources_checked": 3,
+    "official_source_content_changes_found": 0,
+    "calendar_binary_unchanged": true,
+    "job_subsidy_article_unchanged": true,
+    "schedule_detail_reverified": true,
+    "schedule_detail_matches_stored_summary": true,
+    "related_correction_found_in_visible_student_department_lists": false,
+    "correction_check_exhaustive": false,
+    "knowledge_update_required": false,
+    "result": "The three official sources remain consistent with the stored project material. The schedule detail is now directly verified through the page's public read-only AJAX endpoint."
+  },
+  "sources": [
+    {
+      "id": "scut-student-2026-1027-job-subsidy",
+      "url": "https://www2.scut.edu.cn/student/2026/1027/c9326a638593/page.htm",
+      "original_metadata_preserved": {
+        "published_on": "2026-10-27",
+        "ingested_at": "2026-11-09T00:32:22+08:00"
+      },
+      "http": {
+        "method": "GET",
+        "status": 200,
+        "redirects": 0,
+        "content_type": "text/html",
+        "downloaded_bytes": 65048,
+        "ssl_verify_result": 0,
+        "full_page_sha256": "0E7C597496C6015883967006A57392D40748AEC9D2C19664D3E7CDDB16E88ACA"
+      },
+      "comparison_with_2026_11_10": {
+        "previous_full_page_sha256": "4E5D7100FCAA4E535E730845C217D2470A2ACEEF100E49440D09387AEB3C28EF",
+        "full_page_equal": false,
+        "difference_scope": "The surrounding latest-news sidebar changed as new notices were published.",
+        "article_fragment_chars": 5925,
+        "previous_article_fragment_sha256": "7D383018FBBB287E027BB2B64B5D22AF872E89A9522AFF9285FDFBAA24CD6DAE",
+        "current_article_fragment_sha256": "7D383018FBBB287E027BB2B64B5D22AF872E89A9522AFF9285FDFBAA24CD6DAE",
+        "article_fragment_equal": true
+      },
+      "content_verification": {
+        "status": "verified_unchanged",
+        "exact_html_title_match": true,
+        "published_on_match": true,
+        "publisher_markers_present": [
+          "党委学生工作部（学生工作处）",
+          "学生就业指导中心"
+        ],
+        "audience_markers_present": [
+          "2027年毕业学年的学生",
+          "低保家庭",
+          "零就业家庭",
+          "防止返贫致贫对象家庭成员",
+          "特困人员",
+          "持证残疾人",
+          "国家助学贷款"
+        ],
+        "centralized_application_node": {
+          "text": "即日起至2026年11月10日组织学生集中申请",
+          "date": "2026-11-10",
+          "is_entire_policy_final_deadline": false
+        },
+        "department_submission_node": {
+          "text": "于11月10日（周二）上午10:00前报送材料",
+          "date": "2026-11-10",
+          "time": "10:00",
+          "applies_to_student_personal_deadline": false
+        },
+        "supplemental_policy_exact_excerpt": "（三）未在集中申请时间段提交申请的学生，可补充提交。学校收到各院（系）提交的初审信息后，将分别在2026年12月、2027年3月和5月的20日前，对过往提交系统并完成院（系）初审的补贴申请进行审核。为确保补贴顺利发放，学生首次提交补贴申请不得晚于2027年4月30日。",
+        "supplemental_submission_allowed": true,
+        "subsequent_school_review_nodes": [
+          "2026年12月20日前",
+          "2027年3月20日前",
+          "2027年5月20日前"
+        ],
+        "first_submission_not_later_than": "2027-04-30",
+        "entry_url_text": "https://www.gdzwfw.gov.cn/",
+        "entry_url_text_present": true,
+        "entry_href_present": false,
+        "entry_reachability_checked": false,
+        "entry_note": "This run verifies only that the official notice prints the URL; it does not claim the external application system is currently usable."
+      }
+    },
+    {
+      "id": "scut-jw-calendar-2026-2027-1",
+      "url": "https://jw.scut.edu.cn/zhinan/cms/article/download.do?id=eec18a7b9dfc61df019e4d781cce0095",
+      "original_metadata_preserved": {
+        "published_on": "2026-05-22",
+        "ingested_at": "2026-11-09T00:32:22+08:00"
+      },
+      "http": {
+        "method": "GET",
+        "status": 200,
+        "redirects": 0,
+        "content_type": "application/octet-stream;charset=utf-8",
+        "downloaded_bytes": 14479,
+        "ssl_verify_result": 0
+      },
+      "verification": {
+        "status": "verified_binary_unchanged",
+        "download_sha256": "563CE0FA7CC8CA4DC9D4B3AEC0C3C66CF67E16FB0C83FF1D1EF5A19B3CCF5BAC",
+        "repository_xlsx_sha256": "563CE0FA7CC8CA4DC9D4B3AEC0C3C66CF67E16FB0C83FF1D1EF5A19B3CCF5BAC",
+        "2026_11_10_download_sha256": "563CE0FA7CC8CA4DC9D4B3AEC0C3C66CF67E16FB0C83FF1D1EF5A19B3CCF5BAC",
+        "all_hashes_match": true,
+        "key_fields_unchanged_by_binary_identity": {
+          "term": "2026-08-31 to 2027-01-17, 20 weeks",
+          "teaching_weeks": "1-18",
+          "exam_weeks": "19-20",
+          "winter_vacation": "2027-01-18 to 2027-02-28, 6 weeks"
+        },
+        "published_on_reverified": false,
+        "published_on_note": "The download response and workbook file do not expose the ledger publication date; 2026-05-22 remains preserved source metadata."
+      }
+    },
+    {
+      "id": "scut-jw-schedule-university-town",
+      "page_url": "https://jw.scut.edu.cn/zhinan/cms/category/index.do?id=f25701314e913361014e91450b510010",
+      "ajax_url": "https://jw.scut.edu.cn/zhinan/cms/category/getCategoryInfo.do",
+      "original_metadata_preserved": {
+        "published_on": null,
+        "ingested_at": "2026-11-09T00:32:22+08:00"
+      },
+      "page_get": {
+        "status": 200,
+        "redirects": 0,
+        "content_type": "text/html;charset=UTF-8",
+        "downloaded_bytes": 32265,
+        "ssl_verify_result": 0,
+        "sha256": "DA7958EBB0BA480B1DA656C3C4EB6E8EEB80A15885A3EA30599FC1B6564F9A85",
+        "2026_11_10_sha256": "DA7958EBB0BA480B1DA656C3C4EB6E8EEB80A15885A3EA30599FC1B6564F9A85",
+        "page_equal_to_2026_11_10": true
+      },
+      "public_ajax_post": {
+        "request_parameters": {
+          "id": "f25701314e913361014e91450b510010",
+          "pageNum": 1,
+          "pageSize": 20
+        },
+        "request_cookie_sent": false,
+        "authorization_sent": false,
+        "status": 200,
+        "redirects": 0,
+        "content_type": "text/html;charset=utf-8",
+        "downloaded_bytes": 10993,
+        "ssl_verify_result": 0,
+        "response_sha256": "1189FDF0649BDFD34D2512874AAC6F9CB82E16605FD52D3DB3A408CA73DE9996",
+        "response_success": true,
+        "response_message": "查询成功",
+        "response_type": "CATEGORY",
+        "response_total": 1,
+        "response_title": "作息安排",
+        "response_id": "f25701314e913361014e91450b510010",
+        "head_tags": [
+          "教学日历",
+          "作息安排"
+        ],
+        "campus_column_title": "大学城、国际校区作息时间"
+      },
+      "class_periods": [
+        { "period": 1, "start": "08:50", "end": "09:35" },
+        { "period": 2, "start": "09:40", "end": "10:25" },
+        { "period": 3, "start": "10:40", "end": "11:25" },
+        { "period": 4, "start": "11:30", "end": "12:15" },
+        { "period": 5, "start": "14:00", "end": "14:45" },
+        { "period": 6, "start": "14:50", "end": "15:35" },
+        { "period": 7, "start": "15:45", "end": "16:30" },
+        { "period": 8, "start": "16:35", "end": "17:20" },
+        { "period": 9, "start": "19:00", "end": "19:45" },
+        { "period": 10, "start": "19:55", "end": "20:40" },
+        { "period": 11, "start": "20:50", "end": "21:35" }
+      ],
+      "other_schedule_values": {
+        "wake": "07:00",
+        "morning_exercise": "07:10-07:30",
+        "breakfast": "07:30-08:10",
+        "study_and_morning_reading": "08:10-08:50",
+        "dinner": "17:30-18:30",
+        "study_end": "22:00",
+        "lights_out": "23:00"
+      },
+      "comparison_with_stored_summary": {
+        "class_periods_match": true,
+        "other_schedule_values_match": true,
+        "all_18_checked_values_match": true
+      },
+      "published_on_present": false,
+      "effective_on_present": false,
+      "date_note": "The category page and AJAX response still provide no publication or effective date."
+    }
+  ],
+  "student_department_correction_check": {
+    "homepage_url": "https://www2.scut.edu.cn/student/",
+    "homepage_http": {
+      "status": 200,
+      "redirects": 0,
+      "content_type": "text/html",
+      "downloaded_bytes": 96855,
+      "ssl_verify_result": 0,
+      "sha256": "067D6A4E7624D766312018AAA4BC918BA1ED9A813CB954233841454EC160F80F"
+    },
+    "visible_latest_titles": 7,
+    "new_since_2026_11_10_snapshot": [
+      {
+        "id": "c9326a640151",
+        "title": "关于公示2025—2026学年本科生学校奖学金获奖学生名单的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1112/c9326a640151/page.htm"
+      },
+      {
+        "id": "c9326a640060",
+        "title": "关于开展2026年心理委员专题培训的通知",
+        "url": "https://www2.scut.edu.cn/student/2026/1111/c9326a640060/page.htm"
+      },
+      {
+        "id": "c9326a640018",
+        "title": "关于召开2026级学生军训指导员会议的通知（第二次会议）",
+        "url": "https://www2.scut.edu.cn/student/2026/1111/c9326a640018/page.htm"
+      }
+    ],
+    "new_titles_related_to_job_subsidy": 0,
+    "source_page_sidebar_visible_titles": 9,
+    "source_page_sidebar_contains_original_notice": true,
+    "source_page_sidebar_related_correction_titles": 0,
+    "title_terms_checked": [
+      "求职补贴",
+      "一次性求职补贴",
+      "更正",
+      "补充"
+    ],
+    "related_correction_found": false,
+    "search_limitations": [
+      "The current homepage and the original notice page's current sidebar were checked; neither visible list contains a related correction title.",
+      "A guessed numeric list URL redirected to an official 'column not found' page and was not used as evidence.",
+      "The site's public search form POST returned HTTP 403 without login. No login, certificate bypass, or alternative scraping route was attempted.",
+      "Therefore this is a visible-list check, not an exhaustive whole-site search."
+    ]
+  },
+  "comparison_with_2026_11_10_evidence": {
+    "job_subsidy_article": "unchanged",
+    "calendar_download": "unchanged",
+    "schedule_page": "unchanged",
+    "schedule_detail": "upgraded from partial verification to direct public AJAX verification",
+    "student_department_homepage": "three newer titles now occupy the top of the seven-item visible list",
+    "related_correction_detected": false
+  },
+  "metadata_preservation": {
+    "source_ledger_changed": false,
+    "official_content_files_changed": false,
+    "historical_fixture_dates_changed": false,
+    "http_check_time_written_as_ingested_at": false
+  },
+  "limitations": [
+    "Reachability on 2026-11-12 does not prove that a notice or policy remains applicable to every student.",
+    "The job-subsidy notice's 2026-11-10 centralized node has passed, but the same unchanged official text allows supplemental submission and sets 2027-04-30 as the latest first-submission date.",
+    "The schedule still has no publication or effective date, so future school updates require another check.",
+    "No whole-site correction claim is made because the official search endpoint was unavailable to this unauthenticated check."
+  ]
+}

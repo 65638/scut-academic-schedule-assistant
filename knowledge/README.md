@@ -2,13 +2,15 @@
 
 本目录保存华南理工大学校园学业日程助手使用的公开资料。`real` 表示已从无需登录的公开页面核实，`example` 只用于联调。每条资料均保留原始链接、发布单位、发布日期或页面状态、收录时间和适用条件。
 
-D4/D5 发布摘要、10 条既有来源的选择与使用边界见 [发布说明](D4-D5-发布说明.md)，本次可达性复核见 [来源复核](D4-D5-来源复核.md)。原收录时间和历史快照保持不变。
+2026-11-12 三源复核、变化结论及 A/D 交接见 [0.5.1 最终来源摘要](../docs/交付/0.5.1/C-最终来源摘要.md)。本轮补核了公开动态作息详情，求职补贴的历史集中申请节点保留为 2026-11-10。
+
+D4/D5 发布摘要、10 条既有来源的选择与使用边界见 [发布说明](D4-D5-发布说明.md)，11 月 10 日的历史检查见 [来源复核](D4-D5-来源复核.md)。原收录时间和历史快照保持不变。
 
 ## 文件
 
 - `source_ledger.json`：A 组可读取的机器可读来源台账。
 - `source_ledger.md`：供人工检查的来源台账。
-- `official/scut_2027_graduate_job_subsidy.md`：真实通知正文和人工核对抽取结果。
+- `official/scut_2027_graduate_job_subsidy.md`：官方页面的整理摘要和人工核对抽取结果；逐字正文节选位于 `modules/m2/fixtures/real_job_subsidy.json`。
 - `official/scut_2027_graduate_job_subsidy_output.json`：真实通知经过候选校验和 bundle 生成后的实际 CLI 输出。
 - `official/scut_academic_calendar_2026_2027_1.md`：校历关键日期与来源说明。
 - `official/scut_academic_calendar_2026_2027_1.xlsx`：本科生院公开下载的原始校历文件。
